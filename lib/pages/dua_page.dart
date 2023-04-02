@@ -27,33 +27,22 @@ class DuaPage extends StatelessWidget {
       return Container(
         child: Scaffold(
             backgroundColor: Colors.transparent,
+            appBar: AppBar(
+              elevation: 0,
+              backgroundColor: Colors.transparent,
+              title: "الادعية".toGradiant(
+                colors: [
+                  theme.textTheme.titleLarge!.color!,
+                  theme.textTheme.bodySmall!.color!
+                ],
+                style: theme.textTheme.titleLarge!,
+              ),
+            ),
             body: state is DuaStateLoading
                 ? const Center(child: CircularProgressIndicator())
                 : state is DuaStateLoaded
                     ? Column(
                         children: [
-                          Container(
-                            padding: EdgeInsets.only(
-                                top: query.viewPadding.top,
-                                left: kDefaultPadding,
-                                right: kDefaultPadding,
-                                bottom: 0),
-                            decoration: const BoxDecoration(
-                                color: Colors.white,
-                                border:
-                                    Border(bottom: BorderSide(color: jbGary2))),
-                            child: AnimatedSwitcher(
-                                duration: const Duration(milliseconds: 300),
-                                child: ListTile(
-                                  title: "الادعية".toGradiant(
-                                    colors: [
-                                      theme.textTheme.titleLarge!.color!,
-                                      theme.textTheme.bodySmall!.color!
-                                    ],
-                                    style: theme.textTheme.titleLarge!,
-                                  ),
-                                )),
-                          ),
                           Expanded(
                             child: ListView.builder(
                                 padding:
@@ -145,7 +134,13 @@ class DuaDisplay extends StatelessWidget {
     final query = MediaQuery.of(context);
     final duaController = context.read<DuaCubit>();
     if (data.text == null) {
-      duaController.loadData(data, index);
+      duaController.loadContent(data.path!, (value) {
+        if (value != null) {
+          duaController.state.info.ramadanDuaModel!.dua![index].text = value;
+          data.text = value;
+          duaController.refresh();
+        }
+      });
     }
 
     return Scaffold(
@@ -154,7 +149,7 @@ class DuaDisplay extends StatelessWidget {
           Container(
             padding: EdgeInsets.only(top: query.viewPadding.top, bottom: 0),
             decoration: BoxDecoration(
-                border: Border.all(color: jbGary2),
+                border: Border.all(color: theme.colorScheme.outline),
                 borderRadius: BorderRadius.circular(kDefaultBorderRadius),
                 color: Colors.white38),
             child: Row(
@@ -173,7 +168,7 @@ class DuaDisplay extends StatelessWidget {
               ],
             ),
           ),
-          const SizedBox(height: kDefaultSpacing),
+          // const SizedBox(height: kDefaultSpacing),
           Expanded(
             child: SingleChildScrollView(
               padding: const EdgeInsets.symmetric(horizontal: kDefaultPadding)

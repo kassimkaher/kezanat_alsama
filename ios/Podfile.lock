@@ -1,8 +1,4 @@
 PODS:
-  - audio_service (0.0.1):
-    - Flutter
-  - audio_session (0.0.1):
-    - Flutter
   - Flutter (1.0.0)
   - flutter_image_compress (1.0.0):
     - Flutter
@@ -42,8 +38,6 @@ PODS:
     - FMDB (>= 2.7.5)
 
 DEPENDENCIES:
-  - audio_service (from `.symlinks/plugins/audio_service/ios`)
-  - audio_session (from `.symlinks/plugins/audio_session/ios`)
   - Flutter (from `Flutter`)
   - flutter_image_compress (from `.symlinks/plugins/flutter_image_compress/ios`)
   - flutter_local_notifications (from `.symlinks/plugins/flutter_local_notifications/ios`)
@@ -60,10 +54,6 @@ SPEC REPOS:
     - SDWebImageWebPCoder
 
 EXTERNAL SOURCES:
-  audio_service:
-    :path: ".symlinks/plugins/audio_service/ios"
-  audio_session:
-    :path: ".symlinks/plugins/audio_session/ios"
   Flutter:
     :path: Flutter
   flutter_image_compress:
@@ -78,8 +68,6 @@ EXTERNAL SOURCES:
     :path: ".symlinks/plugins/sqflite/ios"
 
 SPEC CHECKSUMS:
-  audio_service: f509d65da41b9521a61f1c404dd58651f265a567
-  audio_session: 4f3e461722055d21515cf3261b64c973c062f345
   Flutter: f04841e97a9d0b0a8025694d0796dd46242b2854
   flutter_image_compress: 5a5e9aee05b6553048b8df1c3bc456d0afaac433
   flutter_local_notifications: 0c0b1ae97e741e1521e4c1629a459d04b9aec743

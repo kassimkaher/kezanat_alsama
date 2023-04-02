@@ -1,32 +1,25 @@
 import 'dart:ui';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:lucide_icons/lucide_icons.dart';
 import 'package:ramadan/alert/alert_desition.dart';
 import 'package:ramadan/bussines_logic/Setting/settings_cubit.dart';
-import 'package:ramadan/bussines_logic/dua/dua_cubit.dart';
-import 'package:ramadan/bussines_logic/notification_service.dart';
 import 'package:ramadan/bussines_logic/ramadan/ramadan_cubit.dart';
 import 'package:ramadan/model/emsak.dart';
-import 'package:ramadan/pages/dua_page.dart';
 import 'package:ramadan/pages/home/emsal_view.dart';
 import 'package:ramadan/pages/home/text_display.dart';
-import 'package:ramadan/utils/paint/card.dart';
+import 'package:ramadan/pages/setting_page.dart';
 import 'package:ramadan/utils/utils.dart';
 import 'package:ramadan/widget/timer_progres.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({super.key});
-
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    final duaController = context.read<DuaCubit>();
-    if (duaController.state is! DuaStateLoaded) {
-      duaController.getMufatehALgynan();
-    }
+    final settingController = context.read<SettingCubit>();
+
     return BlocBuilder<RamadanCubit, RamadanState>(
       builder: (context, state) {
         return SafeArea(
@@ -43,34 +36,47 @@ class HomePage extends StatelessWidget {
                         child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        DayView(number: state.info.dayNumber),
+                        Stack(
+                          children: [
+                            DayView(number: state.info.dayNumber),
+                            Align(
+                              alignment: Alignment.topLeft,
+                              child: IconButton(
+                                icon: Icon(
+                                  LucideIcons.settings,
+                                  color: theme.disabledColor,
+                                ),
+                                onPressed: () => Navigator.push(
+                                    context, to(const SettingPage())),
+                              ),
+                            )
+                          ],
+                        ),
                         const SizedBox(width: 20),
                         " رمضان".toGradiant(
                             style: theme.textTheme.displayMedium!.copyWith(
                                 color: jbSecondary,
                                 fontSize: 50,
                                 fontWeight: FontWeight.bold),
-                            colors: const [Color(0xffA96C01), jbSecondary]),
+                            colors: [
+                              theme.colorScheme.onSecondary,
+                              theme.colorScheme.secondary
+                            ]),
                       ],
                     )),
                     const SizedBox(height: kDefaultSpacing),
-                    InkWell(
-                        onTap: () {
-                          showSchedualNotificationEmsak(
-                              title: "اذاsن",
-                              subtitle: "حان موعد اذان المغرب",
-                              dateTime:
-                                  DateTime.now().add(Duration(seconds: 10)),
-                              id: 1);
-                          // showSchedualNotificationEmsak(
-                          //     title: "امساك", subtitle: "حان موعد اذان المغرب");
-                        },
-                        child: HomeTopCard(data: state.info)),
+                    HomeTopCard(
+                        data: state.info,
+                        city: settingController
+                                .state.setting.setting!.selectCity?.name ??
+                            ""),
                     const SizedBox(height: kDefaultSpacing),
                     EmsakyaCard(
-                      theme: theme,
-                      data: state.info.currentDay,
-                    ),
+                        theme: theme,
+                        data: state.info.currentDay,
+                        city: settingController
+                                .state.setting.setting!.selectCity?.name ??
+                            ""),
                     const SizedBox(height: kDefaultSpacing),
                     state.info.todayPrayer != null
                         ? ListTile(
@@ -137,16 +143,20 @@ class HomePage extends StatelessWidget {
                             subtitle: RCard(
                                 padding: EdgeInsets.all(kDefaultSpacing),
                                 child: Wrap(
-                                    children: state
-                                        .info.todayPrayer!.amaoOfToday!
-                                        .asMap()
-                                        .map((i, e) => MapEntry(
-                                            i,
-                                            e.type == "SALA"
-                                                ? Text(e.text!)
-                                                : const SizedBox()))
-                                        .values
-                                        .toList())),
+                                    children:
+                                        state.info.todayPrayer!.amaoOfToday!
+                                            .asMap()
+                                            .map((i, e) => MapEntry(
+                                                i,
+                                                e.type == "SALA"
+                                                    ? Text(
+                                                        e.text!,
+                                                        style: theme.textTheme
+                                                            .bodyMedium,
+                                                      )
+                                                    : const SizedBox()))
+                                            .values
+                                            .toList())),
                           )
                         : const SizedBox(),
                   ]),
@@ -159,10 +169,12 @@ class HomePage extends StatelessWidget {
 }
 
 class EmsakyaCard extends StatelessWidget {
-  const EmsakyaCard({super.key, required this.theme, this.data});
+  const EmsakyaCard(
+      {super.key, required this.theme, this.data, required this.city});
 
   final ThemeData theme;
   final DaysPrayerTimes? data;
+  final String city;
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
@@ -191,7 +203,7 @@ class EmsakyaCard extends StatelessWidget {
                       child: SvgPicture.asset(
                         "assets/svg/emsak.svg",
                         width: 20,
-                        color: jbPrimaryColor,
+                        color: theme.primaryColor,
                       ),
                     ),
                     title: "الامساك".toGradiant(
@@ -203,7 +215,8 @@ class EmsakyaCard extends StatelessWidget {
                     trailing:
                         "${data!.emsak!.minut!.toString().farsiNumber} : ${data!.emsak!.hour!.toString().farsiNumber} ص"
                             .toGradiant(
-                                style: theme.textTheme.titleSmall!,
+                                style: theme.textTheme.titleSmall!
+                                    .copyWith(letterSpacing: .4),
                                 colors: [
                           theme.textTheme.titleLarge!.color!,
                           theme.textTheme.bodySmall!.color!
@@ -219,7 +232,7 @@ class EmsakyaCard extends StatelessWidget {
                       child: SvgPicture.asset(
                         "assets/svg/fajer.svg",
                         width: 20,
-                        color: jbPrimaryColor,
+                        color: theme.primaryColor,
                       ),
                     ),
                     title: "الفجر".toGradiant(
@@ -231,31 +244,13 @@ class EmsakyaCard extends StatelessWidget {
                     trailing:
                         "${data!.morningPrayer!.minut!.toString().farsiNumber} : ${data!.morningPrayer!.hour!.toString().farsiNumber} ص"
                             .toGradiant(
-                                style: theme.textTheme.titleSmall!,
+                                style: theme.textTheme.titleSmall!
+                                    .copyWith(letterSpacing: .4),
                                 colors: [
                           theme.textTheme.titleLarge!.color!,
                           theme.textTheme.bodySmall!.color!
                         ]),
                   ),
-                  // ListTile(
-                  //   dense: true,
-                  //   horizontalTitleGap: 0,
-                  //   contentPadding: EdgeInsets.zero,
-                  //   leading: SizedBox(
-                  //     height: 20,
-                  //     width: 20,
-                  //     child: SvgPicture.asset(
-                  //       "assets/svg/half_morning.svg",
-                  //       width: 20,
-                  //       color: jbPrimaryColor,
-                  //     ),
-                  //   ),
-                  //   title:
-                  //       "الظهر".toGradiant(style: theme.textTheme.titleSmall!),
-                  //   trailing:
-                  //       "${data!.sunPrayer!.minut!.toString().farsiNumber} : ${data!.sunPrayer!.hour!.toString().farsiNumber} م"
-                  //           .toGradiant(style: theme.textTheme.titleSmall!),
-                  // ),
                   ListTile(
                     dense: true,
                     horizontalTitleGap: 0,
@@ -266,7 +261,7 @@ class EmsakyaCard extends StatelessWidget {
                       child: SvgPicture.asset(
                         "assets/svg/night.svg",
                         width: 20,
-                        color: jbPrimaryColor,
+                        color: theme.primaryColor,
                       ),
                     ),
                     title: "المغرب".toGradiant(
@@ -278,7 +273,8 @@ class EmsakyaCard extends StatelessWidget {
                     trailing:
                         "${data!.nightPrayer!.minut!.toString().farsiNumber} : ${(data!.nightPrayer!.hour! > 12 ? data!.nightPrayer!.hour! - 12 : data!.nightPrayer!.hour!).toString().farsiNumber} م"
                             .toGradiant(
-                                style: theme.textTheme.titleSmall!,
+                                style: theme.textTheme.titleSmall!
+                                    .copyWith(letterSpacing: .4),
                                 colors: [
                           theme.textTheme.titleLarge!.color!,
                           theme.textTheme.bodySmall!.color!
@@ -299,44 +295,26 @@ class RCard extends StatelessWidget {
   final EdgeInsetsGeometry? margin;
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
     return Padding(
       padding: margin ?? EdgeInsets.zero,
-      child: CustomPaint(
-        size: const Size(double.infinity, 200),
-        painter: CardPainter(),
-        child: Stack(
-          children: [
-            ClipRRect(
-              borderRadius: BorderRadius.circular(kDefaultBorderRadius),
-              child: BackdropFilter(
-                filter: ImageFilter.blur(sigmaX: 4, sigmaY: 4),
-                child: Container(
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(kDefaultBorderRadius),
-                  ),
-                  child: Padding(
-                    padding: padding ?? EdgeInsets.zero,
-                    child: child,
-                  ),
-                ),
-              ),
-            ),
-            Positioned(
-                left: 0,
-                top: 0,
-                right: 0,
-                bottom: 0,
-                child: Container(
-                  decoration: BoxDecoration(
-                    color: jbUnselectColor.withOpacity(0.14),
-                    borderRadius: BorderRadius.circular(kDefaultBorderRadius),
-                  ),
-                  child: Padding(
-                    padding: padding ?? EdgeInsets.zero,
-                    child: child,
-                  ),
-                ))
+      child: Container(
+        decoration: BoxDecoration(
+          color: theme.primaryColor == jbPrimaryColor
+              ? Colors.white70
+              : theme.cardColor,
+          borderRadius: BorderRadius.circular(kDefaultBorderRadius),
+          boxShadow: [
+            BoxShadow(
+                color: theme.primaryColor == jbPrimaryColor
+                    ? theme.colorScheme.outline
+                    : Colors.transparent,
+                blurRadius: 10),
           ],
+        ),
+        child: Padding(
+          padding: padding ?? EdgeInsets.zero,
+          child: child,
         ),
       ),
     );
@@ -382,42 +360,52 @@ class DayView extends StatelessWidget {
 
   final int number;
   final double size;
+
   @override
   Widget build(BuildContext context) {
+    final controller = context.read<SettingCubit>();
     final theme = Theme.of(context);
-    return SizedBox(
-      height: size,
-      width: size,
-      child: Stack(
-        children: [
-          Transform.rotate(
-            angle: -18.1,
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        ConstrainedBox(
+          constraints: BoxConstraints(
+            maxHeight: size,
+            maxWidth: size,
+            minHeight: size,
+            minWidth: size,
+          ),
+          child: Transform.rotate(
+            angle: 18.1,
             child: Container(
-              padding: const EdgeInsets.all(5),
+              alignment: Alignment.center,
               decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(10),
-                  color: jbPrimaryColor,
+                  borderRadius: BorderRadius.circular(5),
+                  color: theme.primaryColor,
                   boxShadow: [
                     BoxShadow(
                         offset: const Offset(0, 8),
                         color: Colors.black.withOpacity(0.25),
                         blurRadius: 15),
                   ]),
+              child: Transform.rotate(
+                angle: -18.1,
+                child: Padding(
+                  padding: const EdgeInsets.all(5),
+                  child: Text(
+                    number.toString().farsiNumber,
+                    style: theme.textTheme.displayLarge!.copyWith(
+                        color: Colors.white,
+                        fontSize: size - 20,
+                        fontWeight: FontWeight.bold),
+                    textAlign: TextAlign.center,
+                  ),
+                ),
+              ),
             ),
           ),
-          Align(
-            alignment: Alignment.center,
-            child: Text(
-              number.toString().farsiNumber,
-              style: theme.textTheme.displaySmall!.copyWith(
-                  color: Colors.white,
-                  fontSize: size - 15,
-                  fontWeight: FontWeight.bold),
-              textAlign: TextAlign.center,
-            ),
-          ),
-        ],
-      ),
+        ),
+      ],
     );
   }
 }

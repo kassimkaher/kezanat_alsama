@@ -3,7 +3,8 @@ import 'package:ramadan/utils/utils.dart';
 
 getTheme(String fontfamily, bool isDarkMode) {
   final theme = ThemeData(
-    primarySwatch: createMaterialColor(jbPrimaryColor),
+    primarySwatch:
+        createMaterialColor(isDarkMode ? jbPrimaryColorD : jbPrimaryColor),
     fontFamily: fontfamily,
   );
 
@@ -14,10 +15,11 @@ getTheme(String fontfamily, bool isDarkMode) {
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(kDefaultBorderRadius),
               ),
-              color: Color(0xff0c0c0c)),
+              color: cardColorD,
+              elevation: 0),
           scaffoldBackgroundColor: scaffoldColorD,
           brightness: Brightness.dark,
-          disabledColor: jbUnselectColor,
+          disabledColor: jbUnselectColorD,
           colorScheme: const ColorScheme.dark(
               secondary: jbSecondaryD,
               primary: jbPrimaryColorD,
@@ -26,21 +28,21 @@ getTheme(String fontfamily, bool isDarkMode) {
               onSecondary: jbAccentSecondary,
               onPrimary: jbAccesntPrimaryColorD),
           appBarTheme: const AppBarTheme(
-            backgroundColor: Colors.white,
+            backgroundColor: cardColorD,
             elevation: 0,
             titleTextStyle: TextStyle(
                 fontSize: 22,
-                color: jbFontColorD,
+                color: jbAccesntPrimaryColorD,
                 fontWeight: FontWeight.w500,
                 fontFamily: 'Somar'),
           ),
-          cardColor: Colors.black,
+          cardColor: cardColorD,
           dialogTheme: DialogTheme(
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(kDefaultBorderRadius),
             ),
           ),
-          iconTheme: const IconThemeData(color: jbFontColor),
+          iconTheme: const IconThemeData(color: jbAccesntPrimaryColorD),
           textTheme: theme.textTheme.copyWith(
             titleLarge: theme.textTheme.titleLarge?.copyWith(
                 fontSize: 22, color: jbFontColorD, fontWeight: FontWeight.w500),
@@ -53,18 +55,19 @@ getTheme(String fontfamily, bool isDarkMode) {
                 fontSize: 16,
                 fontWeight: FontWeight.w600),
             bodyMedium: theme.textTheme.bodyMedium
-                ?.copyWith(color: jbFontColorD, fontSize: 14),
+                ?.copyWith(color: jbFontColor2D, fontSize: 14),
             bodySmall: theme.textTheme.bodySmall
                 ?.copyWith(color: jbFontColor2D, fontSize: 14),
             displaySmall: theme.textTheme.displaySmall
                 ?.copyWith(color: jbDisableTextColorD, fontSize: 12),
             displayLarge: theme.textTheme.displayLarge?.copyWith(
-              color: jbFontColorD,
-              fontSize: 28,
-              fontFamily: 'Am',
-            ),
+                color: jbFontColorD,
+                fontSize: 28,
+                fontFamily: 'Am',
+                wordSpacing: 0.6,
+                letterSpacing: 0.4),
             displayMedium: theme.textTheme.displayLarge?.copyWith(
-              color: jbFontColorD,
+              color: jbAccesntPrimaryColorD,
               fontSize: 60,
               fontFamily: 'Kufy',
             ),
@@ -77,17 +80,17 @@ getTheme(String fontfamily, bool isDarkMode) {
       : theme.copyWith(
           bottomNavigationBarTheme: BottomNavigationBarThemeData(),
           cardTheme: CardTheme(
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(kDefaultBorderRadius),
-            ),
-            color: Colors.white,
-          ),
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(kDefaultBorderRadius),
+              ),
+              color: Colors.white,
+              shadowColor: jbUnselectColor.withOpacity(0.4)),
           scaffoldBackgroundColor: scaffoldColor,
           brightness: Brightness.light,
           colorScheme: const ColorScheme.dark(
               secondary: jbSecondary,
               primary: jbPrimaryColor,
-              outline: jbBorderColor,
+              outline: jbGary2,
               tertiary: Colors.red,
               onSecondary: jbAccentSecondary,
               onPrimary: jbAccesntPrimaryColor),
@@ -100,6 +103,7 @@ getTheme(String fontfamily, bool isDarkMode) {
                 fontWeight: FontWeight.w500,
                 fontFamily: 'Somar'),
           ),
+          disabledColor: jbUnselectColor,
           cardColor: Colors.white,
           dialogTheme: DialogTheme(
             shape: RoundedRectangleBorder(
@@ -123,10 +127,11 @@ getTheme(String fontfamily, bool isDarkMode) {
             displaySmall: theme.textTheme.displaySmall
                 ?.copyWith(color: jbDisableTextColor, fontSize: 12),
             displayLarge: theme.textTheme.displayLarge?.copyWith(
-              color: jbFontColor,
-              fontSize: 28,
-              fontFamily: 'Am',
-            ),
+                color: jbFontColor,
+                fontSize: 28,
+                fontFamily: 'Am',
+                wordSpacing: 0.6,
+                letterSpacing: 0.4),
             displayMedium: theme.textTheme.displayLarge?.copyWith(
               color: jbFontColor,
               fontSize: 60,

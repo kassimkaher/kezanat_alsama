@@ -189,26 +189,35 @@ class Edition {
 }
 
 class ContinuQuranModel {
-  int? suara;
-  int? aya;
+  int? pageNumber;
+  int? ayaNumber;
   String? nameSura;
   int? number;
+  int? juzuNumber;
 
-  ContinuQuranModel({this.suara, this.aya, this.nameSura, this.number});
+  ContinuQuranModel(
+      {this.pageNumber,
+      this.ayaNumber,
+      this.nameSura,
+      this.number,
+      this.juzuNumber});
 
   ContinuQuranModel.fromJson(Map<dynamic, dynamic> json) {
-    suara = json['suara'];
-    aya = json['aya'];
+    pageNumber = json['pageNumber'];
+    ayaNumber = json['ayaNumber'];
     nameSura = json['name_sura'];
     number = json['number'];
+    juzuNumber = json['juzuNumber'];
   }
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['suara'] = this.suara;
-    data['aya'] = this.aya;
+    data['pageNumber'] = this.pageNumber;
+    data['ayaNumber'] = this.ayaNumber;
     data['name_sura'] = this.nameSura;
     data['number'] = this.number;
+    data['juzuNumber'] = this.juzuNumber;
+
     return data;
   }
 }

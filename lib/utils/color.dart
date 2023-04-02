@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
 
 const jbPrimaryColor = Color(0xFF269DA1);
-const jbAccesntPrimaryColor = Color(0xFFE5f2f7);
+const jbAccesntPrimaryColor = Color(0xFF036D71);
 const scaffoldColor = Color(0xffF3F0E8);
 const jbSecondary = Color(0xFFF19801);
-const jbAccentSecondary = Color.fromARGB(255, 229, 111, 117);
-const jbFontColor = Color(0xFF036D71);
+const cardColor = Color(0xff292c31);
+const jbAccentSecondary = Color(0xffA96C01);
+const jbFontColor = Color(0xff13181e);
 const jbFontColor2 = Color(0xff269DA1);
 const jbBorderColor = Color(0xFFE2E6EB);
 
@@ -18,14 +19,15 @@ const jbIconActiveDark = Color(0xFFE6DBF3);
 const jbOutlineColor = Color(0xFF41444A);
 const jbGary2 = Color(0xffE6E7E8);
 const jbUnselectColor = Color(0xFF768492);
-
-const jbPrimaryColorD = Color(0xFF269DA1);
-const jbAccesntPrimaryColorD = Color(0xFFE5f2f7);
-const scaffoldColorD = Color(0xff212121);
+//dark
+const jbPrimaryColorD = Color(0xFF5fd3a2);
+const jbAccesntPrimaryColorD = Colors.white;
+const scaffoldColorD = Color(0xff13181e);
 const jbSecondaryD = Color(0xFFF19801);
-const jbFontColorD = Colors.white;
-const jbFontColor2D = Color(0xff868389);
-const jbBorderColorD = Color(0xFFE2E6EB);
+const cardColorD = Color(0xff1e2327);
+const jbFontColorD = Color(0xffd1d1d1);
+const jbFontColor2D = Color(0xffb1b1b1);
+const jbBorderColorD = Color(0xFF222222);
 
 const jbLoadingColorLightD = Color(0xFFecf1f5);
 const jbLoadingColorDarkD = Color(0xFF464A53);
@@ -35,7 +37,7 @@ const jbDisableTextColorD = Color(0xFF768492);
 const jbIconActiveDarkD = Color(0xFFE6DBF3);
 const jbOutlineColorD = Color(0xFF41444A);
 const jbGary2D = Color(0xffE6E7E8);
-const jbUnselectColorD = Color(0xFF768492);
+const jbUnselectColorD = Color(0xffdddddd);
 
 MaterialColor createMaterialColor(Color color) {
   final strengths = <double>[.05];

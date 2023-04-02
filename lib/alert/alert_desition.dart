@@ -90,15 +90,16 @@ class KDAlert {
               minHeight: 100),
           child: Material(
             shape: theme.dialogTheme.shape,
+            color: theme.scaffoldBackgroundColor,
             child: Column(
               children: [
                 Container(
                   padding: const EdgeInsets.all(10),
                   decoration: BoxDecoration(
-                    border: Border(
-                      bottom: BorderSide(color: theme.colorScheme.outline),
-                    ),
-                  ),
+                      border: Border(
+                        bottom: BorderSide(color: theme.colorScheme.outline),
+                      ),
+                      color: theme.scaffoldBackgroundColor),
                   child: Row(
                     children: [
                       Text(

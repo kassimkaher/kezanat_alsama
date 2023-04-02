@@ -1,17 +1,19 @@
 import 'dart:io';
-
+import 'package:flutter/scheduler.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:just_audio_background/just_audio_background.dart';
+import 'package:permission_handler/permission_handler.dart';
 import 'package:provider/provider.dart';
 import 'package:ramadan/bussines_logic/Setting/settings_cubit.dart';
 import 'package:ramadan/bussines_logic/dua/dua_cubit.dart';
 import 'package:ramadan/bussines_logic/notification_service.dart';
 import 'package:ramadan/bussines_logic/quran/quran_cubit.dart';
 import 'package:ramadan/bussines_logic/ramadan/ramadan_cubit.dart';
+import 'package:ramadan/model/setting_model.dart';
 import 'package:ramadan/pages/splash_page.dart';
 import 'package:ramadan/utils/theme.dart';
 
@@ -29,10 +31,28 @@ class CustomImageCache extends WidgetsFlutterBinding {
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
+    statusBarColor: Colors.transparent,
+    statusBarIconBrightness: Brightness.dark,
+  ));
   //onsignal 71537c0e-6951-448b-a85f-47823c5c2382
-  await setupFlutterNotifications();
+  if (Platform.isMacOS) {
+  } else {
+    await setupFlutterNotifications();
+    // await NotificationController.initializeLocalNotifications();
+    tz.initializeTimeZones();
+
+    await Permission.notification.isDenied.then((value) {
+      if (value) {
+        Permission.notification.request();
+      }
+    });
+  }
+
   await Hive.initFlutter();
-  tz.initializeTimeZones();
+  Hive.registerAdapter(SettingModelAdapter());
+  Hive.registerAdapter(CityDetailsAdapter());
+
   // OneSignal.shared.setLogLevel(OSLogLevel.verbose, OSLogLevel.none);
   // OneSignal.shared.setAppId('71537c0e-6951-448b-a85f-47823c5c2382');
   // OneSignal.shared.promptUserForPushNotificationPermission();
@@ -64,26 +84,37 @@ class App extends StatelessWidget {
           create: (BuildContext context) => DuaCubit(),
         ),
       ],
-      child: MaterialApp(
-        title: 'Ramadan',
-        debugShowCheckedModeBanner: false,
+      child: BlocBuilder<SettingCubit, SettingState>(
+        builder: (context, state) {
+          return MaterialApp(
+            title: 'Ramadan',
+            debugShowCheckedModeBanner: false,
 
-        supportedLocales: const [
-          Locale('en', 'US'),
-          Locale('ar', 'IQ'),
-        ],
-        // ignore: prefer_const_literals_to_create_immutables
-        localizationsDelegates: const [
-          GlobalMaterialLocalizations.delegate,
-          GlobalCupertinoLocalizations.delegate,
-          GlobalWidgetsLocalizations.delegate,
-        ],
-        locale: const Locale('ar', 'IQ'),
+            supportedLocales: const [
+              Locale('en', 'US'),
+              Locale('ar', 'IQ'),
+            ],
+            // ignore: prefer_const_literals_to_create_immutables
+            localizationsDelegates: const [
+              GlobalMaterialLocalizations.delegate,
+              GlobalCupertinoLocalizations.delegate,
+              GlobalWidgetsLocalizations.delegate,
+            ],
+            locale: const Locale('ar', 'IQ'),
 
-        theme: getTheme("Somar", false),
-        themeMode: ThemeMode.system,
-        showPerformanceOverlay: false,
-        home: SplashPage(),
+            theme: getTheme(
+                "Somar",
+                state.setting.setting?.isDarkMode == 1
+                    ? false
+                    : state.setting.setting?.isDarkMode == 2
+                        ? true
+                        : SchedulerBinding.instance.window.platformBrightness ==
+                            Brightness.dark),
+            themeMode: ThemeMode.system,
+            showPerformanceOverlay: false,
+            home: SplashPage(),
+          );
+        },
       ),
     );
   }

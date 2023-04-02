@@ -4,6 +4,7 @@ import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/services.dart';
 import 'package:ramadan/model/ramadan_dua.dart';
+import 'package:ramadan/model/zyarat_model.dart';
 
 part 'dua_state.dart';
 
@@ -25,25 +26,38 @@ class DuaCubit extends Cubit<DuaState> {
     }
   }
 
+  getZyaratMunajat() async {
+    emit(DuaStateLoading(state.info));
+    try {
+      final String response =
+          await rootBundle.loadString('assets/docs/zyarat.json');
+      final jsondata = await json.decode(response);
+      final data = ZyaratMunajatModel.fromJson(jsondata);
+      state.info.zyaratData = data;
+
+      refresh();
+    } catch (e) {
+      print(e);
+      emit(DuaStateFiald(state.info));
+    }
+  }
+
   refresh() {
     emit(DuaStateLoading(state.info));
     emit(DuaStateLoaded(state.info));
   }
 
-  Future<void> loadData(Dua data, int index) async {
-    if (data.path == null) {
+  Future<void> loadContent(
+      String path, Function(String? content) onComplete) async {
+    if (path == null) {
       return;
     }
     try {
       final String response =
-          await rootBundle.loadString('assets/docs/${data.path}');
-
-      state.info.ramadanDuaModel!.dua![index].text = response;
-
-      refresh();
+          await rootBundle.loadString('assets/docs/${path}');
+      onComplete(response);
     } catch (e) {
-      print(e);
-      refresh();
+      onComplete(null);
     }
   }
 }

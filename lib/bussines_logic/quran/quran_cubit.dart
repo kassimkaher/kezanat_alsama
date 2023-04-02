@@ -2,9 +2,12 @@ import 'dart:convert';
 
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/services.dart';
+import 'package:ramadan/model/quran_juzu_model.dart';
 import 'package:ramadan/model/quran_model.dart';
 import 'package:ramadan/services/local_db.dart';
+import 'package:ramadan/utils/extention.dart';
 
 part 'quran_state.dart';
 
@@ -22,7 +25,8 @@ class QuranCubit extends Cubit<QuranState> {
       try {
         state.info.cachQuranModel = state.info.quranModel!.data!.surahs;
       } catch (e) {}
-      getContinu();
+      await getContinu();
+      getQuranJuzu();
       emit(QuranStateLoaded(state.info));
     } catch (e) {
       print(e);
@@ -75,6 +79,7 @@ class QuranCubit extends Cubit<QuranState> {
     try {
       final data = LocalDB.getContinu();
 
+      print(data!.toJson());
       state.info.continuQuranModel = data;
     } catch (e) {
       print(e);
@@ -84,12 +89,17 @@ class QuranCubit extends Cubit<QuranState> {
 
   Future<void> setContinu(
       {required String suraName,
-      required int suraIndex,
-      required int ayaIndex,
+      required int pageNumber,
+      required int ayaNumber,
+      required int juzuNumber,
       required int number}) async {
     try {
       final continuQuran = ContinuQuranModel(
-          suara: suraIndex, aya: ayaIndex, number: number, nameSura: suraName);
+          pageNumber: pageNumber,
+          ayaNumber: ayaNumber,
+          number: number,
+          nameSura: suraName,
+          juzuNumber: juzuNumber);
       state.info.continuQuranModel = continuQuran;
 
       final data = await LocalDB.setContinu(continuQuran);
@@ -102,6 +112,16 @@ class QuranCubit extends Cubit<QuranState> {
 
   void resetScrool() {
     state.info.isScroll = false;
+    state.info.currentPage = 0;
+    state.info.currentAyaIndex = 0;
+    state.info.pageController = PageController(initialPage: 0);
+    state.info.currentQuranJuzu = null;
+
+    refresh();
+  }
+
+  changeDisplayType(bool value) {
+    state.info.isSuraType = value;
     refresh();
   }
 
@@ -123,4 +143,85 @@ class QuranCubit extends Cubit<QuranState> {
   //   }
   //   // some time later...
   // }
+
+  getQuranJuzu() async {
+    for (var i = 1; i < 31; i++) {
+      try {
+        final String response =
+            await rootBundle.loadString('assets/docs/quran/quran_juz$i.json');
+        final jsondata = await json.decode(response);
+
+        final juzu = QuranJuzuModel.fromJson(jsondata);
+        state.info.quranJuzuList.add(juzu);
+      } catch (e) {
+        kdp(name: "quran juzu ", msg: "error $e==$i", c: 'r');
+      }
+    }
+    refresh();
+  }
+
+  void changePage(int page) {
+    state.info.currentAyaIndex = 0;
+    state.info.currentPage = page;
+    refresh();
+  }
+
+  void setPage(int? page) {
+    state.info.pageController = PageController(initialPage: page ?? 0);
+    state.info.currentPage = page ?? 0;
+    refresh();
+  }
+
+  void setAyaIndex(int i) {
+    state.info.currentAyaIndex = i;
+    refresh();
+  }
+
+  void nextJuzu(int juzu) {
+    if (state.info.quranJuzuList != null) {
+      state.info.currentPage = 0;
+      state.info.currentAyaIndex = 0;
+
+      state.info.currentQuranJuzu = state.info.quranJuzuList[juzu];
+      state.info.pageController.jumpToPage(0);
+
+      setContinu(
+          suraName:
+              state.info.currentQuranJuzu!.data!.ayahs!.first.surah!.name!,
+          juzuNumber: state.info.currentQuranJuzu!.data!.ayahs!.first.juz! - 1,
+          pageNumber: 0,
+          ayaNumber: 0,
+          number: state.info.currentQuranJuzu!.data?.ayahs?.length ?? 0);
+    }
+
+    refresh();
+  }
+
+  void setCurrentJuzu(QuranJuzuModel quranListJuzua) {
+    state.info.currentQuranJuzu = quranListJuzua;
+
+    refresh();
+  }
+
+  void previousPage(int juzu) {
+    if (state.info.quranJuzuList != null) {
+      state.info.currentPage =
+          (state.info.quranJuzuList[juzu - 2].data?.juzuPages?.length ?? 1) - 1;
+      state.info.currentAyaIndex = 0;
+
+      state.info.currentQuranJuzu = state.info.quranJuzuList[juzu - 2];
+      state.info.pageController.jumpToPage(0);
+
+      //   setContinu(
+      //       suraName:
+      //           state.info.currentQuranJuzu!.data!.ayahs!.first.surah!.name!,
+      //       juzuNumber: state.info.currentQuranJuzu!.data!.ayahs!.first.juz! - 1,
+      //       pageNumber: 0,
+      //       ayaNumber: 0,
+      //       number: state.info.currentQuranJuzu!.data?.ayahs?.length ?? 0);
+      // }
+    }
+
+    refresh();
+  }
 }

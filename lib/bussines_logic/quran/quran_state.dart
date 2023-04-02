@@ -29,7 +29,15 @@ class QuranData {
   QuranModel? quranModel;
   List<Surahs>? cachQuranModel;
   var isScroll = false;
+  var isSuraType = true;
+  var currentPage = 0;
   QuranData();
-
+  List<QuranJuzuModel> quranJuzuList = [];
   var documentExpanded = false;
+
+  PageController pageController = PageController();
+
+  int? currentAyaIndex;
+
+  QuranJuzuModel? currentQuranJuzu;
 }

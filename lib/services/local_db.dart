@@ -1,5 +1,6 @@
 import 'package:hive/hive.dart';
 import 'package:ramadan/model/quran_model.dart';
+import 'package:ramadan/model/setting_model.dart';
 import 'package:ramadan/utils/utils.dart';
 
 class LocalDB {
@@ -39,22 +40,39 @@ class LocalDB {
     db!.put("continu_quran", value.toJson());
   }
 
-  static bool? getIsSetNotification() {
+  static SettingModel? getSetting() {
     if (db == null) {
-      //kdp(name: "notification chek is set", msg: "null", c: 'r');
       return null;
     }
-    final data = db?.get("getIsSetNotification1");
+    final data = db?.get("app_setting");
 
     return data;
   }
 
-  static setIsSetNotification(bool value) {
+  static saveSettingDb(SettingModel settingModel) {
     if (db == null) {
       return;
     }
 
-    db!.put("getIsSetNotification1", value);
+    db!.put("app_setting", settingModel);
+  }
+
+  static int? getIsSetNotification() {
+    if (db == null) {
+      //kdp(name: "notification chek is set", msg: "null", c: 'r');
+      return null;
+    }
+    final data = db?.get("getIsSetNotificationNew");
+
+    return data;
+  }
+
+  static setIsSetNotification(int value) {
+    if (db == null) {
+      return;
+    }
+
+    db!.put("getIsSetNotificationNew", value);
   }
   // saveToken(int step) async {
   //   try {

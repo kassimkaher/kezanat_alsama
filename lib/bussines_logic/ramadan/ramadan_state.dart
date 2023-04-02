@@ -30,7 +30,7 @@ class RamadanInfo {
   DaysPrayerTimes? currentDay;
   DaysPrayerTimes? nextDay;
   NextTime? nextTime;
-
+  bool isListener = false;
   RamadanInfo({
     this.storage,
   });
@@ -40,7 +40,7 @@ class RamadanInfo {
   DaysPrayerTimes? agoDay;
 
   var dayNumber = 0;
-
+  bool timer = false;
   RamadanAmalModel? ramadanAmal;
   TodayPrayer? todayPrayer;
 }
@@ -54,6 +54,7 @@ class NextTime {
   DaysPrayerTimes daysPrayerTimes;
   double progress;
   bool isKnow;
+
   NextTime(
       {required this.daysPrayerTimes,
       required this.timeText,

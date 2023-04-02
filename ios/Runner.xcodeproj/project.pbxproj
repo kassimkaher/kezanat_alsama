@@ -14,23 +14,8 @@
 		97C146FC1CF9000F007C117D /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 97C146FA1CF9000F007C117D /* Main.storyboard */; };
 		97C146FE1CF9000F007C117D /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 97C146FD1CF9000F007C117D /* Assets.xcassets */; };
 		97C147011CF9000F007C117D /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 97C146FF1CF9000F007C117D /* LaunchScreen.storyboard */; };
-		E547EF9029CCDBA900067383 /* athan_ios_1.MP3 in Resources */ = {isa = PBXBuildFile; fileRef = E547EF8F29CCDBA900067383 /* athan_ios_1.MP3 */; };
-		E547EFA029CCE07A00067383 /* athan_ios_14.MP3 in Resources */ = {isa = PBXBuildFile; fileRef = E547EF9129CCE07A00067383 /* athan_ios_14.MP3 */; };
-		E547EFA129CCE07A00067383 /* athan_ios_2.MP3 in Resources */ = {isa = PBXBuildFile; fileRef = E547EF9229CCE07A00067383 /* athan_ios_2.MP3 */; };
-		E547EFA229CCE07A00067383 /* athan_ios_5.MP3 in Resources */ = {isa = PBXBuildFile; fileRef = E547EF9329CCE07A00067383 /* athan_ios_5.MP3 */; };
-		E547EFA329CCE07A00067383 /* athan_ios_12.MP3 in Resources */ = {isa = PBXBuildFile; fileRef = E547EF9429CCE07A00067383 /* athan_ios_12.MP3 */; };
-		E547EFA429CCE07A00067383 /* athan_ios_13.MP3 in Resources */ = {isa = PBXBuildFile; fileRef = E547EF9529CCE07A00067383 /* athan_ios_13.MP3 */; };
-		E547EFA529CCE07A00067383 /* athan_ios_11.MP3 in Resources */ = {isa = PBXBuildFile; fileRef = E547EF9629CCE07A00067383 /* athan_ios_11.MP3 */; };
-		E547EFA629CCE07A00067383 /* athan_ios_10.MP3 in Resources */ = {isa = PBXBuildFile; fileRef = E547EF9729CCE07A00067383 /* athan_ios_10.MP3 */; };
-		E547EFA729CCE07A00067383 /* athan_ios_3.MP3 in Resources */ = {isa = PBXBuildFile; fileRef = E547EF9829CCE07A00067383 /* athan_ios_3.MP3 */; };
-		E547EFA829CCE07A00067383 /* athan_ios_15.MP3 in Resources */ = {isa = PBXBuildFile; fileRef = E547EF9929CCE07A00067383 /* athan_ios_15.MP3 */; };
-		E547EFA929CCE07A00067383 /* athan_ios_6.MP3 in Resources */ = {isa = PBXBuildFile; fileRef = E547EF9A29CCE07A00067383 /* athan_ios_6.MP3 */; };
-		E547EFAA29CCE07A00067383 /* athan_ios_8.MP3 in Resources */ = {isa = PBXBuildFile; fileRef = E547EF9B29CCE07A00067383 /* athan_ios_8.MP3 */; };
-		E547EFAB29CCE07A00067383 /* athan_ios_9.MP3 in Resources */ = {isa = PBXBuildFile; fileRef = E547EF9C29CCE07A00067383 /* athan_ios_9.MP3 */; };
-		E547EFAC29CCE07A00067383 /* athan_ios_4.MP3 in Resources */ = {isa = PBXBuildFile; fileRef = E547EF9D29CCE07A00067383 /* athan_ios_4.MP3 */; };
-		E547EFAD29CCE07A00067383 /* athan_ios_7.MP3 in Resources */ = {isa = PBXBuildFile; fileRef = E547EF9E29CCE07A00067383 /* athan_ios_7.MP3 */; };
-		E547EFAE29CCE07A00067383 /* athan_ios_16.MP3 in Resources */ = {isa = PBXBuildFile; fileRef = E547EF9F29CCE07A00067383 /* athan_ios_16.MP3 */; };
-		E547EFB229CCE23100067383 /* emsak_ios.MP3 in Resources */ = {isa = PBXBuildFile; fileRef = E547EFB129CCE23100067383 /* emsak_ios.MP3 */; };
+		E5D501E729D51B3E00C19A94 /* emsak_ios.caf in Resources */ = {isa = PBXBuildFile; fileRef = E5D501E529D51B3E00C19A94 /* emsak_ios.caf */; };
+		E5D501EB29D520C000C19A94 /* athan_ios.caf in Resources */ = {isa = PBXBuildFile; fileRef = E5D501EA29D520C000C19A94 /* athan_ios.caf */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -82,28 +67,15 @@
 		B9E68F5DC291787B7CF20C17 /* Pods-RamadanNOtification.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-RamadanNOtification.release.xcconfig"; path = "Target Support Files/Pods-RamadanNOtification/Pods-RamadanNOtification.release.xcconfig"; sourceTree = "<group>"; };
 		C6B5AF765639A8489BE2B289 /* Pods-RamadanNOtification.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-RamadanNOtification.debug.xcconfig"; path = "Target Support Files/Pods-RamadanNOtification/Pods-RamadanNOtification.debug.xcconfig"; sourceTree = "<group>"; };
 		D19FDBF11F21B5825B505324 /* Pods-Runner.profile.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Runner.profile.xcconfig"; path = "Target Support Files/Pods-Runner/Pods-Runner.profile.xcconfig"; sourceTree = "<group>"; };
-		E547EF8F29CCDBA900067383 /* athan_ios_1.MP3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; name = athan_ios_1.MP3; path = ../../../../athan_ios_1.MP3; sourceTree = "<group>"; };
-		E547EF9129CCE07A00067383 /* athan_ios_14.MP3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; name = athan_ios_14.MP3; path = ../../../../athan_ios_14.MP3; sourceTree = "<group>"; };
-		E547EF9229CCE07A00067383 /* athan_ios_2.MP3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; name = athan_ios_2.MP3; path = ../../../../athan_ios_2.MP3; sourceTree = "<group>"; };
-		E547EF9329CCE07A00067383 /* athan_ios_5.MP3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; name = athan_ios_5.MP3; path = ../../../../athan_ios_5.MP3; sourceTree = "<group>"; };
-		E547EF9429CCE07A00067383 /* athan_ios_12.MP3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; name = athan_ios_12.MP3; path = ../../../../athan_ios_12.MP3; sourceTree = "<group>"; };
-		E547EF9529CCE07A00067383 /* athan_ios_13.MP3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; name = athan_ios_13.MP3; path = ../../../../athan_ios_13.MP3; sourceTree = "<group>"; };
-		E547EF9629CCE07A00067383 /* athan_ios_11.MP3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; name = athan_ios_11.MP3; path = ../../../../athan_ios_11.MP3; sourceTree = "<group>"; };
-		E547EF9729CCE07A00067383 /* athan_ios_10.MP3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; name = athan_ios_10.MP3; path = ../../../../athan_ios_10.MP3; sourceTree = "<group>"; };
-		E547EF9829CCE07A00067383 /* athan_ios_3.MP3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; name = athan_ios_3.MP3; path = ../../../../athan_ios_3.MP3; sourceTree = "<group>"; };
-		E547EF9929CCE07A00067383 /* athan_ios_15.MP3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; name = athan_ios_15.MP3; path = ../../../../athan_ios_15.MP3; sourceTree = "<group>"; };
-		E547EF9A29CCE07A00067383 /* athan_ios_6.MP3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; name = athan_ios_6.MP3; path = ../../../../athan_ios_6.MP3; sourceTree = "<group>"; };
-		E547EF9B29CCE07A00067383 /* athan_ios_8.MP3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; name = athan_ios_8.MP3; path = ../../../../athan_ios_8.MP3; sourceTree = "<group>"; };
-		E547EF9C29CCE07A00067383 /* athan_ios_9.MP3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; name = athan_ios_9.MP3; path = ../../../../athan_ios_9.MP3; sourceTree = "<group>"; };
-		E547EF9D29CCE07A00067383 /* athan_ios_4.MP3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; name = athan_ios_4.MP3; path = ../../../../athan_ios_4.MP3; sourceTree = "<group>"; };
-		E547EF9E29CCE07A00067383 /* athan_ios_7.MP3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; name = athan_ios_7.MP3; path = ../../../../athan_ios_7.MP3; sourceTree = "<group>"; };
-		E547EF9F29CCE07A00067383 /* athan_ios_16.MP3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; name = athan_ios_16.MP3; path = ../../../../athan_ios_16.MP3; sourceTree = "<group>"; };
-		E547EFB129CCE23100067383 /* emsak_ios.MP3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; name = emsak_ios.MP3; path = ../../../../emsak_ios.MP3; sourceTree = "<group>"; };
+		E525226229D9931300C62E63 /* WidgetKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WidgetKit.framework; path = System/Library/Frameworks/WidgetKit.framework; sourceTree = SDKROOT; };
+		E525226429D9931300C62E63 /* SwiftUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SwiftUI.framework; path = System/Library/Frameworks/SwiftUI.framework; sourceTree = SDKROOT; };
 		E55634E429CBCB82009F1E51 /* RunnerDebug.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = RunnerDebug.entitlements; sourceTree = "<group>"; };
 		E55634E529CBCB8C009F1E51 /* RunnerProfile.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = RunnerProfile.entitlements; sourceTree = "<group>"; };
 		E593E90629CA356000F7DA3B /* RunnerRelease.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = RunnerRelease.entitlements; sourceTree = "<group>"; };
 		E593E93829CA3D2200F7DA3B /* ar */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ar; path = ar.lproj/Main.strings; sourceTree = "<group>"; };
 		E593E93929CA3D2200F7DA3B /* ar */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ar; path = ar.lproj/LaunchScreen.strings; sourceTree = "<group>"; };
+		E5D501E529D51B3E00C19A94 /* emsak_ios.caf */ = {isa = PBXFileReference; lastKnownFileType = file; name = emsak_ios.caf; path = ../../../../../Downloads/emsak_ios.caf; sourceTree = "<group>"; };
+		E5D501EA29D520C000C19A94 /* athan_ios.caf */ = {isa = PBXFileReference; lastKnownFileType = file; name = athan_ios.caf; path = ../../../../../Downloads/athan_ios.caf; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -173,6 +145,8 @@
 				36FBEA5BE54EF7B582B4849A /* Pods_Runner.framework */,
 				3252F90539F77554E48BAB02 /* Pods_OneSignalNotificationServiceExtension.framework */,
 				2FADADB647AAC701372A6567 /* Pods_RamadanNOtification.framework */,
+				E525226229D9931300C62E63 /* WidgetKit.framework */,
+				E525226429D9931300C62E63 /* SwiftUI.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -180,23 +154,8 @@
 		E547EF8029CC74E200067383 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
-				E547EFB129CCE23100067383 /* emsak_ios.MP3 */,
-				E547EF9229CCE07A00067383 /* athan_ios_2.MP3 */,
-				E547EF9829CCE07A00067383 /* athan_ios_3.MP3 */,
-				E547EF9D29CCE07A00067383 /* athan_ios_4.MP3 */,
-				E547EF9329CCE07A00067383 /* athan_ios_5.MP3 */,
-				E547EF9A29CCE07A00067383 /* athan_ios_6.MP3 */,
-				E547EF9E29CCE07A00067383 /* athan_ios_7.MP3 */,
-				E547EF9B29CCE07A00067383 /* athan_ios_8.MP3 */,
-				E547EF9C29CCE07A00067383 /* athan_ios_9.MP3 */,
-				E547EF9729CCE07A00067383 /* athan_ios_10.MP3 */,
-				E547EF9629CCE07A00067383 /* athan_ios_11.MP3 */,
-				E547EF9429CCE07A00067383 /* athan_ios_12.MP3 */,
-				E547EF9529CCE07A00067383 /* athan_ios_13.MP3 */,
-				E547EF9129CCE07A00067383 /* athan_ios_14.MP3 */,
-				E547EF9929CCE07A00067383 /* athan_ios_15.MP3 */,
-				E547EF9F29CCE07A00067383 /* athan_ios_16.MP3 */,
-				E547EF8F29CCDBA900067383 /* athan_ios_1.MP3 */,
+				E5D501EA29D520C000C19A94 /* athan_ios.caf */,
+				E5D501E529D51B3E00C19A94 /* emsak_ios.caf */,
 			);
 			path = Resources;
 			sourceTree = "<group>";
@@ -225,7 +184,6 @@
 			buildConfigurationList = 97C147051CF9000F007C117D /* Build configuration list for PBXNativeTarget "Runner" */;
 			buildPhases = (
 				988F625BC0F6606C8A7F3622 /* [CP] Check Pods Manifest.lock */,
-				9740EEB61CF901F6004384FC /* Run Script */,
 				97C146EA1CF9000F007C117D /* Sources */,
 				97C146EB1CF9000F007C117D /* Frameworks */,
 				97C146EC1CF9000F007C117D /* Resources */,
@@ -233,6 +191,7 @@
 				3B06AD1E1E4923F5004D2608 /* Thin Binary */,
 				5B85CC0AF8B0A82C2AB6B28F /* [CP] Embed Pods Frameworks */,
 				E593E91329CA3B5D00F7DA3B /* Embed Foundation Extensions */,
+				E525227A29D9936700C62E63 /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -284,26 +243,11 @@
 			buildActionMask = 2147483647;
 			files = (
 				97C147011CF9000F007C117D /* LaunchScreen.storyboard in Resources */,
-				E547EFA729CCE07A00067383 /* athan_ios_3.MP3 in Resources */,
-				E547EFB229CCE23100067383 /* emsak_ios.MP3 in Resources */,
-				E547EFA529CCE07A00067383 /* athan_ios_11.MP3 in Resources */,
-				E547EF9029CCDBA900067383 /* athan_ios_1.MP3 in Resources */,
+				E5D501E729D51B3E00C19A94 /* emsak_ios.caf in Resources */,
 				3B3967161E833CAA004F5970 /* AppFrameworkInfo.plist in Resources */,
-				E547EFA629CCE07A00067383 /* athan_ios_10.MP3 in Resources */,
-				E547EFA429CCE07A00067383 /* athan_ios_13.MP3 in Resources */,
-				E547EFA129CCE07A00067383 /* athan_ios_2.MP3 in Resources */,
-				E547EFAC29CCE07A00067383 /* athan_ios_4.MP3 in Resources */,
+				E5D501EB29D520C000C19A94 /* athan_ios.caf in Resources */,
 				97C146FE1CF9000F007C117D /* Assets.xcassets in Resources */,
-				E547EFAD29CCE07A00067383 /* athan_ios_7.MP3 in Resources */,
-				E547EFA029CCE07A00067383 /* athan_ios_14.MP3 in Resources */,
-				E547EFAA29CCE07A00067383 /* athan_ios_8.MP3 in Resources */,
 				97C146FC1CF9000F007C117D /* Main.storyboard in Resources */,
-				E547EFA929CCE07A00067383 /* athan_ios_6.MP3 in Resources */,
-				E547EFA329CCE07A00067383 /* athan_ios_12.MP3 in Resources */,
-				E547EFAB29CCE07A00067383 /* athan_ios_9.MP3 in Resources */,
-				E547EFA229CCE07A00067383 /* athan_ios_5.MP3 in Resources */,
-				E547EFAE29CCE07A00067383 /* athan_ios_16.MP3 in Resources */,
-				E547EFA829CCE07A00067383 /* athan_ios_15.MP3 in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -342,21 +286,6 @@
 			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-Runner/Pods-Runner-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
-		9740EEB61CF901F6004384FC /* Run Script */ = {
-			isa = PBXShellScriptBuildPhase;
-			alwaysOutOfDate = 1;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "Run Script";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "/bin/sh \"$FLUTTER_ROOT/packages/flutter_tools/bin/xcode_backend.sh\" build";
-		};
 		988F625BC0F6606C8A7F3622 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -378,6 +307,23 @@
 			shellPath = /bin/sh;
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
+		};
+		E525227A29D9936700C62E63 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "# Type a script or drag a script file from your workspace to insert its path.\ngeneratedPath=\"$SRCROOT/Flutter/Generated.xcconfig\"\nversionNumber=$(grep FLUTTER_BUILD_NAME $generatedPath | cut -d '=' -f2)\nbuildNumber=$(grep FLUTTER_BUILD_NUMBER $generatedPath | cut -d '=' -f2)\n/usr/libexec/PlistBuddy -c \"Set :CFBundleVersion $buildNumber\" \"$SRCROOT/HomeExampleWidget/Info.plist\"\n/usr/libexec/PlistBuddy -c \"Set :CFBundleShortVersionString $versionNumber\" \"$SRCROOT/Ramadan/Info.plist\"\n";
 		};
 /* End PBXShellScriptBuildPhase section */
 
@@ -470,7 +416,6 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 7AFA3C8E1D35360C0083082E /* Release.xcconfig */;
 			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = Runner/RunnerProfile.entitlements;
@@ -483,6 +428,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
+				MARKETING_VERSION = 1.2;
 				PRODUCT_BUNDLE_IDENTIFIER = com.dev.ramadan;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OBJC_BRIDGING_HEADER = "Runner/Runner-Bridging-Header.h";
@@ -604,7 +550,6 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 9740EEB21CF90195004384FC /* Debug.xcconfig */;
 			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = Runner/RunnerDebug.entitlements;
@@ -617,6 +562,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
+				MARKETING_VERSION = 1.2;
 				PRODUCT_BUNDLE_IDENTIFIER = com.dev.ramadan;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OBJC_BRIDGING_HEADER = "Runner/Runner-Bridging-Header.h";
@@ -630,7 +576,6 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 7AFA3C8E1D35360C0083082E /* Release.xcconfig */;
 			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = Runner/RunnerRelease.entitlements;
@@ -643,6 +588,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
+				MARKETING_VERSION = 1.2;
 				PRODUCT_BUNDLE_IDENTIFIER = com.dev.ramadan;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OBJC_BRIDGING_HEADER = "Runner/Runner-Bridging-Header.h";

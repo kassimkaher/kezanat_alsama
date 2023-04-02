@@ -6,7 +6,6 @@ import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/services.dart';
 import 'package:ramadan/bussines_logic/dua/dua_cubit.dart';
-import 'package:ramadan/bussines_logic/notification_service.dart';
 import 'package:ramadan/model/emsak.dart';
 import 'package:ramadan/model/ramadan_amal.dart';
 import 'package:ramadan/model/ramadan_dua.dart';
@@ -17,10 +16,9 @@ part 'ramadan_state.dart';
 class RamadanCubit extends Cubit<RamadanState> {
   RamadanCubit() : super(RamadanStateInital(RamadanInfo()));
 
-  getRamadan() async {
+  getRamadan(String path) async {
     try {
-      final String response =
-          await rootBundle.loadString('assets/docs/ramadan.json');
+      final String response = await rootBundle.loadString(path);
       final jsondata = await json.decode(response);
       state.info.emsackModel = EmsackModel.fromJson(jsondata);
 
@@ -34,13 +32,17 @@ class RamadanCubit extends Cubit<RamadanState> {
   }
 
   listenTime(DuaCubit duaCubit) async {
-    await getRamadan();
+    if (state.info.timer) {
+      return;
+    }
+    state.info.timer = true;
+    refresh();
+
     await loadAmal();
+    var now1 = DateTime.now();
     Timer.periodic(const Duration(seconds: 1), (timer) {
       var now = DateTime.now();
-      if (now.day < 23) {
-        now = DateTime.now().copyWith(day: 23);
-      }
+
       checkTodayAmal(duaCubit);
       if (state is RamadanStateLoaded) {
         final currentdayIndex = state.info.emsackModel!.days!
@@ -58,17 +60,7 @@ class RamadanCubit extends Cubit<RamadanState> {
             state.info.agoDay =
                 state.info.emsackModel!.days![currentdayIndex + -1];
           }
-          // kdp(
-          //     name: "emsac now",
-          //     msg: nowt.hour.toString() + ":" + nowt.minute.toString(),
-          //     c: 'gr');
 
-          // kdp(
-          //     name: "emsac mints",
-          //     msg: (state.info.currentDay!.nightPrayer!.minut! + 5).toString() +
-          //         ((nowt.hour < state.info.currentDay!.nightPrayer!.hour!))
-          //             .toString(),
-          //     c: 'y');
           if (now.hour < state.info.currentDay!.emsak!.hour! ||
               (now.hour == state.info.currentDay!.emsak!.hour! &&
                   now.minute <= state.info.currentDay!.emsak!.minut! + 5)) {
@@ -168,18 +160,26 @@ class RamadanCubit extends Cubit<RamadanState> {
     var progress = 0.0;
 
     if (isEmsak) {
-      currentTimeInSecond = getSeconds(24 - now.hour, now.minute, now.second);
+      final diff = DateTime.now()
+          .copyWith(hour: now.hour, minute: now.minute, second: now.second)
+          .difference(DateTime.now().add(Duration(days: 1)).copyWith(
+                hour: nextPryer.hour,
+                minute: nextPryer.minut!,
+                second: 0,
+              ));
+
+      // kdp(name: "time", msg: diff.inSeconds, c: 'gr');
+      // currentTimeInSecond = getSeconds(24 - now.hour, now.minute, now.second);
       nextPrayerTimeInSecond = getSeconds(nextPryer.hour, nextPryer.minut, 0);
       agoPrayerTimeInSecond =
           getSeconds(24 - (agoPryer?.hour ?? 0), (agoPryer?.minut) ?? 0, 0);
 
-      diffrentInseconds = nextPrayerTimeInSecond + currentTimeInSecond;
+      diffrentInseconds = diff.inSeconds * -1;
 
       finalTime = getDateFromSecond(diffrentInseconds);
 
       progress =
           diffrentInseconds / (nextPrayerTimeInSecond + agoPrayerTimeInSecond);
-      print("00000");
     } else {
       currentTimeInSecond = getSeconds(now.hour, now.minute, now.second);
       nextPrayerTimeInSecond = getSeconds(nextPryer.hour, nextPryer.minut, 0);
@@ -229,73 +229,6 @@ class RamadanCubit extends Cubit<RamadanState> {
     } catch (e) {
       print("klsdfjnks");
       print(e);
-    }
-  }
-
-  setNotification(EmsackModel data, index) async {
-    final day = data.days![index];
-    final date = DateTime.now();
-    if (date.day > day.day!) {
-      if ((data.days!.length - 1) > index) {
-        setNotification(data, index + 1);
-      }
-      return;
-    }
-    try {
-      if (Platform.isAndroid) {
-        await showSchedualNotificationAthan(
-            title: "اذان",
-            subtitle: "حان الان موعد اذان الفجر",
-            dateTime: DateTime(2023, day.month!, day.day!,
-                day.morningPrayer!.hour!, day.morningPrayer!.minut!),
-            id: 100 + day.day!);
-
-        await showSchedualNotificationAthan(
-            title: "اذان",
-            subtitle: "حان الان موعد اذان الظهر",
-            dateTime: DateTime(2023, day.month!, day.day!, day.sunPrayer!.hour!,
-                day.sunPrayer!.minut!),
-            id: 200 + day.day!);
-        await showSchedualNotificationAthan(
-            title: "اذان",
-            subtitle: "حان الان موعد اذان المغرب",
-            dateTime: DateTime(2023, day.month!, day.day!,
-                day.nightPrayer!.hour!, day.nightPrayer!.minut!),
-            id: 300 + day.day!);
-      }
-      if (Platform.isIOS) {
-        await showSchedualIOSNotificationAthan(
-            title: "اذان",
-            subtitle: "حان الان موعد اذان الفجر",
-            dateTime: DateTime(2023, day.month!, day.day!,
-                day.morningPrayer!.hour!, day.morningPrayer!.minut!),
-            id: 100 + day.day!);
-
-        await showSchedualIOSNotificationAthan(
-            title: "اذان",
-            subtitle: "حان الان موعد اذان الظهر",
-            dateTime: DateTime(2023, day.month!, day.day!, day.sunPrayer!.hour!,
-                day.sunPrayer!.minut!),
-            id: 200 + day.day!);
-        await showSchedualIOSNotificationAthan(
-            title: "اذان",
-            subtitle: "حان الان موعد اذان المغرب",
-            dateTime: DateTime(2023, day.month!, day.day!,
-                day.nightPrayer!.hour!, day.nightPrayer!.minut!),
-            id: 300 + day.day!);
-      }
-
-      await showSchedualNotificationEmsak(
-          title: "امساك",
-          subtitle: "حان الان موعد  الامساك اي الامتناع عن الاكل و والشرب",
-          dateTime: DateTime(
-              2023, day.month!, day.day!, day.emsak!.hour!, day.emsak!.minut!),
-          id: 400 + day.day!);
-    } catch (e) {
-      print(e);
-    }
-    if ((data.days!.length - 1) > index) {
-      setNotification(data, index + 1);
     }
   }
 

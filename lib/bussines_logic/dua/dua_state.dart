@@ -32,4 +32,6 @@ class DuaData {
   });
 
   var documentExpanded = false;
+
+  ZyaratMunajatModel? zyaratData;
 }

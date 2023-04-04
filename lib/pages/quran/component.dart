@@ -59,7 +59,7 @@ class NumberWidget extends StatelessWidget {
           SvgPicture.asset(
             "assets/svg/star.svg",
             height: size,
-            color: jbSecondary,
+            color: theme.primaryColor,
           ),
           Center(
             child: Text(

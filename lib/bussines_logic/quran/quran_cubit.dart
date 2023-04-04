@@ -75,11 +75,9 @@ class QuranCubit extends Cubit<QuranState> {
   }
 
   Future<void> getContinu() async {
-    print("okndj");
     try {
       final data = LocalDB.getContinu();
 
-      print(data!.toJson());
       state.info.continuQuranModel = data;
     } catch (e) {
       print(e);
@@ -210,7 +208,7 @@ class QuranCubit extends Cubit<QuranState> {
       state.info.currentAyaIndex = 0;
 
       state.info.currentQuranJuzu = state.info.quranJuzuList[juzu - 2];
-      state.info.pageController.jumpToPage(0);
+      state.info.pageController.jumpToPage(state.info.currentPage);
 
       //   setContinu(
       //       suraName:

@@ -49,7 +49,8 @@ class QuranListSuar extends StatelessWidget {
                 children: [
                   NumberWidget(
                     theme: theme,
-                    number: (i + 1).toString(),
+                    number: state.info.quranModel!.data!.surahs![i].number
+                        .toString(),
                     size: 40,
                   ),
                   const SizedBox(width: 12),

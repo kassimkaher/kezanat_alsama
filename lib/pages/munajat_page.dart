@@ -5,7 +5,7 @@ import 'package:lucide_icons/lucide_icons.dart';
 import 'package:ramadan/bussines_logic/dua/dua_cubit.dart';
 import 'package:ramadan/bussines_logic/ramadan/ramadan_cubit.dart';
 import 'package:ramadan/model/ramadan_dua.dart';
-import 'package:ramadan/pages/home/home.dart';
+import 'package:ramadan/pages/home/emsal_view.dart';
 import 'package:ramadan/utils/utils.dart';
 
 import '../bussines_logic/Setting/settings_cubit.dart';

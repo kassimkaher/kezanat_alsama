@@ -4,7 +4,7 @@ import 'package:lucide_icons/lucide_icons.dart';
 import 'package:ramadan/bussines_logic/Setting/settings_cubit.dart';
 import 'package:ramadan/bussines_logic/notification_service.dart';
 import 'package:ramadan/bussines_logic/ramadan/ramadan_cubit.dart';
-import 'package:ramadan/pages/home/home.dart';
+import 'package:ramadan/pages/home/emsal_view.dart';
 import 'package:ramadan/utils/const.dart';
 import 'package:ramadan/widget/jb_button.dart';
 

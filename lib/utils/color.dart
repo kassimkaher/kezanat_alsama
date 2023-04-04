@@ -1,13 +1,17 @@
 import 'package:flutter/material.dart';
+//public color
+
+const alqadrColor = Color(0xff3F3D56);
+const alqadrAccesntColor = Color(0xff595C72);
 
 const jbPrimaryColor = Color(0xFF269DA1);
 const jbAccesntPrimaryColor = Color(0xFF036D71);
-const scaffoldColor = Color(0xffF3F0E8);
+const scaffoldColor = Color(0xffF5F3EE);
 const jbSecondary = Color(0xFFF19801);
-const cardColor = Color(0xff292c31);
+const cardColor = Color(0xFFFffffff);
 const jbAccentSecondary = Color(0xffA96C01);
 const jbFontColor = Color(0xff13181e);
-const jbFontColor2 = Color(0xff269DA1);
+const jbFontColor2 = Color(0xff13181e);
 const jbBorderColor = Color(0xFFE2E6EB);
 
 const jbLoadingColorLight = Color(0xFFecf1f5);

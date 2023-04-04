@@ -75,16 +75,12 @@ getTheme(String fontfamily, bool isDarkMode) {
           splashColor: Colors.transparent,
           highlightColor: const Color(0x11440099),
         )
-      // theme style if light mode
-
       : theme.copyWith(
-          bottomNavigationBarTheme: BottomNavigationBarThemeData(),
           cardTheme: CardTheme(
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(kDefaultBorderRadius),
               ),
-              color: Colors.white,
-              shadowColor: jbUnselectColor.withOpacity(0.4)),
+              shadowColor: jbUnselectColor.withOpacity(0.2)),
           scaffoldBackgroundColor: scaffoldColor,
           brightness: Brightness.light,
           colorScheme: const ColorScheme.dark(
@@ -104,7 +100,7 @@ getTheme(String fontfamily, bool isDarkMode) {
                 fontFamily: 'Somar'),
           ),
           disabledColor: jbUnselectColor,
-          cardColor: Colors.white,
+          cardColor: cardColor,
           dialogTheme: DialogTheme(
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(kDefaultBorderRadius),

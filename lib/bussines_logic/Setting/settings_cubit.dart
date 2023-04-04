@@ -13,6 +13,7 @@ import 'package:ramadan/model/emsak.dart';
 import 'package:ramadan/model/setting_model.dart';
 import 'package:ramadan/services/local_db.dart';
 import 'package:ramadan/utils/utils.dart';
+import 'package:speech_to_text/speech_to_text.dart';
 part 'setting_state.dart';
 
 class SettingCubit extends Cubit<SettingState> {
@@ -265,6 +266,20 @@ class SettingCubit extends Cubit<SettingState> {
     state.setting.setting!.enableNotification = value;
     refresh();
     LocalDB.saveSettingDb(state.setting.setting!);
+  }
+
+  listenSpeach() async {
+    SpeechToText _speechToText = SpeechToText();
+    final _speechEnabled = await _speechToText.initialize();
+    await _speechToText.listen(onResult: (a) {
+      print(a.recognizedWords);
+      if (a.recognizedWords.split(" ").length == 3) {
+        _speechToText.cancel();
+        listenSpeach();
+      }
+    });
+    print(_speechEnabled);
+    refresh();
   }
 }
 

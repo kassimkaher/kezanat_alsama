@@ -9,6 +9,7 @@ import 'package:flutter/material.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:provider/provider.dart';
 import 'package:ramadan/bussines_logic/Setting/settings_cubit.dart';
+import 'package:ramadan/bussines_logic/alqadr/alqadr_cubit.dart';
 import 'package:ramadan/bussines_logic/dua/dua_cubit.dart';
 import 'package:ramadan/bussines_logic/notification_service.dart';
 import 'package:ramadan/bussines_logic/quran/quran_cubit.dart';
@@ -82,6 +83,9 @@ class App extends StatelessWidget {
         ),
         BlocProvider<DuaCubit>(
           create: (BuildContext context) => DuaCubit(),
+        ),
+        BlocProvider<AlqadrCubit>(
+          create: (BuildContext context) => AlqadrCubit(),
         ),
       ],
       child: BlocBuilder<SettingCubit, SettingState>(

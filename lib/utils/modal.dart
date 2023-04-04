@@ -1,4 +1,7 @@
+import 'dart:ui';
+
 import 'package:flutter/material.dart';
+import 'package:ramadan/utils/utils.dart';
 
 Future<T?> showModal<T>(
     {required BuildContext context,
@@ -13,14 +16,28 @@ Future<T?> showModal<T>(
       enableDrag: true,
       context: context,
       builder: (context) {
-        return SizedBox.expand(
-          child: DraggableScrollableSheet(
-              initialChildSize: topSpace ?? 0.95,
-              maxChildSize: topSpace ?? 0.95,
-              minChildSize: 0.0,
-              snap: true,
-              builder: (_, scrollController) =>
-                  builder(context, ScrollController())),
+        return Stack(
+          children: [
+            BackdropFilter(
+                filter: ImageFilter.blur(sigmaX: 5, sigmaY: 5),
+                child: Container(
+                  height: query.size.height,
+                  width: query.size.width,
+                  color: theme.disabledColor.withOpacity(0.0),
+                )),
+            Container(
+              margin: topSpace != null
+                  ? EdgeInsets.only(top: topSpace / 2, bottom: topSpace / 2)
+                  : const EdgeInsets.all(0),
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(kDefaultBorderRadius),
+                child: builder(
+                  context,
+                  ScrollController(),
+                ),
+              ),
+            ),
+          ],
         );
       },
       backgroundColor: Colors.transparent,

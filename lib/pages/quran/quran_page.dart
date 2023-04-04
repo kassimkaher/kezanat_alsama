@@ -27,10 +27,11 @@ class QuranPage extends HookWidget {
     if (quranController.state is! QuranStateLoaded) {
       quranController.getQuran();
     }
-    if (quranController.state is QuranStateLoaded) {
-      quranController.getContinu();
-    }
+
     return BlocBuilder<QuranCubit, QuranState>(builder: (context, state) {
+      if (state is QuranStateLoaded && state.info.continuQuranModel == null) {
+        quranController.getContinu();
+      }
       return Scaffold(
           body: state is QuranStateLoading
               ? const Center(child: CircularProgressIndicator())

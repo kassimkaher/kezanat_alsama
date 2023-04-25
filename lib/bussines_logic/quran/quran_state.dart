@@ -38,6 +38,17 @@ class QuranData {
   PageController pageController = PageController();
 
   int? currentAyaIndex;
+  PlayerState? playerState;
+  YoutubePlayerController youtubeController = YoutubePlayerController(
+    initialVideoId: 'XcAUKr1pAeQ',
+    flags: const YoutubePlayerFlags(
+        startAt: 20,
+        enableCaption: false,
+        autoPlay: true,
+        mute: false,
+        hideControls: true,
+        hideThumbnail: true),
+  );
 
   QuranJuzuModel? currentQuranJuzu;
 }

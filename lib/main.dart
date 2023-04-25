@@ -53,6 +53,7 @@ void main() async {
   await Hive.initFlutter();
   Hive.registerAdapter(SettingModelAdapter());
   Hive.registerAdapter(CityDetailsAdapter());
+  Hive.registerAdapter(SalatContinusAdapter());
 
   // OneSignal.shared.setLogLevel(OSLogLevel.verbose, OSLogLevel.none);
   // OneSignal.shared.setAppId('71537c0e-6951-448b-a85f-47823c5c2382');

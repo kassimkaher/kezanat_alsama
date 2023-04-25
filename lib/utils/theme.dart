@@ -124,10 +124,10 @@ getTheme(String fontfamily, bool isDarkMode) {
                 ?.copyWith(color: jbDisableTextColor, fontSize: 12),
             displayLarge: theme.textTheme.displayLarge?.copyWith(
                 color: jbFontColor,
-                fontSize: 28,
+                fontSize: 26,
                 fontFamily: 'Am',
                 wordSpacing: 0.6,
-                letterSpacing: 0.4),
+                letterSpacing: 0.2),
             displayMedium: theme.textTheme.displayLarge?.copyWith(
               color: jbFontColor,
               fontSize: 60,

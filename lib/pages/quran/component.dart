@@ -63,7 +63,7 @@ class NumberWidget extends StatelessWidget {
           ),
           Center(
             child: Text(
-              number.toString().farsiNumber,
+              number.toString().arabicNumber,
               style: theme.textTheme.titleSmall!.copyWith(
                   fontWeight: FontWeight.w400,
                   height: 1.2,

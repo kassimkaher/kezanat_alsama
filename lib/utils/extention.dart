@@ -22,9 +22,12 @@ extension KQDatime on DateTime {
 }
 
 extension RText on String {
-  Widget toGradiant({required TextStyle style, required List<Color> colors}) {
+  Widget toGradiant(
+      {required TextStyle style,
+      required List<Color> colors,
+      TextAlign? textAlign}) {
     return GradientText(this,
-        style: style, textAlign: TextAlign.start, colors: colors);
+        style: style, textAlign: textAlign ?? TextAlign.start, colors: colors);
   }
 }
 
@@ -143,7 +146,7 @@ kdp({required name, required msg, required c}) {
 }
 
 extension FarsiNumberExtension on String {
-  String get farsiNumber {
+  String get arabicNumber {
     const english = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9'];
     const farsi = ['٠', '١', '٢', '٣', '٤', '٥', '٦', '٧', '٨', '٩'];
     String text = this;
@@ -183,7 +186,7 @@ String getTimeFormat(
       : seconds.toString();
 
   String result = "$hourLeft:$minuteLeft:$secondsLeft";
-  return result.farsiNumber;
+  return result.arabicNumber;
 }
 
 String getTimeFormatWithoutSecond(
@@ -196,5 +199,5 @@ String getTimeFormatWithoutSecond(
       minut.toString().length < 2 ? "0" + minut.toString() : minut.toString();
 
   String result = "$hourLeft:$minuteLeft";
-  return result.farsiNumber;
+  return result.arabicNumber;
 }

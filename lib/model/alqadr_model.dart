@@ -1,3 +1,5 @@
+import 'package:ramadan/utils/utils.dart';
+
 class AlqadrModel {
   DayDetails? day19;
   DayDetails? day21;
@@ -6,9 +8,20 @@ class AlqadrModel {
   AlqadrModel({this.day19, this.day21, this.day23});
 
   AlqadrModel.fromJson(Map<String, dynamic> json) {
-    day19 = json['day_19'] != null ? DayDetails.fromJson(json['day_19']) : null;
-    day21 = json['day_21'] != null ? DayDetails.fromJson(json['day_21']) : null;
-    day23 = json['day_23'] != null ? DayDetails.fromJson(json['day_23']) : null;
+    try {
+      day19 =
+          json['day_19'] != null ? DayDetails.fromJson(json['day_19']) : null;
+      day21 =
+          json['day_21'] != null ? DayDetails.fromJson(json['day_21']) : null;
+      day23 =
+          json['day_23'] != null ? DayDetails.fromJson(json['day_23']) : null;
+    } catch (e) {
+      kdp(
+          name: "alqadr json decode",
+          msg: "error in get day details  $e ",
+          c: 'r');
+      // kdp(name: "alqadr json decode", msg: "${json} ", c: 'y');
+    }
   }
 }
 
@@ -35,6 +48,7 @@ class DayDetails {
     salatData = json['salat_data'] != null
         ? ItemData.fromJson(json['salat_data'])
         : null;
+
     zyaratData = json['zyarat_data'] != null
         ? ItemData.fromJson(json['zyarat_data'])
         : null;
@@ -43,6 +57,7 @@ class DayDetails {
         : null;
     duaData =
         json['dua_data'] != null ? ItemData.fromJson(json['dua_data']) : null;
+
     quranAmal = json['quran_amal'] != null
         ? ItemData.fromJson(json['quran_amal'])
         : null;
@@ -67,7 +82,7 @@ class ItemData {
     if (json['data_list'] != null) {
       dataList = <DataList>[];
       json['data_list'].forEach((v) {
-        dataList!.add(new DataList.fromJson(v));
+        dataList!.add(DataList.fromJson(v));
       });
     }
   }
@@ -91,7 +106,7 @@ class DataList {
   String? image;
   String? type;
   bool? isBigText;
-  String? index;
+  int? index;
   String? desc;
 
   DataList(

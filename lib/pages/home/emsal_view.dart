@@ -103,7 +103,7 @@ class TimesCard extends StatelessWidget {
             theme.textTheme.bodySmall!.color!
           ], style: theme.textTheme.titleSmall!),
           trailing:
-              "${data.emsak!.minut!.toString().farsiNumber} : ${data.emsak!.hour!.toString().farsiNumber} ص"
+              "${data.emsak!.minut!.toString().arabicNumber} : ${data.emsak!.hour!.toString().arabicNumber} ص"
                   .toGradiant(colors: [
             theme.textTheme.titleLarge!.color!,
             theme.textTheme.bodySmall!.color!
@@ -116,7 +116,7 @@ class TimesCard extends StatelessWidget {
             theme.textTheme.bodySmall!.color!
           ], style: theme.textTheme.titleSmall!),
           trailing:
-              "${data.morningPrayer!.minut!.toString().farsiNumber} : ${data.morningPrayer!.hour!.toString().farsiNumber} ص"
+              "${data.morningPrayer!.minut!.toString().arabicNumber} : ${data.morningPrayer!.hour!.toString().arabicNumber} ص"
                   .toGradiant(colors: [
             theme.textTheme.titleLarge!.color!,
             theme.textTheme.bodySmall!.color!
@@ -129,7 +129,7 @@ class TimesCard extends StatelessWidget {
             theme.textTheme.bodySmall!.color!
           ], style: theme.textTheme.titleSmall!),
           trailing:
-              "${data.morningSun!.minut!.toString().farsiNumber} : ${data.morningSun!.hour!.toString().farsiNumber} ص"
+              "${data.morningSun!.minut!.toString().arabicNumber} : ${data.morningSun!.hour!.toString().arabicNumber} ص"
                   .toGradiant(colors: [
             theme.textTheme.titleLarge!.color!,
             theme.textTheme.bodySmall!.color!
@@ -142,7 +142,7 @@ class TimesCard extends StatelessWidget {
             theme.textTheme.bodySmall!.color!
           ], style: theme.textTheme.titleSmall!),
           trailing:
-              "${data.sunPrayer!.minut!.toString().farsiNumber} : ${data.sunPrayer!.hour!.toString().farsiNumber} م"
+              "${data.sunPrayer!.minut!.toString().arabicNumber} : ${data.sunPrayer!.hour!.toString().arabicNumber} م"
                   .toGradiant(colors: [
             theme.textTheme.titleLarge!.color!,
             theme.textTheme.bodySmall!.color!
@@ -155,7 +155,7 @@ class TimesCard extends StatelessWidget {
             theme.textTheme.bodySmall!.color!
           ], style: theme.textTheme.titleSmall!),
           trailing:
-              "${data.nightPrayer!.minut!.toString().farsiNumber} : ${(data.nightPrayer!.hour! > 12 ? data.nightPrayer!.hour! - 12 : data.nightPrayer!.hour!).toString().farsiNumber} م"
+              "${data.nightPrayer!.minut!.toString().arabicNumber} : ${(data.nightPrayer!.hour! > 12 ? data.nightPrayer!.hour! - 12 : data.nightPrayer!.hour!).toString().arabicNumber} م"
                   .toGradiant(colors: [
             theme.textTheme.titleLarge!.color!,
             theme.textTheme.bodySmall!.color!
@@ -168,7 +168,7 @@ class TimesCard extends StatelessWidget {
             theme.textTheme.bodySmall!.color!
           ], style: theme.textTheme.titleSmall!),
           trailing:
-              "${data.nightHalf!.minut!.toString().farsiNumber} : ${(data.nightHalf!.hour! > 12 ? data.nightHalf!.hour! - 12 : data.nightHalf!.hour!).toString().farsiNumber} م"
+              "${data.nightHalf!.minut!.toString().arabicNumber} : ${(data.nightHalf!.hour! > 12 ? data.nightHalf!.hour! - 12 : data.nightHalf!.hour!).toString().arabicNumber} م"
                   .toGradiant(colors: [
             theme.textTheme.titleLarge!.color!,
             theme.textTheme.bodySmall!.color!
@@ -224,7 +224,7 @@ class EmsakyaCard extends StatelessWidget {
                           theme.textTheme.bodySmall!.color!
                         ]),
                     trailing:
-                        "${data!.emsak!.minut!.toString().farsiNumber} : ${data!.emsak!.hour!.toString().farsiNumber} ص"
+                        "${data!.emsak!.minut!.toString().arabicNumber} : ${data!.emsak!.hour!.toString().arabicNumber} ص"
                             .toGradiant(
                                 style: theme.textTheme.titleSmall!
                                     .copyWith(letterSpacing: .4),
@@ -253,7 +253,7 @@ class EmsakyaCard extends StatelessWidget {
                           theme.textTheme.bodySmall!.color!
                         ]),
                     trailing:
-                        "${data!.morningPrayer!.minut!.toString().farsiNumber} : ${data!.morningPrayer!.hour!.toString().farsiNumber} ص"
+                        "${data!.morningPrayer!.minut!.toString().arabicNumber} : ${data!.morningPrayer!.hour!.toString().arabicNumber} ص"
                             .toGradiant(
                                 style: theme.textTheme.titleSmall!
                                     .copyWith(letterSpacing: .4),
@@ -282,7 +282,7 @@ class EmsakyaCard extends StatelessWidget {
                           theme.textTheme.bodySmall!.color!
                         ]),
                     trailing:
-                        "${data!.nightPrayer!.minut!.toString().farsiNumber} : ${(data!.nightPrayer!.hour! > 12 ? data!.nightPrayer!.hour! - 12 : data!.nightPrayer!.hour!).toString().farsiNumber} م"
+                        "${data!.nightPrayer!.minut!.toString().arabicNumber} : ${(data!.nightPrayer!.hour! > 12 ? data!.nightPrayer!.hour! - 12 : data!.nightPrayer!.hour!).toString().arabicNumber} م"
                             .toGradiant(
                                 style: theme.textTheme.titleSmall!
                                     .copyWith(letterSpacing: .4),
@@ -306,7 +306,8 @@ class RCard extends StatelessWidget {
       this.padding,
       this.background,
       this.height,
-      this.width});
+      this.width,
+      this.borderRadius});
 
   final Widget child;
   final EdgeInsetsGeometry? padding;
@@ -314,6 +315,7 @@ class RCard extends StatelessWidget {
   final Color? background;
   final double? height;
   final double? width;
+  final double? borderRadius;
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
@@ -327,7 +329,8 @@ class RCard extends StatelessWidget {
             (theme.primaryColor == jbPrimaryColor
                 ? cardColor
                 : theme.cardColor),
-        borderRadius: BorderRadius.circular(kDefaultBorderRadius),
+        borderRadius:
+            BorderRadius.circular(borderRadius ?? kDefaultBorderRadius),
         boxShadow: [
           BoxShadow(
               offset: const Offset(0, 4),
@@ -387,47 +390,54 @@ class DayView extends StatelessWidget {
   Widget build(BuildContext context) {
     final controller = context.read<SettingCubit>();
     final theme = Theme.of(context);
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        ConstrainedBox(
-          constraints: BoxConstraints(
-            maxHeight: size,
-            maxWidth: size,
-            minHeight: size,
-            minWidth: size,
+    return Container(
+      margin: const EdgeInsets.symmetric(horizontal: kDefaultPadding),
+      padding:
+          const EdgeInsets.symmetric(horizontal: kDefaultPadding, vertical: 5),
+      decoration: BoxDecoration(
+        color: theme.primaryColor,
+        gradient: LinearGradient(colors: [
+          theme.textTheme.titleLarge!.color!,
+          theme.cardColor,
+        ], transform: GradientRotation(0.8)),
+        borderRadius: BorderRadius.circular(kDefaultBorderRadius),
+      ),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            true ? "1444".arabicNumber : number.toString().arabicNumber,
+            style: theme.textTheme.titleLarge!.copyWith(
+                color: theme.colorScheme.secondary,
+                fontSize: 30,
+                fontWeight: FontWeight.bold),
           ),
-          child: Transform.rotate(
-            angle: 18.1,
-            child: Container(
-              alignment: Alignment.center,
-              decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(5),
-                  color: theme.primaryColor,
-                  boxShadow: [
-                    BoxShadow(
-                        offset: const Offset(0, 8),
-                        color: Colors.black.withOpacity(0.25),
-                        blurRadius: 15),
-                  ]),
-              child: Transform.rotate(
-                angle: -18.1,
-                child: Padding(
-                  padding: const EdgeInsets.all(5),
-                  child: Text(
-                    number.toString().farsiNumber,
-                    style: theme.textTheme.displayLarge!.copyWith(
-                        color: Colors.white,
-                        fontSize: size - 20,
-                        fontWeight: FontWeight.bold),
-                    textAlign: TextAlign.center,
-                  ),
-                ),
-              ),
+          Text(
+            " / ".arabicNumber,
+            style: theme.textTheme.titleLarge!.copyWith(
+              fontSize: 30,
             ),
           ),
-        ),
-      ],
+          Text(
+            true ? "٣".arabicNumber : number.toString().arabicNumber,
+            style: theme.textTheme.titleLarge!.copyWith(
+              color: Colors.white,
+              fontSize: 30,
+            ),
+          ),
+          " شوال".toGradiant(
+            style: theme.textTheme.titleLarge!.copyWith(
+              color: jbSecondary,
+              fontSize: 30,
+            ),
+            colors: [
+              theme.cardColor,
+              theme.cardColor,
+            ],
+          ),
+        ],
+      ),
     );
   }
 }

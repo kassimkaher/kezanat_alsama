@@ -1,9 +1,13 @@
+import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:lucide_icons/lucide_icons.dart';
 import 'package:ramadan/bussines_logic/Setting/settings_cubit.dart';
 import 'package:ramadan/bussines_logic/notification_service.dart';
 import 'package:ramadan/bussines_logic/ramadan/ramadan_cubit.dart';
+import 'package:ramadan/model/alqadr_model.dart';
+import 'package:ramadan/pages/alqadr/tasbeeh.dart';
 import 'package:ramadan/pages/home/emsal_view.dart';
 import 'package:ramadan/utils/const.dart';
 import 'package:ramadan/widget/jb_button.dart';
@@ -243,7 +247,35 @@ class SettingPage extends StatelessWidget {
                     ),
                   ],
                 ),
-              )
+              ),
+              const SizedBox(height: 10),
+              InkWell(
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    to(
+                      TasbeehPage(data: DataList(title: "تسبيح", index: 33)),
+                    ),
+                  );
+                },
+                child: RCard(
+                  padding: const EdgeInsets.symmetric(
+                      horizontal: kDefaultPadding, vertical: 20),
+                  child: Row(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      SvgPicture.asset(
+                        "assets/svg/beads.svg",
+                        height: 25,
+                        color: theme.iconTheme.color,
+                      ),
+                      const SizedBox(width: 10),
+                      const Text("المسبحة"),
+                    ],
+                  ),
+                ),
+              ),
+              const SizedBox(height: 10),
             ],
           );
         },

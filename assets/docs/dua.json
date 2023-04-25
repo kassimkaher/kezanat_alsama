@@ -106,5 +106,13 @@
             "desc": null,
             "type": "DUA"
         }
+        ,
+        {
+            "title": "دُعاءُ المجير",
+            "path": "dua/almujeer.txt",
+            "text": null,
+            "desc": null,
+            "type": "DUA"
+        }
     ]
 }

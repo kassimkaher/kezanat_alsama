@@ -7,7 +7,8 @@ Future<T?> showModal<T>(
     {required BuildContext context,
     required Widget Function(BuildContext, ScrollController) builder,
     double? topSpace,
-    bool? enableDrag}) {
+    bool? enableDrag,
+    double? horizontalMargin}) {
   final query = MediaQuery.of(context);
   final theme = Theme.of(context);
 
@@ -27,10 +28,11 @@ Future<T?> showModal<T>(
                 )),
             Container(
               margin: topSpace != null
-                  ? EdgeInsets.only(top: topSpace / 2, bottom: topSpace / 2)
-                  : const EdgeInsets.all(0),
+                  ? EdgeInsets.symmetric(
+                      vertical: topSpace / 2, horizontal: horizontalMargin ?? 0)
+                  : EdgeInsets.symmetric(horizontal: horizontalMargin ?? 0),
               child: ClipRRect(
-                borderRadius: BorderRadius.circular(kDefaultBorderRadius),
+                borderRadius: BorderRadius.circular(25),
                 child: builder(
                   context,
                   ScrollController(),

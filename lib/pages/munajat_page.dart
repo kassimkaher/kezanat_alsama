@@ -6,6 +6,7 @@ import 'package:ramadan/bussines_logic/dua/dua_cubit.dart';
 import 'package:ramadan/bussines_logic/ramadan/ramadan_cubit.dart';
 import 'package:ramadan/model/ramadan_dua.dart';
 import 'package:ramadan/pages/home/emsal_view.dart';
+import 'package:ramadan/pages/zyarat_page.dart';
 import 'package:ramadan/utils/utils.dart';
 
 import '../bussines_logic/Setting/settings_cubit.dart';
@@ -110,88 +111,5 @@ class MunajatPage extends StatelessWidget {
                           )),
       );
     });
-  }
-}
-
-class ZyaraDisplay extends StatelessWidget {
-  const ZyaraDisplay({super.key, required this.data, required this.index});
-  final Dua data;
-  final int index;
-  @override
-  Widget build(BuildContext context) {
-    final theme = Theme.of(context);
-    final query = MediaQuery.of(context);
-    final duaController = context.read<DuaCubit>();
-    if (data.text == null) {
-      duaController.loadContent(data.path!, (value) {
-        if (value != null) {
-          duaController.state.info.zyaratData!.munajatList![index].text = value;
-          data.text = value;
-          duaController.refresh();
-        }
-      });
-    }
-
-    return Scaffold(
-      body: Column(
-        children: [
-          Container(
-            padding: EdgeInsets.only(top: query.viewPadding.top, bottom: 0),
-            decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(kDefaultBorderRadius),
-                color: theme.cardColor),
-            child: Row(
-              children: [
-                Expanded(
-                  child: ListTile(
-                    title: Text(
-                      data.title!,
-                      style: theme.textTheme.titleLarge,
-                    ),
-                  ),
-                ),
-                IconButton(
-                    onPressed: () => Navigator.pop(context),
-                    icon: const Icon(LucideIcons.x))
-              ],
-            ),
-          ),
-          const SizedBox(height: kDefaultSpacing),
-          Expanded(
-            child: SingleChildScrollView(
-              padding: const EdgeInsets.symmetric(horizontal: kDefaultPadding)
-                  .copyWith(bottom: 30, top: kDefaultSpacing),
-              child: Column(
-                children: [
-                  data.desc != null
-                      ? Column(
-                          children: [
-                            Text(
-                              data.desc ?? "",
-                              style: theme.textTheme.displayLarge!.copyWith(
-                                  fontSize: 16, color: jbUnselectColor),
-                            ),
-                            const SizedBox(
-                              height: kDefaultSpacing,
-                            ),
-                          ],
-                        )
-                      : const SizedBox(),
-                  BlocBuilder<RamadanCubit, RamadanState>(
-                    builder: (context, state) {
-                      return Text(
-                        data.text ?? "",
-                        style: theme.textTheme.displayLarge!
-                            .copyWith(fontWeight: FontWeight.w400, height: 2),
-                      );
-                    },
-                  ),
-                ],
-              ),
-            ),
-          ),
-        ],
-      ),
-    );
   }
 }

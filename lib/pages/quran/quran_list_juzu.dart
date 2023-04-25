@@ -27,6 +27,8 @@ class QuranListJuzu extends StatelessWidget {
                 child: Text("حدث خطأ"),
               )
             : ListView.separated(
+                keyboardDismissBehavior:
+                    ScrollViewKeyboardDismissBehavior.onDrag,
                 padding: const EdgeInsets.only(bottom: 100, top: 12),
                 separatorBuilder: (c, i) => Divider(
                   height: 4,
@@ -86,7 +88,7 @@ class QuranListJuzu extends StatelessWidget {
                                         .copyWith(),
                                   ),
                                   Text(
-                                    " الآية ${state.info.quranJuzuList[i].data!.ayahs!.first.numberInSurah.toString().farsiNumber}",
+                                    " الآية ${state.info.quranJuzuList[i].data!.ayahs!.first.numberInSurah.toString().arabicNumber}",
                                     style: theme.textTheme.bodySmall!
                                         .copyWith(color: theme.disabledColor),
                                   ),
@@ -223,7 +225,7 @@ class SuraViewForJuzu extends HookWidget {
                                     BorderRadius.circular(kDefaultBorderRadius),
                                 color: theme.disabledColor),
                             child: Text(
-                              "صفحة  ${(state.info.currentQuranJuzu!.data!.ayahs!.first.page! + state.info.currentPage).toString().farsiNumber}",
+                              "صفحة  ${(state.info.currentQuranJuzu!.data!.ayahs!.first.page! + state.info.currentPage).toString().arabicNumber}",
                               style: theme.textTheme.titleMedium!.copyWith(
                                   color: theme.cardColor, fontSize: 14),
                               textAlign: TextAlign.center,
@@ -450,7 +452,7 @@ class SuraViewForJuzu extends HookWidget {
                                                           horizontal:
                                                               kDefaultPadding),
                                                       child: Text(
-                                                        aya.sajda!.recommended ==
+                                                        aya.sajda!.obligatory ==
                                                                 true
                                                             ? "سجدة واجبة"
                                                             : "سجدة مستحبة",

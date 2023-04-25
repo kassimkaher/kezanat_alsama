@@ -23,3 +23,12 @@ class CityDetails {
   String? path;
   CityDetails(this.name, this.path);
 }
+
+@HiveType(typeId: 2)
+class SalatContinus {
+  @HiveField(0)
+  int day = 0;
+  @HiveField(1)
+  int salaNumber = 0;
+  SalatContinus();
+}

@@ -8,6 +8,7 @@ import 'package:ramadan/model/quran_juzu_model.dart';
 import 'package:ramadan/model/quran_model.dart';
 import 'package:ramadan/services/local_db.dart';
 import 'package:ramadan/utils/extention.dart';
+import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 
 part 'quran_state.dart';
 
@@ -221,5 +222,18 @@ class QuranCubit extends Cubit<QuranState> {
     }
 
     refresh();
+  }
+
+  void setPlayerState(PlayerState playerState) {
+    state.info.playerState = playerState;
+    refresh();
+  }
+
+  togglePlaye() {
+    if (state.info.youtubeController.value.isPlaying) {
+      state.info.youtubeController.pause();
+    } else {
+      state.info.youtubeController.play();
+    }
   }
 }

@@ -74,87 +74,39 @@ class LocalDB {
 
     db!.put("getIsSetNotificationNew", value);
   }
-  // saveToken(int step) async {
-  //   try {
-  //     if (db != null) {
-  //       await db!.put("step", step);
-  //     }
-  //   } catch (e) {}
-  // }
 
-  // int? getToken() {
-  //   if (db != null) {
-  //     return db!.get("step");
-  //   }
-  // }
+  //for sala
+  static setSalatDay(SalatContinus value) {
+    if (db == null) {
+      return;
+    }
 
-  // saveChildrenListData(ChildInfoListModel data) async {
-  //   final box = await Hive.openBox('tamwin_local_data');
-  //   if (box != null) {
-  //     var list = {
-  //       "childrenListModel": data.childildren.map((e) => e.toJson()).toList()
-  //     };
-  //     box.put("children_information", list);
-  //   }
-  // }
+    db!.put("setSalatDay", value);
+  }
 
-  // Future<ChildInfoListModel?> getChildrenData() async {
-  //   if (db != null) {
-  //     try {
-  //       var data = db!.get("children_information");
+  static SalatContinus? getSalatDay() {
+    if (db == null) {
+      return null;
+    }
+    final data = db?.get("setSalatDay");
 
-  //       if (data != null) {
-  //         List<Map<dynamic, dynamic>> list =
-  //             (data['childrenListModel'] as List<dynamic>)
-  //                 .map((e) => e as Map<dynamic, dynamic>)
-  //                 .toList();
-  //         ChildInfoListModel datalist = ChildInfoListModel(childildren: []);
-  //         datalist.childildren =
-  //             list.map((e) => ChildInfoModel.fromJson(e)).toList();
-  //         return datalist;
-  //       }
-  //       return null;
-  //     } catch (_) {}
-  //   }
-  //   return null;
-  // }
+    return data;
+  }
 
-  // void saveFatherData(ChildInfoModel data) {
-  //   if (db != null) {
-  //     db!.put("father_information", data.toJson());
-  //   }
-  // }
+  static setSalatCounter(SalatContinus value) {
+    if (db == null) {
+      return;
+    }
 
-  // ChildInfoModel? getFatherData() {
-  //   if (db != null) {
-  //     var js = db!.get("father_information");
-  //     if (js == null) {
-  //       return null;
-  //     }
-  //     var data = ChildInfoModel.fromJson(js);
-  //     return data;
-  //   }
-  // }
+    db!.put("setSalatCounter", value);
+  }
 
-  // saveLocationrData(LocationModel data) async {
-  //   if (db != null) {
-  //     db!.put("location_information", data.toJson());
-  //   }
-  // }
+  static SalatContinus? getSalatCounter() {
+    if (db == null) {
+      return null;
+    }
+    final data = db?.get("setSalatCounter");
 
-  // LocationModel? getLocationData() {
-  //   if (db == null) {
-  //     return null;
-  //   }
-  //   try {
-  //     final localdsata = db!.get("location_information");
-  //     if (localdsata == null) {
-  //       return null;
-  //     }
-  //     var data = LocationModel.fromJson(localdsata);
-  //     return data;
-  //   } catch (e) {
-  //     return null;
-  //   }
-  // }
+    return data;
+  }
 }

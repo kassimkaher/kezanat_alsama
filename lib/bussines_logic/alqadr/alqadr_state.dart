@@ -33,6 +33,15 @@ class AlqadrInfo {
   int selectDay = 0;
   DayDetails? selectDayDetails;
   AlqadrModel? alqadrModel;
+  SalatContinus? salatDayCountinus;
+  SalatContinus? salatCounterContinus;
 
   int cardIndex = -1;
+  TasbeehData? currentTasbeeh;
+}
+
+class TasbeehData {
+  int all;
+  int current;
+  TasbeehData(this.all, this.current);
 }

@@ -7,7 +7,7 @@ import 'package:ramadan/alert/alert_desition.dart';
 import 'package:ramadan/bussines_logic/Setting/settings_cubit.dart';
 import 'package:ramadan/bussines_logic/ramadan/ramadan_cubit.dart';
 import 'package:ramadan/model/emsak.dart';
-import 'package:ramadan/pages/alqader_page.dart';
+import 'package:ramadan/pages/alqadr/alqader_page.dart';
 import 'package:ramadan/pages/home/emsal_view.dart';
 import 'package:ramadan/pages/home/text_display.dart';
 import 'package:ramadan/pages/setting_page.dart';
@@ -33,9 +33,9 @@ class HomePage extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     const SizedBox(height: 10),
-                    Stack(
+                    Row(
                       children: [
-                        DayView(number: state.info.dayNumber),
+                        Expanded(child: DayView(number: state.info.dayNumber)),
                         Align(
                           alignment: Alignment.topLeft,
                           child: IconButton(
@@ -50,28 +50,20 @@ class HomePage extends StatelessWidget {
                       ],
                     ),
                     const SizedBox(width: 20),
-                    Center(
-                      child: " رمضان".toGradiant(
-                        style: theme.textTheme.displayMedium!.copyWith(
-                          color: jbSecondary,
-                          fontSize: 50,
-                          fontWeight: FontWeight.bold,
-                        ),
-                        colors: [
-                          theme.colorScheme.onSecondary,
-                          theme.colorScheme.secondary
-                        ],
-                      ),
-                    ),
-                    const SizedBox(height: kDefaultSpacing),
                     HomeTopCard(
                         data: state.info,
                         city: settingController
                                 .state.setting.setting!.selectCity?.name ??
                             ""),
                     const SizedBox(height: kDefaultSpacing),
-                    AlqadrCard(theme: theme),
-                    const SizedBox(height: kDefaultSpacing),
+                    (state.info.dayNumber == 18 && DateTime.now().hour > 17) ||
+                            (state.info.dayNumber > 18 &&
+                                state.info.dayNumber < 24)
+                        ? Column(children: [
+                            AlqadrCard(theme: theme),
+                            const SizedBox(height: kDefaultSpacing),
+                          ])
+                        : const SizedBox(),
                     EmsakyaCard(
                         theme: theme,
                         data: state.info.currentDay,
@@ -142,7 +134,7 @@ class HomePage extends StatelessWidget {
                     state.info.todayPrayer != null
                         ? ListTile(
                             subtitle: RCard(
-                                padding: EdgeInsets.all(kDefaultSpacing),
+                                padding: const EdgeInsets.all(kDefaultSpacing),
                                 child: Wrap(
                                     children:
                                         state.info.todayPrayer!.amaoOfToday!

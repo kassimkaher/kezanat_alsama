@@ -61,8 +61,10 @@ class QuranPage extends HookWidget {
                                         child: FDTextInput(
                                           focusNode: focusNode,
                                           label: "ابحث عن سورة",
-                                          onSubmit: (a) =>
-                                              quranController.search(a),
+                                          onSubmit: (a) {
+                                            quranController.search(a);
+                                            FocusScope.of(context).unfocus();
+                                          },
                                           onType: (value) =>
                                               quranController.search(value),
                                         ),
@@ -81,8 +83,11 @@ class QuranPage extends HookWidget {
                                         padding: EdgeInsets.zero,
                                         onPressed: () {
                                           isSearch.value = true;
-                                          FocusScope.of(context)
-                                              .requestFocus(focusNode);
+
+                                          Future.delayed(Duration(seconds: 1))
+                                              .then((value) =>
+                                                  FocusScope.of(context)
+                                                      .requestFocus(focusNode));
                                         },
                                         icon: const Icon(
                                           LucideIcons.search,
@@ -235,7 +240,7 @@ class QuranPage extends HookWidget {
                                                       style: theme.textTheme
                                                           .titleLarge!),
                                               Text(
-                                                " لقد وصلت بالقراءة  الى ${state.info.quranJuzuList[state.info.continuQuranModel!.juzuNumber!].data!.juzuPages![state.info.continuQuranModel!.pageNumber!].ayahs![state.info.continuQuranModel!.ayaNumber!].surah!.name} آية ${state.info.quranJuzuList[state.info.continuQuranModel!.juzuNumber!].data!.juzuPages![state.info.continuQuranModel!.pageNumber!].ayahs![state.info.continuQuranModel!.ayaNumber!].numberInSurah.toString().farsiNumber}",
+                                                " لقد وصلت بالقراءة  الى ${state.info.quranJuzuList[state.info.continuQuranModel!.juzuNumber!].data!.juzuPages![state.info.continuQuranModel!.pageNumber!].ayahs![state.info.continuQuranModel!.ayaNumber!].surah!.name} آية ${state.info.quranJuzuList[state.info.continuQuranModel!.juzuNumber!].data!.juzuPages![state.info.continuQuranModel!.pageNumber!].ayahs![state.info.continuQuranModel!.ayaNumber!].numberInSurah.toString().arabicNumber}",
                                                 style: theme
                                                     .textTheme.displaySmall,
                                               )

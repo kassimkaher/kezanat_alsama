@@ -37,33 +37,30 @@ class FDTextInput extends HookWidget {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
 
-    return Focus(
-      child: SizedBox(
-        child: TextFormField(
-          focusNode: focusNode,
-          maxLines: 1,
-          controller: controller,
-          textAlign: textAlign,
-          onChanged: onType,
-          onFieldSubmitted: onSubmit,
-          decoration: InputDecoration(
-            filled: false,
-            hintText: label,
-            prefixIcon: Icon(LucideIcons.search),
-            isDense: true,
-            contentPadding:
-                EdgeInsets.only(bottom: 12, top: 12, left: 0, right: 0),
-            hintStyle: theme.textTheme.displaySmall!.copyWith(fontSize: 16),
-            border: InputBorder.none,
-            focusedBorder: InputBorder.none,
-            errorBorder: InputBorder.none,
-            focusedErrorBorder: InputBorder.none,
-            disabledBorder: InputBorder.none,
-            enabledBorder: InputBorder.none,
-          ),
-          style: theme.textTheme.titleSmall,
-        ),
+    return TextFormField(
+      focusNode: focusNode,
+      autofocus: true,
+      maxLines: 1,
+      controller: controller,
+      textAlign: textAlign,
+      onChanged: onType,
+      onFieldSubmitted: onSubmit,
+      decoration: InputDecoration(
+        filled: false,
+        hintText: label,
+        prefixIcon: const Icon(LucideIcons.search),
+        isDense: true,
+        contentPadding:
+            const EdgeInsets.only(bottom: 12, top: 12, left: 0, right: 0),
+        hintStyle: theme.textTheme.displaySmall!.copyWith(fontSize: 16),
+        border: InputBorder.none,
+        focusedBorder: InputBorder.none,
+        errorBorder: InputBorder.none,
+        focusedErrorBorder: InputBorder.none,
+        disabledBorder: InputBorder.none,
+        enabledBorder: InputBorder.none,
       ),
+      style: theme.textTheme.titleSmall,
     );
   }
 

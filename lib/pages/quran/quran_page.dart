@@ -1,16 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:lucide_icons/lucide_icons.dart';
 import 'package:ramadan/bussines_logic/quran/quran_cubit.dart';
-import 'package:ramadan/model/quran_model.dart';
 import 'package:ramadan/pages/quran/component.dart';
 import 'package:ramadan/pages/quran/quran_list_juzu.dart';
 import 'package:ramadan/pages/quran/quran_list_suar.dart';
 import 'package:ramadan/utils/utils.dart';
 import 'package:ramadan/widget/mu_text_input.dart';
-import 'package:visibility_detector/visibility_detector.dart';
 
 import '../../bussines_logic/Setting/settings_cubit.dart';
 

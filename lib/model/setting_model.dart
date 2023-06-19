@@ -20,8 +20,13 @@ class CityDetails {
   @HiveField(0)
   String? name;
   @HiveField(1)
-  String? path;
-  CityDetails(this.name, this.path);
+  String? nameAr;
+  @HiveField(2)
+  double? latitude;
+  @HiveField(3)
+  double? longitude;
+
+  CityDetails(this.name, this.nameAr, this.latitude, this.longitude);
 }
 
 @HiveType(typeId: 2)

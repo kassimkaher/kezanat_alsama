@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:ramadan/bussines_logic/Setting/settings_cubit.dart';
 import 'package:ramadan/bussines_logic/dua/dua_cubit.dart';
-import 'package:ramadan/bussines_logic/ramadan/ramadan_cubit.dart';
+import 'package:ramadan/bussines_logic/prayer/prayer_cubit.dart';
 import 'package:ramadan/pages/main_page.dart';
 import 'package:ramadan/utils/utils.dart';
 
@@ -11,8 +11,8 @@ class CitiesPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final ramadanCubit = context.read<RamadanCubit>();
-    final settingCubit = context.read<SettingCubit>();
+    final ramadanCubit = context.read<PrayerCubit>();
+
     final duaController = context.read<DuaCubit>();
     return Scaffold(
       appBar: AppBar(
@@ -20,8 +20,8 @@ class CitiesPage extends StatelessWidget {
       ),
       body: CityListView(
         onSelect: () {
-          ramadanCubit.getRamadan(
-              settingCubit.state.setting.setting!.selectCity!.path!);
+          ramadanCubit.getPrayer(
+              context.read<SettingCubit>().state.setting.setting!.selectCity);
           ramadanCubit.listenTime(duaController);
 
           Navigator.pushReplacement(
@@ -47,7 +47,7 @@ class CityListView extends StatelessWidget {
       builder: (context, state) {
         return ListView.builder(
             padding: const EdgeInsets.all(kDefaultPadding),
-            itemCount: state.setting.cities?.city?.length,
+            itemCount: state.setting.cities?.provinces?.length,
             itemBuilder: (c, i) => InkWell(
                   onTap: () {
                     controller.setCityIndex(i);
@@ -56,7 +56,8 @@ class CityListView extends StatelessWidget {
                   child: Card(
                     child: Padding(
                       padding: const EdgeInsets.all(12),
-                      child: Text(state.setting.cities?.city?[i].name ?? ""),
+                      child: Text(
+                          state.setting.cities?.provinces?[i].nameAr ?? ""),
                     ),
                   ),
                 ));

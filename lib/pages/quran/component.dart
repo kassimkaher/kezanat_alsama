@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:ramadan/model/quran_model.dart';
-import 'package:ramadan/utils/color.dart';
 import 'package:ramadan/utils/extention.dart';
 
 class QuranCircular extends StatelessWidget {

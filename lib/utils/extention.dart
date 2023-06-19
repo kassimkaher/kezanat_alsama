@@ -1,9 +1,8 @@
-import 'dart:async';
 import 'dart:developer';
-
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:ramadan/model/emsak.dart';
+import 'package:ramadan/model/prayer_model.dart';
+import 'package:ramadan/services/validation.dart';
 import 'package:ramadan/utils/translate.dart';
 import 'package:ramadan/utils/utils.dart';
 import 'package:simple_gradient_text/simple_gradient_text.dart';
@@ -28,6 +27,12 @@ extension RText on String {
       TextAlign? textAlign}) {
     return GradientText(this,
         style: style, textAlign: textAlign ?? TextAlign.start, colors: colors);
+  }
+}
+
+extension Dur on Duration {
+  double toTime() {
+    return durationToTime(this);
   }
 }
 
@@ -78,6 +83,22 @@ extension KQ on String {
 
   String? getTextOnly() =>
       isEmpty ? null : replaceAll(RegExp(r'[^a-zء-ي]'), '');
+
+  double toTimeZone() {
+    final isMinus = this.contains("-");
+    final number = double.parse(this.replaceAll("+", "").replaceAll("-", "+"));
+    return number * (isMinus ? -1 : 1);
+  }
+}
+
+extension Dgree on double {
+  double toDgree() {
+    return this * (pi / 180);
+  }
+
+  Duration toDuration() {
+    return timeToDuration(this);
+  }
 }
 
 extension KQI on int {

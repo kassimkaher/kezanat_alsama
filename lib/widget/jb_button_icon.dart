@@ -29,8 +29,6 @@ class JBIconButton extends StatelessWidget {
   final double? iconSize;
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
-
     return ElevatedButton(
       style: ElevatedButton.styleFrom(
         elevation: 0,

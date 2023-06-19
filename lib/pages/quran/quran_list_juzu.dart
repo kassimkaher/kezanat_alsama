@@ -125,7 +125,6 @@ class SuraViewForJuzu extends HookWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    final query = MediaQuery.of(context);
 
     final quranController = context.read<QuranCubit>();
     if (quranController.state.info.currentQuranJuzu == null) {

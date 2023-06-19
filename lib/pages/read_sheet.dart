@@ -17,7 +17,6 @@ class ReadSheet extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    final query = MediaQuery.of(context);
 
     return Scaffold(
       backgroundColor: theme.cardColor,

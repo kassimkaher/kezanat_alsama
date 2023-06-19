@@ -1,12 +1,9 @@
-import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:lucide_icons/lucide_icons.dart';
-import 'package:ramadan/alert/alert_desition.dart';
 import 'package:ramadan/bussines_logic/Setting/settings_cubit.dart';
-import 'package:ramadan/bussines_logic/ramadan/ramadan_cubit.dart';
-import 'package:ramadan/model/emsak.dart';
+import 'package:ramadan/bussines_logic/prayer/prayer_cubit.dart';
 import 'package:ramadan/pages/alqadr/alqader_page.dart';
 import 'package:ramadan/pages/home/emsal_view.dart';
 import 'package:ramadan/pages/home/text_display.dart';
@@ -21,7 +18,7 @@ class HomePage extends StatelessWidget {
     final theme = Theme.of(context);
     final settingController = context.read<SettingCubit>();
 
-    return BlocBuilder<RamadanCubit, RamadanState>(
+    return BlocBuilder<PrayerCubit, PrayerState>(
       builder: (context, state) {
         return SafeArea(
           bottom: false,
@@ -53,8 +50,7 @@ class HomePage extends StatelessWidget {
                     HomeTopCard(
                         data: state.info,
                         city: settingController
-                                .state.setting.setting!.selectCity?.name ??
-                            ""),
+                            .state.setting.setting!.selectCity!),
                     const SizedBox(height: kDefaultSpacing),
                     (state.info.dayNumber == 18 && DateTime.now().hour > 17) ||
                             (state.info.dayNumber > 18 &&
@@ -64,7 +60,7 @@ class HomePage extends StatelessWidget {
                             const SizedBox(height: kDefaultSpacing),
                           ])
                         : const SizedBox(),
-                    EmsakyaCard(
+                    PrayerCard(
                         theme: theme,
                         data: state.info.currentDay,
                         city: settingController
@@ -134,22 +130,26 @@ class HomePage extends StatelessWidget {
                     state.info.todayPrayer != null
                         ? ListTile(
                             subtitle: RCard(
-                                padding: const EdgeInsets.all(kDefaultSpacing),
-                                child: Wrap(
-                                    children:
-                                        state.info.todayPrayer!.amaoOfToday!
-                                            .asMap()
-                                            .map((i, e) => MapEntry(
-                                                i,
-                                                e.type == "SALA"
-                                                    ? Text(
-                                                        e.text!,
-                                                        style: theme.textTheme
-                                                            .bodyMedium,
-                                                      )
-                                                    : const SizedBox()))
-                                            .values
-                                            .toList())),
+                              padding: const EdgeInsets.all(kDefaultSpacing),
+                              child: Wrap(
+                                children: state.info.todayPrayer!.amaoOfToday!
+                                    .asMap()
+                                    .map(
+                                      (i, e) => MapEntry(
+                                        i,
+                                        e.type == "SALA"
+                                            ? Text(
+                                                e.text!,
+                                                style:
+                                                    theme.textTheme.bodyMedium,
+                                              )
+                                            : const SizedBox(),
+                                      ),
+                                    )
+                                    .values
+                                    .toList(),
+                              ),
+                            ),
                           )
                         : const SizedBox(),
                   ]),

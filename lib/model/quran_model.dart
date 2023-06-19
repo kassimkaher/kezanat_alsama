@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:ramadan/utils/utils.dart';
 
 class QuranModel {
   int? code;

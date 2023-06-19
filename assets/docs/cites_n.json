@@ -1,0 +1,148 @@
+{
+    "provinces": [
+      {
+        "name": "Baghdad",
+        "name_ar": "بغداد",
+        "coordinates": {
+          "latitude": 33.3152,
+          "longitude": 44.3661
+        }
+      },
+      {
+        "name": "Basra",
+        "name_ar": "البصرة",
+        "coordinates": {
+          "latitude": 30.5085,
+          "longitude": 47.7804
+        }
+      },
+      {
+        "name": "Nineveh",
+        "name_ar": "نينوى",
+        "coordinates": {
+          "latitude": 36.3609,
+          "longitude": 43.1357
+        }
+      },
+      {
+        "name": "Erbil",
+        "name_ar": "أربيل",
+        "coordinates": {
+          "latitude": 36.1922,
+          "longitude": 44.0106
+        }
+      },
+      {
+        "name": "Dohuk",
+        "name_ar": "دهوك",
+        "coordinates": {
+          "latitude": 36.8663,
+          "longitude": 42.9927
+        }
+      },
+      {
+        "name": "Sulaymaniyah",
+        "name_ar": "السليمانية",
+        "coordinates": {
+          "latitude": 35.5649,
+          "longitude": 45.4329
+        }
+      },
+      {
+        "name": "Kirkuk",
+        "name_ar": "كركوك",
+        "coordinates": {
+          "latitude": 35.4681,
+          "longitude": 44.3922
+        }
+      },
+      {
+        "name": "Anbar",
+        "name_ar": "الأنبار",
+        "coordinates": {
+          "latitude": 33.3758,
+          "longitude": 43.5342
+        }
+      },
+      {
+        "name": "Maysan",
+        "name_ar": "ميسان",
+        "coordinates": {
+          "latitude": 31.9067,
+          "longitude": 47.1586
+        }
+      },
+      {
+        "name": "Babil",
+        "name_ar": "بابل",
+        "coordinates": {
+          "latitude": 32.8623,
+          "longitude": 44.2259
+        }
+      },
+      {
+        "name": "Wasit",
+        "name_ar": "واسط",
+        "coordinates": {
+          "latitude": 32.3132,
+          "longitude": 45.0428
+        }
+      },
+      {
+        "name": "Dhi Qar",
+        "name_ar": "ذي قار",
+        "coordinates": {
+          "latitude": 31.4202,
+          "longitude": 46.1772
+        }
+      },
+      {
+        "name": "Qadisiyyah",
+        "name_ar": "القادسية",
+        "coordinates": {
+          "latitude": 31.9513,
+          "longitude": 44.7337
+        }
+      },
+      {
+        "name": "Muthanna",
+        "name_ar": "المثنى",
+        "coordinates": {
+          "latitude": 30.4161,
+          "longitude": 45.9526
+        }
+      },
+      {
+        "name": "Najaf",
+        "name_ar": "النجف",
+        "coordinates": {
+          "latitude": 31.9929,
+          "longitude": 44.3235
+        }
+      },
+      {
+        "name": "Salah ad Din",
+        "name_ar": "صلاح الدين",
+        "coordinates": {
+          "latitude": 34.2084,
+          "longitude": 43.8744
+        }
+      },
+      {
+        "name": "Karbala",
+        "name_ar": "كربلاء",
+        "coordinates": {
+          "latitude": 32.6099,
+          "longitude": 44.0109
+        }
+      },
+      {
+        "name": "Missan",
+        "name_ar": "ميسان",
+        "coordinates": {
+          "latitude": 31.0269,
+          "longitude": 47.4567
+        }
+      }
+    ]
+  }

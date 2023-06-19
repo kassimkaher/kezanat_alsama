@@ -3,7 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:lucide_icons/lucide_icons.dart';
 import 'package:ramadan/bussines_logic/dua/dua_cubit.dart';
-import 'package:ramadan/bussines_logic/ramadan/ramadan_cubit.dart';
+import 'package:ramadan/bussines_logic/prayer/prayer_cubit.dart';
 import 'package:ramadan/model/ramadan_dua.dart';
 import 'package:ramadan/pages/home/emsal_view.dart';
 import 'package:ramadan/utils/utils.dart';
@@ -17,8 +17,6 @@ class DuaPage extends StatelessWidget {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
 
-    final query = MediaQuery.of(context);
-    final size = query.size;
     final duaController = context.read<DuaCubit>();
     if (duaController.state is! DuaStateLoaded) {
       duaController.getMufatehALgynan();
@@ -195,7 +193,7 @@ class DuaDisplay extends StatelessWidget {
                             ],
                           )
                         : const SizedBox(),
-                    BlocBuilder<RamadanCubit, RamadanState>(
+                    BlocBuilder<PrayerCubit, PrayerState>(
                       builder: (context, state) {
                         return Text(
                           data.text ?? "",

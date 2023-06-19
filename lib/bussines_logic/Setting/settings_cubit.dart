@@ -7,9 +7,9 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:ramadan/bussines_logic/dua/dua_cubit.dart';
 import 'package:ramadan/bussines_logic/notification_service.dart';
-import 'package:ramadan/bussines_logic/ramadan/ramadan_cubit.dart';
+import 'package:ramadan/bussines_logic/prayer/prayer_cubit.dart';
 import 'package:ramadan/model/city.dart';
-import 'package:ramadan/model/emsak.dart';
+import 'package:ramadan/model/prayer_model.dart';
 import 'package:ramadan/model/setting_model.dart';
 import 'package:ramadan/services/local_db.dart';
 import 'package:ramadan/utils/utils.dart';
@@ -32,8 +32,8 @@ class SettingCubit extends Cubit<SettingState> {
 
   locadCity() async {
     final String response =
-        await rootBundle.loadString('assets/docs/calendar/cites.json');
-    state.setting.cities = CityModel.fromJson(json.decode(response));
+        await rootBundle.loadString('assets/docs/cites_n.json');
+    state.setting.cities = CitesModel.fromJson(json.decode(response));
   }
 
   refresh() {
@@ -41,7 +41,7 @@ class SettingCubit extends Cubit<SettingState> {
     emit(SettingStateMain(state.setting));
   }
 
-  Future<void> getSetting(RamadanCubit ramadanCubit, DuaCubit duaCubit) async {
+  Future<void> getSetting(PrayerCubit ramadanCubit, DuaCubit duaCubit) async {
     emit(SettingStateLoading(state.setting));
     await LocalDB.inite();
     final data = await LocalDB.getSetting();
@@ -49,7 +49,7 @@ class SettingCubit extends Cubit<SettingState> {
     locadCity();
     if (state.setting.setting != null &&
         state.setting.setting!.selectCity != null) {
-      ramadanCubit.getRamadan(state.setting.setting!.selectCity!.path!);
+      ramadanCubit.getPrayer(state.setting.setting!.selectCity);
       ramadanCubit.listenTime(duaCubit);
     }
     Future.delayed(const Duration(milliseconds: 50)).then((value) {
@@ -75,7 +75,7 @@ class SettingCubit extends Cubit<SettingState> {
     refresh();
   }
 
-  setNotification(EmsackModel data) {
+  setNotification(PrayersTimeModel data) {
     cancelAllNotification();
     saveNotificationDay();
 
@@ -89,7 +89,7 @@ class SettingCubit extends Cubit<SettingState> {
     }
   }
 
-  setAndroidNotification(EmsackModel data, index) async {
+  setAndroidNotification(PrayersTimeModel data, index) async {
     final day = data.days![index];
     final date = DateTime.now();
     if (date.month > day.month! ||
@@ -105,8 +105,8 @@ class SettingCubit extends Cubit<SettingState> {
       await showSchedualNotificationAthan(
           title: "اذان",
           subtitle: "حان الان موعد اذان الفجر",
-          dateTime: DateTime(2023, day.month!, day.day!,
-              day.morningPrayer!.hour!, day.morningPrayer!.minut!),
+          dateTime: DateTime(
+              2023, day.month!, day.day!, day.fajer!.hour!, day.fajer!.minut!),
           id: 100 + day.day!);
     } catch (e) {
       kdp(name: "schedual notification fajer", msg: e, c: 'r');
@@ -116,8 +116,8 @@ class SettingCubit extends Cubit<SettingState> {
       await showSchedualNotificationAthan(
           title: "اذان",
           subtitle: "حان الان موعد اذان الظهر",
-          dateTime: DateTime(2023, day.month!, day.day!, day.sunPrayer!.hour!,
-              day.sunPrayer!.minut!),
+          dateTime: DateTime(
+              2023, day.month!, day.day!, day.duhur!.hour!, day.duhur!.minut!),
           id: 200 + day.day!);
     } catch (e) {
       kdp(name: "schedual notification duhur", msg: e, c: 'r');
@@ -126,30 +126,30 @@ class SettingCubit extends Cubit<SettingState> {
       await showSchedualNotificationAthan(
           title: "اذان",
           subtitle: "حان الان موعد اذان المغرب",
-          dateTime: DateTime(2023, day.month!, day.day!, day.nightPrayer!.hour!,
-              day.nightPrayer!.minut!),
+          dateTime: DateTime(2023, day.month!, day.day!, day.magrib!.hour!,
+              day.magrib!.minut!),
           id: 300 + day.day!);
     } catch (e) {
       kdp(name: "schedual notification mugrib", msg: e, c: 'r');
     }
 
-    try {
-      await showSchedualNotificationEmsak(
-          title: "امساك",
-          subtitle: "حان الان موعد  الامساك اي الامتناع عن الاكل و والشرب",
-          dateTime: DateTime(
-              2023, day.month!, day.day!, day.emsak!.hour!, day.emsak!.minut!),
-          id: 400 + day.day!);
-    } catch (e) {
-      kdp(name: "schedual notification emsak", msg: e, c: 'r');
-    }
+    // try {
+    //   await showSchedualNotificationEmsak(
+    //       title: "امساك",
+    //       subtitle: "حان الان موعد  الامساك اي الامتناع عن الاكل و والشرب",
+    //       dateTime: DateTime(
+    //           2023, day.month!, day.day!, day.emsak!.hour!, day.emsak!.minut!),
+    //       id: 400 + day.day!);
+    // } catch (e) {
+    //   kdp(name: "schedual notification emsak", msg: e, c: 'r');
+    // }
 
     if ((data.days!.length - 1) > index) {
       setAndroidNotification(data, index + 1);
     }
   }
 
-  seIostNotification(EmsackModel data, int index, int number) async {
+  seIostNotification(PrayersTimeModel data, int index, int number) async {
     final day = data.days![index];
     final date = DateTime.now();
     if (number > 6) {
@@ -168,7 +168,7 @@ class SettingCubit extends Cubit<SettingState> {
     try {
       if ((date.month == day.month &&
           date.day == day.day &&
-          date.hour >= day.morningPrayer!.hour!)) {
+          date.hour >= day.fajer!.hour!)) {
       } else {
         pushIosNotification(
             title: "اذان الفجر",
@@ -177,37 +177,37 @@ class SettingCubit extends Cubit<SettingState> {
             year: date.year,
             month: day.month!,
             day: day.day!,
-            hour: day.morningPrayer!.hour!,
-            minuts: day.morningPrayer!.minut!,
+            hour: day.fajer!.hour!,
+            minuts: day.fajer!.minut!,
             second: 0);
       }
     } catch (e) {
       kdp(name: "schedual notification fajer", msg: e, c: 'r');
     }
-    try {
-      if ((date.month == day.month &&
-          date.day == day.day &&
-          date.hour >= day.emsak!.hour!)) {
-      } else {
-        pushIosNotification(
-            title: " الامساك",
-            body: "حان الان موعد  الامساك اي الامتناع عن الاكل و والشرب",
-            sound: "emsak_ios.caf",
-            year: date.year,
-            month: day.month!,
-            day: day.day!,
-            hour: day.emsak!.hour!,
-            minuts: day.emsak!.minut!,
-            second: 0);
-      }
-    } catch (e) {
-      kdp(name: "schedual notification fajer", msg: e, c: 'r');
-    }
+    // try {
+    //   if ((date.month == day.month &&
+    //       date.day == day.day &&
+    //       date.hour >= day.emsak!.hour!)) {
+    //   } else {
+    //     pushIosNotification(
+    //         title: " الامساك",
+    //         body: "حان الان موعد  الامساك اي الامتناع عن الاكل و والشرب",
+    //         sound: "emsak_ios.caf",
+    //         year: date.year,
+    //         month: day.month!,
+    //         day: day.day!,
+    //         hour: day.emsak!.hour!,
+    //         minuts: day.emsak!.minut!,
+    //         second: 0);
+    //   }
+    // } catch (e) {
+    //   kdp(name: "schedual notification fajer", msg: e, c: 'r');
+    // }
 
     try {
       if ((date.month == day.month &&
           date.day == day.day &&
-          date.hour >= day.sunPrayer!.hour!)) {
+          date.hour >= day.duhur!.hour!)) {
       } else {
         pushIosNotification(
             title: "اذان الظهر",
@@ -216,8 +216,8 @@ class SettingCubit extends Cubit<SettingState> {
             year: date.year,
             month: day.month!,
             day: day.day!,
-            hour: day.sunPrayer!.hour ?? 0,
-            minuts: day.sunPrayer!.minut!,
+            hour: day.duhur!.hour ?? 0,
+            minuts: day.duhur!.minut!,
             second: 0);
       }
     } catch (e) {
@@ -227,7 +227,7 @@ class SettingCubit extends Cubit<SettingState> {
     try {
       if ((date.month == day.month &&
           date.day == day.day &&
-          date.hour >= day.nightPrayer!.hour!)) {
+          date.hour >= day.magrib!.hour!)) {
       } else {
         pushIosNotification(
             title: "اذان المغرب",
@@ -236,8 +236,8 @@ class SettingCubit extends Cubit<SettingState> {
             year: date.year,
             month: day.month!,
             day: day.day!,
-            hour: (day.nightPrayer!.hour!),
-            minuts: day.nightPrayer!.minut!,
+            hour: (day.magrib!.hour!),
+            minuts: day.magrib!.minut!,
             second: 0);
       }
     } catch (e) {
@@ -255,8 +255,12 @@ class SettingCubit extends Cubit<SettingState> {
     state.setting.setting?.city = i;
 
     state.setting.setting!.selectCity = CityDetails(
-        state.setting.cities!.city![state.setting.setting!.city!].name,
-        state.setting.cities!.city![state.setting.setting!.city!].path);
+        state.setting.cities!.provinces![state.setting.setting!.city!].name,
+        state.setting.cities!.provinces![state.setting.setting!.city!].nameAr,
+        state.setting.cities!.provinces![state.setting.setting!.city!]
+            .coordinates!.latitude,
+        state.setting.cities!.provinces![state.setting.setting!.city!]
+            .coordinates!.longitude);
 
     LocalDB.saveSettingDb(state.setting.setting!);
   }

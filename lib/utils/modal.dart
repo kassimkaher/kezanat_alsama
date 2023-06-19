@@ -1,7 +1,6 @@
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
-import 'package:ramadan/utils/utils.dart';
 
 Future<T?> showModal<T>(
     {required BuildContext context,

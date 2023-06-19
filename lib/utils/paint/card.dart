@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:ramadan/utils/utils.dart';
-import 'dart:math' as math;
 
 class CardPainter extends CustomPainter {
   @override

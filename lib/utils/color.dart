@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 const alqadrColor = Color(0xff2F2E41);
 const alqadrAccesntColor = Color(0xff595C72);
 
-const jbPrimaryColor = Color(0xFF119DA4);
+const jbPrimaryColor = Color(0xFF1BA78B);
 const jbAccesntPrimaryColor = Color(0xFF0C7489);
 const scaffoldColor = Color(0xffF5F3EE);
 const jbSecondary = Color(0xFFF19801);

@@ -53,6 +53,15 @@
 	<false/>
 	<key>NSSpeechRecognitionUsageDescription</key>
 	<string>to detect correct reading</string>
-	
+
+
+    <key>CFBundleTypeRole</key>
+       <string>Editor</string>
+       <key>CFBundleURLName</key>
+       <string>alkafeel.net</string>
+       <key>CFBundleURLSchemes</key>
+       <array>
+       <string>https</string>
+       </array>
 </dict>
 </plist>

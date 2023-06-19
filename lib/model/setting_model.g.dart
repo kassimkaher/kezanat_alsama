@@ -64,17 +64,23 @@ class CityDetailsAdapter extends TypeAdapter<CityDetails> {
     return CityDetails(
       fields[0] as String?,
       fields[1] as String?,
+      fields[2] as double?,
+      fields[3] as double?,
     );
   }
 
   @override
   void write(BinaryWriter writer, CityDetails obj) {
     writer
-      ..writeByte(2)
+      ..writeByte(4)
       ..writeByte(0)
       ..write(obj.name)
       ..writeByte(1)
-      ..write(obj.path);
+      ..write(obj.nameAr)
+      ..writeByte(2)
+      ..write(obj.latitude)
+      ..writeByte(3)
+      ..write(obj.longitude);
   }
 
   @override

@@ -4,10 +4,8 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:lucide_icons/lucide_icons.dart';
 import 'package:ramadan/alert/alert_desition.dart';
-import 'package:ramadan/bussines_logic/Setting/settings_cubit.dart';
-import 'package:ramadan/bussines_logic/ramadan/ramadan_cubit.dart';
-import 'package:ramadan/model/emsak.dart';
-import 'package:ramadan/pages/home/home.dart';
+import 'package:ramadan/bussines_logic/prayer/prayer_cubit.dart';
+import 'package:ramadan/model/prayer_model.dart';
 import 'package:ramadan/utils/utils.dart';
 
 class EmsackCalendarList extends HookWidget {
@@ -19,13 +17,13 @@ class EmsackCalendarList extends HookWidget {
   Widget build(BuildContext context) {
     final select = useState<DaysPrayerTimes?>(null);
     final theme = Theme.of(context);
-    return BlocBuilder<RamadanCubit, RamadanState>(
+    return BlocBuilder<PrayerCubit, PrayerState>(
       builder: (context, state) {
-        return state is RamadanStateLoaded
+        return state is PrayerStateLoaded
             ? SingleChildScrollView(
                 padding: const EdgeInsets.all(kDefaultPadding),
                 child: Column(
-                  children: state.info.emsackModel!.days!
+                  children: state.info.preyerTimes!.days!
                       .map(
                         (data) => Card(
                           margin: const EdgeInsets.symmetric(vertical: 3),
@@ -36,12 +34,12 @@ class EmsackCalendarList extends HookWidget {
                               padding: EdgeInsets.zero,
                               physics: const NeverScrollableScrollPhysics(),
                               children: [
-                                Container(
+                                SizedBox(
                                   height: 50,
                                   child: Row(
                                     children: [
                                       const SizedBox(width: kDefaultSpacing),
-                                      Icon(
+                                      const Icon(
                                         LucideIcons.calendar,
                                         size: 20,
                                         color: jbSecondary,
@@ -96,19 +94,19 @@ class TimesCard extends StatelessWidget {
         const Divider(
           height: 0,
         ),
-        ListTile(
-          dense: true,
-          title: "الامساك".toGradiant(colors: [
-            theme.textTheme.titleLarge!.color!,
-            theme.textTheme.bodySmall!.color!
-          ], style: theme.textTheme.titleSmall!),
-          trailing:
-              "${data.emsak!.minut!.toString().arabicNumber} : ${data.emsak!.hour!.toString().arabicNumber} ص"
-                  .toGradiant(colors: [
-            theme.textTheme.titleLarge!.color!,
-            theme.textTheme.bodySmall!.color!
-          ], style: theme.textTheme.titleMedium!),
-        ),
+        // ListTile(
+        //   dense: true,
+        //   title: "الامساك".toGradiant(colors: [
+        //     theme.textTheme.titleLarge!.color!,
+        //     theme.textTheme.bodySmall!.color!
+        //   ], style: theme.textTheme.titleSmall!),
+        //   trailing:
+        //       "${data.emsak!.minut!.toString().arabicNumber} : ${data.emsak!.hour!.toString().arabicNumber} ص"
+        //           .toGradiant(colors: [
+        //     theme.textTheme.titleLarge!.color!,
+        //     theme.textTheme.bodySmall!.color!
+        //   ], style: theme.textTheme.titleMedium!),
+        // ),
         ListTile(
           dense: true,
           title: "الفجر".toGradiant(colors: [
@@ -116,7 +114,7 @@ class TimesCard extends StatelessWidget {
             theme.textTheme.bodySmall!.color!
           ], style: theme.textTheme.titleSmall!),
           trailing:
-              "${data.morningPrayer!.minut!.toString().arabicNumber} : ${data.morningPrayer!.hour!.toString().arabicNumber} ص"
+              "${data.fajer!.minut!.toString().arabicNumber} : ${data.fajer!.hour!.toString().arabicNumber} ص"
                   .toGradiant(colors: [
             theme.textTheme.titleLarge!.color!,
             theme.textTheme.bodySmall!.color!
@@ -129,7 +127,7 @@ class TimesCard extends StatelessWidget {
             theme.textTheme.bodySmall!.color!
           ], style: theme.textTheme.titleSmall!),
           trailing:
-              "${data.morningSun!.minut!.toString().arabicNumber} : ${data.morningSun!.hour!.toString().arabicNumber} ص"
+              "${data.sunrise!.minut!.toString().arabicNumber} : ${data.sunrise!.hour!.toString().arabicNumber} ص"
                   .toGradiant(colors: [
             theme.textTheme.titleLarge!.color!,
             theme.textTheme.bodySmall!.color!
@@ -142,7 +140,7 @@ class TimesCard extends StatelessWidget {
             theme.textTheme.bodySmall!.color!
           ], style: theme.textTheme.titleSmall!),
           trailing:
-              "${data.sunPrayer!.minut!.toString().arabicNumber} : ${data.sunPrayer!.hour!.toString().arabicNumber} م"
+              "${data.duhur!.minut!.toString().arabicNumber} : ${data.duhur!.hour!.toString().arabicNumber} م"
                   .toGradiant(colors: [
             theme.textTheme.titleLarge!.color!,
             theme.textTheme.bodySmall!.color!
@@ -155,7 +153,7 @@ class TimesCard extends StatelessWidget {
             theme.textTheme.bodySmall!.color!
           ], style: theme.textTheme.titleSmall!),
           trailing:
-              "${data.nightPrayer!.minut!.toString().arabicNumber} : ${(data.nightPrayer!.hour! > 12 ? data.nightPrayer!.hour! - 12 : data.nightPrayer!.hour!).toString().arabicNumber} م"
+              "${data.magrib!.minut!.toString().arabicNumber} : ${(data.magrib!.hour! > 12 ? data.magrib!.hour! - 12 : data.magrib!.hour!).toString().arabicNumber} م"
                   .toGradiant(colors: [
             theme.textTheme.titleLarge!.color!,
             theme.textTheme.bodySmall!.color!
@@ -168,7 +166,7 @@ class TimesCard extends StatelessWidget {
             theme.textTheme.bodySmall!.color!
           ], style: theme.textTheme.titleSmall!),
           trailing:
-              "${data.nightHalf!.minut!.toString().arabicNumber} : ${(data.nightHalf!.hour! > 12 ? data.nightHalf!.hour! - 12 : data.nightHalf!.hour!).toString().arabicNumber} م"
+              "${data.middileNight!.minut!.toString().arabicNumber} : ${(data.middileNight!.hour! > 12 ? data.middileNight!.hour! - 12 : data.middileNight!.hour!).toString().arabicNumber} م"
                   .toGradiant(colors: [
             theme.textTheme.titleLarge!.color!,
             theme.textTheme.bodySmall!.color!
@@ -179,8 +177,8 @@ class TimesCard extends StatelessWidget {
   }
 }
 
-class EmsakyaCard extends StatelessWidget {
-  const EmsakyaCard(
+class PrayerCard extends StatelessWidget {
+  const PrayerCard(
       {super.key, required this.theme, this.data, required this.city});
 
   final ThemeData theme;
@@ -212,35 +210,6 @@ class EmsakyaCard extends StatelessWidget {
                       height: 20,
                       width: 20,
                       child: SvgPicture.asset(
-                        "assets/svg/emsak.svg",
-                        width: 20,
-                        color: theme.primaryColor,
-                      ),
-                    ),
-                    title: "الامساك".toGradiant(
-                        style: theme.textTheme.titleSmall!,
-                        colors: [
-                          theme.textTheme.titleLarge!.color!,
-                          theme.textTheme.bodySmall!.color!
-                        ]),
-                    trailing:
-                        "${data!.emsak!.minut!.toString().arabicNumber} : ${data!.emsak!.hour!.toString().arabicNumber} ص"
-                            .toGradiant(
-                                style: theme.textTheme.titleSmall!
-                                    .copyWith(letterSpacing: .4),
-                                colors: [
-                          theme.textTheme.titleLarge!.color!,
-                          theme.textTheme.bodySmall!.color!
-                        ]),
-                  ),
-                  ListTile(
-                    dense: true,
-                    horizontalTitleGap: 0,
-                    contentPadding: EdgeInsets.zero,
-                    leading: SizedBox(
-                      height: 20,
-                      width: 20,
-                      child: SvgPicture.asset(
                         "assets/svg/fajer.svg",
                         width: 20,
                         color: theme.primaryColor,
@@ -253,7 +222,7 @@ class EmsakyaCard extends StatelessWidget {
                           theme.textTheme.bodySmall!.color!
                         ]),
                     trailing:
-                        "${data!.morningPrayer!.minut!.toString().arabicNumber} : ${data!.morningPrayer!.hour!.toString().arabicNumber} ص"
+                        "${data!.fajer!.minut!.toString().arabicNumber} : ${data!.fajer!.hour!.toString().arabicNumber} ص"
                             .toGradiant(
                                 style: theme.textTheme.titleSmall!
                                     .copyWith(letterSpacing: .4),
@@ -282,7 +251,7 @@ class EmsakyaCard extends StatelessWidget {
                           theme.textTheme.bodySmall!.color!
                         ]),
                     trailing:
-                        "${data!.nightPrayer!.minut!.toString().arabicNumber} : ${(data!.nightPrayer!.hour! > 12 ? data!.nightPrayer!.hour! - 12 : data!.nightPrayer!.hour!).toString().arabicNumber} م"
+                        "${data!.magrib!.minut!.toString().arabicNumber} : ${(data!.magrib!.hour! > 12 ? data!.magrib!.hour! - 12 : data!.magrib!.hour!).toString().arabicNumber} م"
                             .toGradiant(
                                 style: theme.textTheme.titleSmall!
                                     .copyWith(letterSpacing: .4),
@@ -388,18 +357,17 @@ class DayView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final controller = context.read<SettingCubit>();
     final theme = Theme.of(context);
     return Container(
       margin: const EdgeInsets.symmetric(horizontal: kDefaultPadding),
       padding:
           const EdgeInsets.symmetric(horizontal: kDefaultPadding, vertical: 5),
       decoration: BoxDecoration(
-        color: theme.primaryColor,
-        gradient: LinearGradient(colors: [
-          theme.textTheme.titleLarge!.color!,
-          theme.cardColor,
-        ], transform: GradientRotation(0.8)),
+        // color: theme.primaryColor,
+        // gradient: LinearGradient(colors: [
+        //   theme.textTheme.titleLarge!.color!,
+        //   theme.cardColor,
+        // ], transform: const GradientRotation(0.8)),
         borderRadius: BorderRadius.circular(kDefaultBorderRadius),
       ),
       child: Row(
@@ -407,7 +375,7 @@ class DayView extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            true ? "1444".arabicNumber : number.toString().arabicNumber,
+            "1444".arabicNumber,
             style: theme.textTheme.titleLarge!.copyWith(
                 color: theme.colorScheme.secondary,
                 fontSize: 30,
@@ -419,22 +387,17 @@ class DayView extends StatelessWidget {
               fontSize: 30,
             ),
           ),
+          // Text(
+          //   true ? "٣".arabicNumber : number.toString().arabicNumber,
+          //   style: theme.textTheme.titleLarge!.copyWith(
+          //     fontSize: 30,
+          //   ),
+          // ),
           Text(
-            true ? "٣".arabicNumber : number.toString().arabicNumber,
+            " ٣ شوال ",
             style: theme.textTheme.titleLarge!.copyWith(
-              color: Colors.white,
               fontSize: 30,
             ),
-          ),
-          " شوال".toGradiant(
-            style: theme.textTheme.titleLarge!.copyWith(
-              color: jbSecondary,
-              fontSize: 30,
-            ),
-            colors: [
-              theme.cardColor,
-              theme.cardColor,
-            ],
           ),
         ],
       ),

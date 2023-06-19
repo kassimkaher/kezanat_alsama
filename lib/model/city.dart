@@ -1,41 +1,67 @@
-class CityModel {
-  List<CityData>? city;
+class CitesModel {
+  List<ProvinceData>? provinces;
 
-  CityModel({this.city});
+  CitesModel({this.provinces});
 
-  CityModel.fromJson(Map<String, dynamic> json) {
-    if (json['city'] != null) {
-      city = <CityData>[];
-      json['city'].forEach((v) {
-        city!.add(new CityData.fromJson(v));
+  CitesModel.fromJson(Map<String, dynamic> json) {
+    if (json['provinces'] != null) {
+      provinces = <ProvinceData>[];
+      json['provinces'].forEach((v) {
+        provinces!.add(new ProvinceData.fromJson(v));
       });
     }
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    if (this.city != null) {
-      data['city'] = this.city!.map((v) => v.toJson()).toList();
+    final Map<String, dynamic> data = Map<String, dynamic>();
+    if (provinces != null) {
+      data['provinces'] = provinces!.map((v) => v.toJson()).toList();
     }
     return data;
   }
 }
 
-class CityData {
+class ProvinceData {
   String? name;
-  String? path;
+  String? nameAr;
+  Coordinates? coordinates;
 
-  CityData({this.name, this.path});
+  ProvinceData({this.name, this.nameAr, this.coordinates});
 
-  CityData.fromJson(Map<String, dynamic> json) {
+  ProvinceData.fromJson(Map<String, dynamic> json) {
     name = json['name'];
-    path = json['path'];
+    nameAr = json['name_ar'];
+    coordinates = json['coordinates'] != null
+        ? new Coordinates.fromJson(json['coordinates'])
+        : null;
   }
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     data['name'] = this.name;
-    data['path'] = this.path;
+    data['name_ar'] = this.nameAr;
+    if (this.coordinates != null) {
+      data['coordinates'] = this.coordinates!.toJson();
+    }
+    return data;
+  }
+}
+
+class Coordinates {
+  double? latitude;
+  double? longitude;
+
+  Coordinates({this.latitude, this.longitude});
+
+  Coordinates.fromJson(Map<String, dynamic> json) {
+    latitude = json['latitude'];
+    longitude = json['longitude'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['latitude'] = this.latitude;
+    data['longitude'] = this.longitude;
     return data;
   }
 }

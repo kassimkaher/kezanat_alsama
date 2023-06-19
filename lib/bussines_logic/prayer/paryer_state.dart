@@ -1,37 +1,37 @@
-part of 'ramadan_cubit.dart';
+part of 'prayer_cubit.dart';
 
-abstract class RamadanState extends Equatable {
-  final RamadanInfo info;
-  const RamadanState(this.info);
+abstract class PrayerState extends Equatable {
+  final PrayerInfo info;
+  const PrayerState(this.info);
 
   @override
   List<Object> get props => [info];
 }
 
-class RamadanStateInital extends RamadanState {
-  const RamadanStateInital(super.info);
+class PrayerStateInital extends PrayerState {
+  const PrayerStateInital(super.info);
 }
 
-class RamadanStateLoaded extends RamadanState {
-  const RamadanStateLoaded(super.info);
+class PrayerStateLoaded extends PrayerState {
+  const PrayerStateLoaded(super.info);
 }
 
-class RamadanStateLoading extends RamadanState {
-  const RamadanStateLoading(super.info);
+class PrayerStateLoading extends PrayerState {
+  const PrayerStateLoading(super.info);
 }
 
-class RamadanStateFiald extends RamadanState {
-  const RamadanStateFiald(super.info);
+class PrayerStateFiald extends PrayerState {
+  const PrayerStateFiald(super.info);
 }
 
-class RamadanInfo {
+class PrayerInfo {
   dynamic storage;
-  EmsackModel? emsackModel;
+  PrayersTimeModel? preyerTimes;
   DaysPrayerTimes? currentDay;
   DaysPrayerTimes? nextDay;
   NextTime? nextTime;
   bool isListener = false;
-  RamadanInfo({
+  PrayerInfo({
     this.storage,
   });
 

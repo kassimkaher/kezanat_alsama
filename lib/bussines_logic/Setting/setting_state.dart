@@ -42,5 +42,5 @@ class SettingInfo {
     required this.currentLang,
   });
 
-  CityModel? cities;
+  CitesModel? cities;
 }

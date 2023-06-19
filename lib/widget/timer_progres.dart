@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:lucide_icons/lucide_icons.dart';
 import 'package:ramadan/alert/alert_desition.dart';
-import 'package:ramadan/bussines_logic/dua/dua_cubit.dart';
-import 'package:ramadan/bussines_logic/ramadan/ramadan_cubit.dart';
+import 'package:ramadan/bussines_logic/prayer/prayer_cubit.dart';
+import 'package:ramadan/model/setting_model.dart';
 import 'package:ramadan/pages/cities_page.dart';
 import 'package:ramadan/utils/utils.dart';
 
@@ -13,14 +12,53 @@ import '../bussines_logic/Setting/settings_cubit.dart';
 class HomeTopCard extends StatelessWidget {
   const HomeTopCard({super.key, required this.data, required this.city});
 
-  final RamadanInfo data;
-  final String city;
+  final PrayerInfo data;
+  final CityDetails city;
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     final size = MediaQuery.of(context).size;
     return InkWell(
       onTap: () {
+        // KDAlert.showSheet(context,
+        //     height: size.height * 0.935,
+        //     width: size.width,
+        //     title: "اختر المحافظة",
+        //     child: Column(
+        //       children: [
+        //         Text(
+        //           "FAJR =${getTimeText(fajrTime)}===REAL==3:10",
+        //           style: theme.textTheme.titleMedium,
+        //         ),
+        //         Text(
+        //           "Sunris =${calc.sunriseTime.time.inHours}:${calc.sunriseTime.time.inMinutes % 60}===REAL==4:53",
+        //           style: theme.textTheme.titleLarge,
+        //         ),
+        //         Text(
+        //           "DuhUr =${getTimeText(duhurPrayer)}===REAL==12:04",
+        //           style: theme.textTheme.titleMedium,
+        //         ),
+        //         Text(
+        //           "Mugrib =${getTimeText(durationToTime(calc.sunsetTime.time))}===REAL==7:14",
+        //           style: theme.textTheme.titleLarge,
+        //         ),
+        //         Divider(),
+        //         Text(
+        //           "Mugrib prayer=${getTimeText(mugrib)}===REAL==7:32",
+        //           style: theme.textTheme.titleLarge,
+        //         ),
+        //         Text(
+        //           "Esha =${getTimeText(esha)}===REAL==8:30",
+        //           style: theme.textTheme.titleMedium,
+        //         ),
+        //         Divider(),
+        //         Text(
+        //           "Midinte =${getTimeText(midnight)}===REAL==11:12",
+        //           style: theme.textTheme.titleMedium,
+        //         ),
+        //       ],
+        //     ));
+        // return;
         KDAlert.showSheet(
           context,
           height: size.height * 0.935,
@@ -29,12 +67,12 @@ class HomeTopCard extends StatelessWidget {
           child: CityListView(
             onSelect: () {
               final controller = context.read<SettingCubit>();
-              final controllerRamadan = context.read<RamadanCubit>();
+              final controllerPrayer = context.read<PrayerCubit>();
 
-              controllerRamadan.getRamadan(
-                  controller.state.setting.setting!.selectCity!.path!);
+              controllerPrayer
+                  .getPrayer(controller.state.setting.setting!.selectCity);
               controller
-                  .setNotification(controllerRamadan.state.info.emsackModel!);
+                  .setNotification(controllerPrayer.state.info.preyerTimes!);
               Navigator.pop(context);
             },
           ),
@@ -81,7 +119,7 @@ class HomeTopCard extends StatelessWidget {
                         ),
                         const SizedBox(width: 5),
                         Text(
-                          city,
+                          city.nameAr ?? "",
                           style: theme.textTheme.displaySmall!
                               .copyWith(color: Colors.white70, fontSize: 16),
                         ),

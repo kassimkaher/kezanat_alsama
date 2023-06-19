@@ -1,7 +1,6 @@
 import 'package:hive/hive.dart';
 import 'package:ramadan/model/quran_model.dart';
 import 'package:ramadan/model/setting_model.dart';
-import 'package:ramadan/utils/utils.dart';
 
 class LocalDB {
   static Box? db;

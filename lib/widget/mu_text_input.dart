@@ -3,7 +3,6 @@ import 'package:flutter/services.dart';
 
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:lucide_icons/lucide_icons.dart';
-import 'package:ramadan/services/validation.dart';
 import 'package:ramadan/utils/utils.dart';
 
 class FDTextInput extends HookWidget {

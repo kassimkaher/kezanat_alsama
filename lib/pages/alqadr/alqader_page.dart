@@ -83,7 +83,6 @@ class AlqaderPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final settingCubit = context.read<SettingCubit>();
     final zyaratCubit = context.read<DuaCubit>();
     final quranCubit = context.read<QuranCubit>();
     final alqadrCubit = context.read<AlqadrCubit>();

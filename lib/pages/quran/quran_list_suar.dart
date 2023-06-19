@@ -5,7 +5,6 @@ import 'package:lucide_icons/lucide_icons.dart';
 import 'package:ramadan/bussines_logic/Setting/settings_cubit.dart';
 import 'package:ramadan/bussines_logic/quran/quran_cubit.dart';
 import 'package:ramadan/model/quran_model.dart';
-import 'package:ramadan/pages/home/emsal_view.dart';
 import 'package:ramadan/pages/quran/component.dart';
 import 'package:ramadan/utils/color.dart';
 import 'package:ramadan/utils/utils.dart';

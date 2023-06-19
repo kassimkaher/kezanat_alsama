@@ -12,8 +12,8 @@ import 'package:ramadan/bussines_logic/Setting/settings_cubit.dart';
 import 'package:ramadan/bussines_logic/alqadr/alqadr_cubit.dart';
 import 'package:ramadan/bussines_logic/dua/dua_cubit.dart';
 import 'package:ramadan/bussines_logic/notification_service.dart';
+import 'package:ramadan/bussines_logic/prayer/prayer_cubit.dart';
 import 'package:ramadan/bussines_logic/quran/quran_cubit.dart';
-import 'package:ramadan/bussines_logic/ramadan/ramadan_cubit.dart';
 import 'package:ramadan/model/setting_model.dart';
 import 'package:ramadan/pages/splash_page.dart';
 import 'package:ramadan/utils/theme.dart';
@@ -71,6 +71,7 @@ class App extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    print(Platform.version);
     return MultiProvider(
       providers: [
         BlocProvider<SettingCubit>(
@@ -79,8 +80,8 @@ class App extends StatelessWidget {
         BlocProvider<QuranCubit>(
           create: (BuildContext context) => QuranCubit(),
         ),
-        BlocProvider<RamadanCubit>(
-          create: (BuildContext context) => RamadanCubit(),
+        BlocProvider<PrayerCubit>(
+          create: (BuildContext context) => PrayerCubit(),
         ),
         BlocProvider<DuaCubit>(
           create: (BuildContext context) => DuaCubit(),
@@ -92,7 +93,7 @@ class App extends StatelessWidget {
       child: BlocBuilder<SettingCubit, SettingState>(
         builder: (context, state) {
           return MaterialApp(
-            title: 'Ramadan',
+            title: 'Prayer',
             debugShowCheckedModeBanner: false,
 
             supportedLocales: const [

@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:lucide_icons/lucide_icons.dart';
-import 'package:ramadan/bussines_logic/ramadan/ramadan_cubit.dart';
+import 'package:ramadan/bussines_logic/prayer/prayer_cubit.dart';
 import 'package:ramadan/model/ramadan_dua.dart';
 import 'package:ramadan/utils/utils.dart';
 
@@ -14,7 +14,7 @@ class TextDisplay extends StatelessWidget {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     final query = MediaQuery.of(context);
-    final duaController = context.read<RamadanCubit>();
+    final duaController = context.read<PrayerCubit>();
     if (data.text == null) {
       duaController.loadData(data, index);
     }
@@ -65,7 +65,7 @@ class TextDisplay extends StatelessWidget {
                           ],
                         )
                       : const SizedBox(),
-                  BlocBuilder<RamadanCubit, RamadanState>(
+                  BlocBuilder<PrayerCubit, PrayerState>(
                     builder: (context, state) {
                       return Text(
                         data.text ?? "",

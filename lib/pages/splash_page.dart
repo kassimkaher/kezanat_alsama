@@ -2,10 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:ramadan/bussines_logic/Setting/settings_cubit.dart';
 import 'package:ramadan/bussines_logic/dua/dua_cubit.dart';
-import 'package:ramadan/bussines_logic/ramadan/ramadan_cubit.dart';
+import 'package:ramadan/bussines_logic/prayer/prayer_cubit.dart';
 import 'package:ramadan/pages/cities_page.dart';
 import 'package:ramadan/pages/main_page.dart';
 import 'package:ramadan/utils/utils.dart';
@@ -18,15 +17,13 @@ class SplashPage extends HookWidget {
     final size = MediaQuery.of(context).size;
 
     final controller = context.read<SettingCubit>();
-    final controllerRamadan = context.read<RamadanCubit>();
+    final controllerPrayer = context.read<PrayerCubit>();
     final controllerDua = context.read<DuaCubit>();
 
     return BlocBuilder<SettingCubit, SettingState>(
       builder: (context, state) {
         if (state is SettingStateInitial) {
-          print(state);
-
-          controller.getSetting(controllerRamadan, controllerDua);
+          controller.getSetting(controllerPrayer, controllerDua);
         }
         return Scaffold(
           backgroundColor: Colors.transparent,

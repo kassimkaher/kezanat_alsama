@@ -81,7 +81,7 @@ class QuranCubit extends Cubit<QuranState> {
 
       state.info.continuQuranModel = data;
     } catch (e) {
-      print(e);
+      // kdp(name: "QuranCubit /getContinu", msg: e, c: 'r');
     }
     refresh();
   }
@@ -101,7 +101,7 @@ class QuranCubit extends Cubit<QuranState> {
           juzuNumber: juzuNumber);
       state.info.continuQuranModel = continuQuran;
 
-      final data = await LocalDB.setContinu(continuQuran);
+      await LocalDB.setContinu(continuQuran);
       state.info.continuQuranModel = continuQuran;
     } catch (e) {
       print(e);
@@ -177,21 +177,18 @@ class QuranCubit extends Cubit<QuranState> {
   }
 
   void nextJuzu(int juzu) {
-    if (state.info.quranJuzuList != null) {
-      state.info.currentPage = 0;
-      state.info.currentAyaIndex = 0;
+    state.info.currentPage = 0;
+    state.info.currentAyaIndex = 0;
 
-      state.info.currentQuranJuzu = state.info.quranJuzuList[juzu];
-      state.info.pageController.jumpToPage(0);
+    state.info.currentQuranJuzu = state.info.quranJuzuList[juzu];
+    state.info.pageController.jumpToPage(0);
 
-      setContinu(
-          suraName:
-              state.info.currentQuranJuzu!.data!.ayahs!.first.surah!.name!,
-          juzuNumber: state.info.currentQuranJuzu!.data!.ayahs!.first.juz! - 1,
-          pageNumber: 0,
-          ayaNumber: 0,
-          number: state.info.currentQuranJuzu!.data?.ayahs?.length ?? 0);
-    }
+    setContinu(
+        suraName: state.info.currentQuranJuzu!.data!.ayahs!.first.surah!.name!,
+        juzuNumber: state.info.currentQuranJuzu!.data!.ayahs!.first.juz! - 1,
+        pageNumber: 0,
+        ayaNumber: 0,
+        number: state.info.currentQuranJuzu!.data?.ayahs?.length ?? 0);
 
     refresh();
   }
@@ -203,23 +200,21 @@ class QuranCubit extends Cubit<QuranState> {
   }
 
   void previousPage(int juzu) {
-    if (state.info.quranJuzuList != null) {
-      state.info.currentPage =
-          (state.info.quranJuzuList[juzu - 2].data?.juzuPages?.length ?? 1) - 1;
-      state.info.currentAyaIndex = 0;
+    state.info.currentPage =
+        (state.info.quranJuzuList[juzu - 2].data?.juzuPages?.length ?? 1) - 1;
+    state.info.currentAyaIndex = 0;
 
-      state.info.currentQuranJuzu = state.info.quranJuzuList[juzu - 2];
-      state.info.pageController.jumpToPage(state.info.currentPage);
+    state.info.currentQuranJuzu = state.info.quranJuzuList[juzu - 2];
+    state.info.pageController.jumpToPage(state.info.currentPage);
 
-      //   setContinu(
-      //       suraName:
-      //           state.info.currentQuranJuzu!.data!.ayahs!.first.surah!.name!,
-      //       juzuNumber: state.info.currentQuranJuzu!.data!.ayahs!.first.juz! - 1,
-      //       pageNumber: 0,
-      //       ayaNumber: 0,
-      //       number: state.info.currentQuranJuzu!.data?.ayahs?.length ?? 0);
-      // }
-    }
+    //   setContinu(
+    //       suraName:
+    //           state.info.currentQuranJuzu!.data!.ayahs!.first.surah!.name!,
+    //       juzuNumber: state.info.currentQuranJuzu!.data!.ayahs!.first.juz! - 1,
+    //       pageNumber: 0,
+    //       ayaNumber: 0,
+    //       number: state.info.currentQuranJuzu!.data?.ayahs?.length ?? 0);
+    // }
 
     refresh();
   }

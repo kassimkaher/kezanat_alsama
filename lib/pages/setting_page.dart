@@ -1,11 +1,10 @@
-import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:lucide_icons/lucide_icons.dart';
 import 'package:ramadan/bussines_logic/Setting/settings_cubit.dart';
 import 'package:ramadan/bussines_logic/notification_service.dart';
-import 'package:ramadan/bussines_logic/ramadan/ramadan_cubit.dart';
+import 'package:ramadan/bussines_logic/prayer/prayer_cubit.dart';
 import 'package:ramadan/model/alqadr_model.dart';
 import 'package:ramadan/pages/alqadr/tasbeeh.dart';
 import 'package:ramadan/pages/home/emsal_view.dart';
@@ -21,7 +20,7 @@ class SettingPage extends StatelessWidget {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     final controller = context.read<SettingCubit>();
-    final controllerRamadan = context.read<RamadanCubit>();
+    final controllerPrayer = context.read<PrayerCubit>();
     return Scaffold(
       appBar: AppBar(
         title: const Text("الاعدادات"),
@@ -236,7 +235,7 @@ class SettingPage extends StatelessWidget {
                       title: "اعادة",
                       onPressed: () {
                         controller.setNotification(
-                            controllerRamadan.state.info.emsackModel!);
+                            controllerPrayer.state.info.preyerTimes!);
 
                         showSchedualNotificationAthan(
                             title: "اختبار الاذان",

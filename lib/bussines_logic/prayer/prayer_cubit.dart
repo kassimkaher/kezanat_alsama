@@ -1,32 +1,77 @@
 import 'dart:async';
 import 'dart:convert';
-import 'dart:io';
 
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/services.dart';
 import 'package:ramadan/bussines_logic/dua/dua_cubit.dart';
-import 'package:ramadan/model/emsak.dart';
+import 'package:ramadan/model/prayer_model.dart';
 import 'package:ramadan/model/ramadan_amal.dart';
 import 'package:ramadan/model/ramadan_dua.dart';
+import 'package:ramadan/model/setting_model.dart';
+import 'package:ramadan/services/validation.dart';
 import 'package:ramadan/utils/extention.dart';
+import 'package:solar_calculator/solar_calculator.dart';
 
-part 'ramadan_state.dart';
+part 'paryer_state.dart';
 
-class RamadanCubit extends Cubit<RamadanState> {
-  RamadanCubit() : super(RamadanStateInital(RamadanInfo()));
+class PrayerCubit extends Cubit<PrayerState> {
+  PrayerCubit() : super(PrayerStateInital(PrayerInfo()));
 
-  getRamadan(String path) async {
+  getPrayer(CityDetails? cityDetails) async {
+    if (cityDetails == null) {
+      return;
+    }
     try {
-      final String response = await rootBundle.loadString(path);
-      final jsondata = await json.decode(response);
-      state.info.emsackModel = EmsackModel.fromJson(jsondata);
+      state.info.preyerTimes = PrayersTimeModel(days: []);
+      var date = DateTime.now();
 
-      emit(RamadanStateLoaded(state.info));
+      for (int i = 0; i < 30; i++) {
+        final timezone = DateTime.now().timeZoneName.toTimeZone();
+        double equationTime = equationOfTime(getDayNumberInYear(date));
+        final duhurPrayer =
+            12 + timezone - (cityDetails.longitude! / 15) - (equationTime);
+
+        final instant = Instant(
+            year: date.year,
+            month: date.month,
+            day: date.day,
+            hour: 1,
+            timeZoneOffset: timezone);
+
+        final calc = SolarCalculator(
+            instant, cityDetails.latitude!, cityDetails.longitude!);
+
+        final fajrTime =
+            calculateFajer(date, duhurPrayer, cityDetails.latitude!);
+        final esha = calculateEsha(date, duhurPrayer, cityDetails.latitude!);
+        final mugrib =
+            calculateMugrib(date, duhurPrayer, cityDetails.latitude!);
+        final midnight =
+            calculateMidnite(sunset: calc.sunsetTime.time, fajer: fajrTime);
+        final sunset = calc.sunsetTime.time.toTime();
+        final sunris = calc.sunriseTime.time.toTime();
+
+        state.info.preyerTimes!.days!.add(
+          DaysPrayerTimes(
+              month: date.month,
+              day: date.day,
+              dayname: date.weekday,
+              fajer: PrayerTimeData.fill(fajrTime),
+              duhur: PrayerTimeData.fill(duhurPrayer),
+              magrib: PrayerTimeData.fill(mugrib),
+              esha: PrayerTimeData.fill(esha),
+              middileNight: PrayerTimeData.fill(midnight),
+              sunrise: PrayerTimeData.fill(sunris),
+              sunset: PrayerTimeData.fill(sunset)),
+        );
+        date = date.add(const Duration(days: 1));
+      }
+
+      emit(PrayerStateLoaded(state.info));
 
       refresh();
     } catch (e) {
-      print("klsdfjnks");
       print(e);
     }
   }
@@ -39,47 +84,36 @@ class RamadanCubit extends Cubit<RamadanState> {
     refresh();
 
     await loadAmal();
-    var now1 = DateTime.now();
+
     Timer.periodic(const Duration(seconds: 1), (timer) {
       var now = DateTime.now();
 
       checkTodayAmal(duaCubit);
-      if (state is RamadanStateLoaded) {
-        final currentdayIndex = state.info.emsackModel!.days!
+      if (state is PrayerStateLoaded && state.info.preyerTimes != null) {
+        final currentdayIndex = state.info.preyerTimes!.days!
             .indexWhere((day) => day.month == now.month && day.day == now.day);
+
+        //  kdp(name: "chek time ", msg: currentdayIndex, c: 'gr');
         if (currentdayIndex > -1) {
           state.info.currentDay =
-              state.info.emsackModel!.days![currentdayIndex];
+              state.info.preyerTimes!.days![currentdayIndex];
           state.info.dayNumber = currentdayIndex + 1;
 
-          if (state.info.emsackModel!.days!.length > (currentdayIndex + 1)) {
+          if (state.info.preyerTimes!.days!.length > (currentdayIndex + 1)) {
             state.info.nextDay =
-                state.info.emsackModel!.days![currentdayIndex + 1];
+                state.info.preyerTimes!.days![currentdayIndex + 1];
           }
           if ((currentdayIndex - 1) > -1) {
             state.info.agoDay =
-                state.info.emsackModel!.days![currentdayIndex + -1];
+                state.info.preyerTimes!.days![currentdayIndex + -1];
           }
 
-          if (now.hour < state.info.currentDay!.emsak!.hour! ||
-              (now.hour == state.info.currentDay!.emsak!.hour! &&
-                  now.minute <= state.info.currentDay!.emsak!.minut! + 5)) {
+          if (now.hour < state.info.currentDay!.fajer!.hour! ||
+              (now.hour == state.info.currentDay!.fajer!.hour! &&
+                  now.minute <= state.info.currentDay!.fajer!.minut! + 5)) {
             state.info.nextTime = getNextTime(
-              state.info.currentDay!.emsak!,
-              state.info.agoDay?.nightPrayer,
-              state.info.currentDay!,
-              now,
-              "emsak.png",
-              "موعد  الامساك",
-              "ص",
-            );
-          } else if (now.hour < state.info.currentDay!.morningPrayer!.hour! ||
-              (now.hour == state.info.currentDay!.morningPrayer!.hour! &&
-                  now.minute <=
-                      state.info.currentDay!.morningPrayer!.minut! + 5)) {
-            state.info.nextTime = getNextTime(
-                state.info.currentDay!.morningPrayer!,
-                state.info.currentDay!.emsak!,
+                state.info.currentDay!.fajer!,
+                state.info.currentDay!.fajer!,
                 state.info.currentDay!,
                 now,
                 "fajer_prayer.png",
@@ -87,14 +121,14 @@ class RamadanCubit extends Cubit<RamadanState> {
                 "ص");
           }
 //"موعد صلاة الظهر"
-          else if (now.hour >= (state.info.currentDay!.morningPrayer!.hour!) &&
-              (now.hour < state.info.currentDay!.sunPrayer!.hour! ||
-                  (now.hour == state.info.currentDay!.sunPrayer!.hour! &&
+          else if (now.hour >= (state.info.currentDay!.fajer!.hour!) &&
+              (now.hour < state.info.currentDay!.duhur!.hour! ||
+                  (now.hour == state.info.currentDay!.duhur!.hour! &&
                       now.minute <=
-                          state.info.currentDay!.sunPrayer!.minut! + 5))) {
+                          state.info.currentDay!.duhur!.minut! + 5))) {
             state.info.nextTime = getNextTime(
-                state.info.currentDay!.sunPrayer!,
-                state.info.currentDay!.morningPrayer!,
+                state.info.currentDay!.duhur!,
+                state.info.currentDay!.fajer!,
                 state.info.currentDay!,
                 now,
                 "afternoon_prayer.png",
@@ -102,26 +136,25 @@ class RamadanCubit extends Cubit<RamadanState> {
                 "م");
           }
           // "موعد صلاة المغرب",
-          else if ((now.hour >= state.info.currentDay!.sunPrayer!.hour!) &&
-              (now.hour < state.info.currentDay!.nightPrayer!.hour! ||
-                  (now.hour == state.info.currentDay!.nightPrayer!.hour! &&
+          else if ((now.hour >= state.info.currentDay!.duhur!.hour!) &&
+              (now.hour < state.info.currentDay!.magrib!.hour! ||
+                  (now.hour == state.info.currentDay!.magrib!.hour! &&
                       now.minute <=
-                          state.info.currentDay!.nightPrayer!.minut! + 5))) {
+                          state.info.currentDay!.magrib!.minut! + 5))) {
             state.info.nextTime = getNextTime(
-                state.info.currentDay!.nightPrayer!,
-                state.info.currentDay!.sunPrayer!,
+                state.info.currentDay!.magrib!,
+                state.info.currentDay!.duhur!,
                 state.info.currentDay!,
                 now,
                 "mugrab_prayer.png",
                 "موعد صلاة المغرب",
                 "م");
-          } else if (now.hour > state.info.currentDay!.nightPrayer!.hour! ||
-              (now.hour == state.info.currentDay!.nightPrayer!.hour! &&
-                  now.minute >
-                      state.info.currentDay!.nightPrayer!.minut! + 5)) {
+          } else if (now.hour > state.info.currentDay!.magrib!.hour! ||
+              (now.hour == state.info.currentDay!.magrib!.hour! &&
+                  now.minute > state.info.currentDay!.magrib!.minut! + 5)) {
             state.info.nextTime = getNextTime(
-                state.info.nextDay!.emsak!,
-                state.info.currentDay!.nightPrayer!,
+                state.info.nextDay!.fajer!,
+                state.info.currentDay!.magrib!,
                 state.info.currentDay!,
                 now,
                 "emsak.png",
@@ -130,8 +163,8 @@ class RamadanCubit extends Cubit<RamadanState> {
                 isEmsak: true);
           } else {
             // if (nowt.hour >= state.info.currentDay!.emsak!.hour! &&
-            // (state.info.currentDay!.emsak!.hour! == state.info.currentDay!.morningPrayer!.hour!)
-            //     nowt.hour < state.info.currentDay!.morningPrayer!.hour!) {
+            // (state.info.currentDay!.emsak!.hour! == state.info.currentDay!.fajer!.hour!)
+            //     nowt.hour < state.info.currentDay!.fajer!.hour!) {
           }
 
           refresh();
@@ -159,44 +192,21 @@ class RamadanCubit extends Cubit<RamadanState> {
 
     var progress = 0.0;
 
-    if (isEmsak) {
-      final diff = DateTime.now()
-          .copyWith(hour: now.hour, minute: now.minute, second: now.second)
-          .difference(DateTime.now().add(Duration(days: 1)).copyWith(
-                hour: nextPryer.hour,
-                minute: nextPryer.minut!,
-                second: 0,
-              ));
+    currentTimeInSecond = getSeconds(now.hour, now.minute, now.second);
+    nextPrayerTimeInSecond = getSeconds(nextPryer.hour, nextPryer.minut, 0);
+    agoPrayerTimeInSecond =
+        getSeconds((agoPryer?.hour ?? 0), (agoPryer?.minut) ?? 0, 0);
 
-      // kdp(name: "time", msg: diff.inSeconds, c: 'gr');
-      // currentTimeInSecond = getSeconds(24 - now.hour, now.minute, now.second);
-      nextPrayerTimeInSecond = getSeconds(nextPryer.hour, nextPryer.minut, 0);
-      agoPrayerTimeInSecond =
-          getSeconds(24 - (agoPryer?.hour ?? 0), (agoPryer?.minut) ?? 0, 0);
+    diffrentInseconds = nextPrayerTimeInSecond - currentTimeInSecond;
 
-      diffrentInseconds = diff.inSeconds * -1;
+    finalTime = getDateFromSecond(diffrentInseconds);
 
-      finalTime = getDateFromSecond(diffrentInseconds);
-
+    if (agoPryer!.hour! > nextPryer.hour!) {
       progress =
           diffrentInseconds / (nextPrayerTimeInSecond + agoPrayerTimeInSecond);
     } else {
-      currentTimeInSecond = getSeconds(now.hour, now.minute, now.second);
-      nextPrayerTimeInSecond = getSeconds(nextPryer.hour, nextPryer.minut, 0);
-      agoPrayerTimeInSecond =
-          getSeconds((agoPryer?.hour ?? 0), (agoPryer?.minut) ?? 0, 0);
-
-      diffrentInseconds = nextPrayerTimeInSecond - currentTimeInSecond;
-
-      finalTime = getDateFromSecond(diffrentInseconds);
-
-      if (agoPryer!.hour! > nextPryer.hour!) {
-        progress = diffrentInseconds /
-            (nextPrayerTimeInSecond + agoPrayerTimeInSecond);
-      } else {
-        progress = diffrentInseconds /
-            (nextPrayerTimeInSecond - agoPrayerTimeInSecond);
-      }
+      progress =
+          diffrentInseconds / (nextPrayerTimeInSecond - agoPrayerTimeInSecond);
     }
 
     return NextTime(
@@ -216,8 +226,8 @@ class RamadanCubit extends Cubit<RamadanState> {
   }
 
   refresh() {
-    emit(RamadanStateLoading(state.info));
-    emit(RamadanStateLoaded(state.info));
+    emit(PrayerStateLoading(state.info));
+    emit(PrayerStateLoaded(state.info));
   }
 
   Future<void> loadAmal() async {
@@ -227,8 +237,8 @@ class RamadanCubit extends Cubit<RamadanState> {
       final jsondata = await json.decode(response);
       state.info.ramadanAmal = RamadanAmalModel.fromJson(jsondata);
     } catch (e) {
-      print("klsdfjnks");
-      print(e);
+      // print("klsdfjnks");
+      // print(e);
     }
   }
 

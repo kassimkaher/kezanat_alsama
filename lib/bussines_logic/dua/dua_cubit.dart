@@ -48,7 +48,7 @@ class DuaCubit extends Cubit<DuaState> {
   }
 
   Future<void> loadContent(
-      String path, Function(String? content) onComplete) async {
+      String? path, Function(String? content) onComplete) async {
     if (path == null) {
       return;
     }

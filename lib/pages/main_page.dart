@@ -1,3 +1,4 @@
+import 'dart:io';
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
@@ -72,18 +73,18 @@ class _MainPage extends State<MainPage> {
                   backgroundColor: Colors.transparent,
                   key: _scaffoldKey,
                   bottomNavigationBar: Container(
-                    height: 90,
-                    margin:
-                        const EdgeInsets.symmetric(horizontal: 5, vertical: 10),
-                    padding: const EdgeInsets.symmetric(horizontal: 16)
-                        .copyWith(bottom: 12),
+                    height: 70,
+                    margin: const EdgeInsets.symmetric(horizontal: 25)
+                        .copyWith(bottom: 20),
+                    padding: const EdgeInsets.symmetric(horizontal: 16),
                     decoration: BoxDecoration(
                       color: theme.cardColor,
-                      borderRadius: const BorderRadius.only(
-                          topLeft: Radius.circular(5),
-                          topRight: Radius.circular(5),
-                          bottomLeft: Radius.circular(50),
-                          bottomRight: Radius.circular(50)),
+                      borderRadius: BorderRadius.circular(20),
+                      // borderRadius: const BorderRadius.only(
+                      //     topLeft: Radius.circular(5),
+                      //     topRight: Radius.circular(5),
+                      //     bottomLeft: Radius.circular(50),
+                      //     bottomRight: Radius.circular(50)),
                       boxShadow: [
                         BoxShadow(
                             offset: Offset(0, 0),
@@ -96,131 +97,61 @@ class _MainPage extends State<MainPage> {
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        InkWell(
-                          onTap: () =>
-                              controller.changePage(NavPages.values[0], 0),
-                          child: AnimatedContainer(
-                            duration: const Duration(milliseconds: 300),
-                            height: 45,
-                            width: 45,
-                            decoration: BoxDecoration(
-                              color: presenter.setting.currentpageIndex == 0
-                                  ? theme.primaryColor
-                                  : Colors.transparent,
-                              borderRadius: BorderRadius.circular(30),
-                            ),
-                            alignment: Alignment.center,
-                            child: SvgPicture.asset(
-                              "assets/svg/quran.svg",
-                              height: presenter.setting.currentpageIndex == 0
-                                  ? 26
-                                  : 30,
-                              color: presenter.setting.currentpageIndex == 0
-                                  ? theme.cardColor
-                                  : jbUnselectColor,
-                            ),
-                          ),
-                        ),
-                        InkWell(
-                          onTap: () =>
-                              controller.changePage(NavPages.values[0], 1),
-                          child: AnimatedContainer(
-                            duration: const Duration(milliseconds: 300),
-                            height: 45,
-                            width: 45,
-                            decoration: BoxDecoration(
-                              color: presenter.setting.currentpageIndex == 1
-                                  ? theme.primaryColor
-                                  : Colors.transparent,
-                              borderRadius: BorderRadius.circular(30),
-                            ),
-                            alignment: Alignment.center,
-                            child: SvgPicture.asset(
-                              "assets/svg/dua.svg",
-                              height: presenter.setting.currentpageIndex == 1
-                                  ? 26
-                                  : 30,
-                              color: presenter.setting.currentpageIndex == 1
-                                  ? theme.cardColor
-                                  : jbUnselectColor,
-                            ),
-                          ),
-                        ),
-                        InkWell(
+                        KZBarItem(
                           onTap: () =>
                               controller.changePage(NavPages.values[0], 2),
-                          child: AnimatedContainer(
-                            duration: const Duration(milliseconds: 300),
-                            height: 45,
-                            width: 45,
-                            decoration: BoxDecoration(
-                              color: presenter.setting.currentpageIndex == 2
-                                  ? theme.primaryColor
-                                  : Colors.transparent,
-                              borderRadius: BorderRadius.circular(30),
-                            ),
-                            alignment: Alignment.center,
-                            child: SvgPicture.asset(
-                              "assets/svg/home.svg",
-                              height: presenter.setting.currentpageIndex == 2
-                                  ? 26
-                                  : 30,
-                              color: presenter.setting.currentpageIndex == 2
-                                  ? theme.cardColor
-                                  : jbUnselectColor,
-                            ),
-                          ),
+                          theme: theme,
+                          isSelect: presenter.setting.currentpageIndex == 2,
+                          svgIcon: "assets/svg/home.svg",
                         ),
-                        InkWell(
+                        KZBarItem(
+                          onTap: () =>
+                              controller.changePage(NavPages.values[0], 0),
+                          theme: theme,
+                          isSelect: presenter.setting.currentpageIndex == 0,
+                          svgIcon: "assets/svg/quran.svg",
+                        ),
+                        KZBarItem(
+                          onTap: () =>
+                              controller.changePage(NavPages.values[0], 1),
+                          theme: theme,
+                          isSelect: presenter.setting.currentpageIndex == 1,
+                          svgIcon: "assets/svg/dua.svg",
+                        ),
+
+                        KZBarItem(
                           onTap: () =>
                               controller.changePage(NavPages.values[0], 3),
-                          child: AnimatedContainer(
-                            duration: const Duration(milliseconds: 300),
-                            height: 45,
-                            width: 45,
-                            decoration: BoxDecoration(
-                              color: presenter.setting.currentpageIndex == 3
-                                  ? theme.primaryColor
-                                  : Colors.transparent,
-                              borderRadius: BorderRadius.circular(30),
-                            ),
-                            alignment: Alignment.center,
-                            child: SvgPicture.asset(
-                              "assets/svg/zyara.svg",
-                              height: presenter.setting.currentpageIndex == 3
-                                  ? 20
-                                  : 22,
-                              color: presenter.setting.currentpageIndex == 3
-                                  ? theme.cardColor
-                                  : jbUnselectColor,
-                            ),
-                          ),
+                          theme: theme,
+                          isSelect: presenter.setting.currentpageIndex == 3,
+                          svgIcon: "assets/svg/zyara.svg",
                         ),
-                        InkWell(
-                          onTap: () =>
-                              controller.changePage(NavPages.values[0], 4),
-                          child: AnimatedContainer(
-                            duration: const Duration(milliseconds: 300),
-                            height: 45,
-                            width: 45,
-                            decoration: BoxDecoration(
-                              color: presenter.setting.currentpageIndex == 4
-                                  ? theme.primaryColor
-                                  : Colors.transparent,
-                              borderRadius: BorderRadius.circular(30),
-                            ),
-                            alignment: Alignment.center,
-                            child: SvgPicture.asset(
-                              "assets/svg/munajat.svg",
-                              height: presenter.setting.currentpageIndex == 4
-                                  ? 26
-                                  : 30,
-                              color: presenter.setting.currentpageIndex == 4
-                                  ? theme.cardColor
-                                  : jbUnselectColor,
-                            ),
-                          ),
-                        ),
+
+                        // InkWell(
+                        //   onTap: () =>
+                        //       controller.changePage(NavPages.values[0], 4),
+                        //   child: AnimatedContainer(
+                        //     duration: const Duration(milliseconds: 300),
+                        //     height: 45,
+                        //     width: 45,
+                        //     decoration: BoxDecoration(
+                        //       color: presenter.setting.currentpageIndex == 4
+                        //           ? theme.primaryColor
+                        //           : Colors.transparent,
+                        //       borderRadius: BorderRadius.circular(30),
+                        //     ),
+                        //     alignment: Alignment.center,
+                        //     child: SvgPicture.asset(
+                        //       "assets/svg/munajat.svg",
+                        //       height: presenter.setting.currentpageIndex == 4
+                        //           ? 26
+                        //           : 30,
+                        //       color: presenter.setting.currentpageIndex == 4
+                        //           ? theme.cardColor
+                        //           : jbUnselectColor,
+                        //     ),
+                        //   ),
+                        // ),
                       ],
                     ),
                   ),
@@ -230,6 +161,56 @@ class _MainPage extends State<MainPage> {
                   ),
                 ),
               )),
+    );
+  }
+}
+
+class KZBarItem extends StatelessWidget {
+  const KZBarItem(
+      {super.key,
+      required this.onTap,
+      required this.svgIcon,
+      required this.theme,
+      required this.isSelect});
+
+  final Function() onTap;
+  final ThemeData theme;
+  final bool isSelect;
+  final String svgIcon;
+  @override
+  Widget build(BuildContext context) {
+    return SizedBox(
+      height: 70,
+      child: InkWell(
+        onTap: () => onTap(),
+        child: AnimatedContainer(
+          duration: const Duration(milliseconds: 300),
+          height: 45,
+          width: 45,
+          alignment: Alignment.center,
+          child: Column(
+            children: [
+              Expanded(
+                child: SvgPicture.asset(
+                  svgIcon,
+                  height: isSelect ? 35 : 30,
+                  color: isSelect ? theme.primaryColor : jbUnselectColor,
+                ),
+              ),
+              AnimatedContainer(
+                duration: const Duration(milliseconds: 300),
+                height: 4,
+                width: 30,
+                decoration: BoxDecoration(
+                    color: isSelect ? theme.primaryColor : Colors.transparent,
+                    borderRadius: const BorderRadius.only(
+                        topLeft: Radius.circular(5),
+                        topRight: Radius.circular(5))),
+              )
+            ],
+          ),
+        ),
+      ),
     );
   }
 }

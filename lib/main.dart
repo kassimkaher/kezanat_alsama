@@ -32,10 +32,7 @@ class CustomImageCache extends WidgetsFlutterBinding {
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
-    statusBarColor: Colors.transparent,
-    statusBarIconBrightness: Brightness.dark,
-  ));
+
   //onsignal 71537c0e-6951-448b-a85f-47823c5c2382
   if (Platform.isMacOS) {
   } else {
@@ -118,7 +115,7 @@ class App extends StatelessWidget {
                             Brightness.dark),
             themeMode: ThemeMode.system,
             showPerformanceOverlay: false,
-            home: SplashPage(),
+            home: const SplashPage(),
           );
         },
       ),

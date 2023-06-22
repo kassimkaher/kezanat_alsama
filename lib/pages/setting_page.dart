@@ -2,11 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:lucide_icons/lucide_icons.dart';
+import 'package:ramadan/alert/alert_desition.dart';
 import 'package:ramadan/bussines_logic/Setting/settings_cubit.dart';
 import 'package:ramadan/bussines_logic/notification_service.dart';
 import 'package:ramadan/bussines_logic/prayer/prayer_cubit.dart';
 import 'package:ramadan/model/alqadr_model.dart';
 import 'package:ramadan/pages/alqadr/tasbeeh.dart';
+import 'package:ramadan/pages/cities_page.dart';
 import 'package:ramadan/pages/home/emsal_view.dart';
 import 'package:ramadan/utils/const.dart';
 import 'package:ramadan/widget/jb_button.dart';
@@ -21,6 +23,8 @@ class SettingPage extends StatelessWidget {
     final theme = Theme.of(context);
     final controller = context.read<SettingCubit>();
     final controllerPrayer = context.read<PrayerCubit>();
+
+    final size = MediaQuery.of(context).size;
     return Scaffold(
       appBar: AppBar(
         title: const Text("الاعدادات"),
@@ -39,7 +43,7 @@ class SettingPage extends StatelessWidget {
                   children: [
                     const Icon(LucideIcons.sunMoon),
                     const SizedBox(width: 10),
-                    const Text("الوضع"),
+                    Text("الوضع", style: theme.textTheme.titleSmall),
                     const Spacer(),
                     Container(
                       height: 40,
@@ -146,12 +150,12 @@ class SettingPage extends StatelessWidget {
                   children: [
                     const Icon(LucideIcons.bell),
                     const SizedBox(width: 10),
-                    const Text("الاشعارات"),
+                    Text("الاشعارات", style: theme.textTheme.titleSmall),
                     const Spacer(),
                     Container(
                         height: 40,
-                        padding:
-                            EdgeInsets.symmetric(horizontal: kDefaultSpacing),
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: kDefaultSpacing),
                         decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(20),
                             color: theme.scaffoldBackgroundColor),
@@ -229,10 +233,13 @@ class SettingPage extends StatelessWidget {
                   children: [
                     const Icon(LucideIcons.bellRing),
                     const SizedBox(width: 10),
-                    const Text("الاشعارات"),
+                    Text("اعادة ضبط الاشعارات",
+                        style: theme.textTheme.titleSmall),
                     const Spacer(),
                     JBButton(
                       title: "اعادة",
+                      backgroundColor: Colors.transparent,
+                      color: theme.colorScheme.secondary,
                       onPressed: () {
                         controller.setNotification(
                             controllerPrayer.state.info.preyerTimes!);
@@ -242,6 +249,49 @@ class SettingPage extends StatelessWidget {
                             subtitle: "حان موعد اذان المغرب",
                             dateTime: DateTime.now().add(Duration(seconds: 5)),
                             id: 1);
+                      },
+                    ),
+                  ],
+                ),
+              ),
+              const SizedBox(height: 10),
+              RCard(
+                padding: const EdgeInsets.symmetric(
+                    horizontal: kDefaultPadding, vertical: 10),
+                child: Row(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    const Icon(LucideIcons.locate),
+                    const SizedBox(width: 10),
+                    Text(
+                      state.setting.setting?.selectCity?.nameAr ?? "",
+                      style: theme.textTheme.titleSmall,
+                    ),
+                    const Spacer(),
+                    JBButton(
+                      title: "تغيير",
+                      backgroundColor: Colors.transparent,
+                      color: theme.colorScheme.secondary,
+                      onPressed: () {
+                        KDAlert.showSheet(
+                          context,
+                          height: size.height * 0.935,
+                          width: size.width,
+                          title: "اختر المحافظة",
+                          child: CityListView(
+                            onSelect: () {
+                              final controller = context.read<SettingCubit>();
+                              final controllerPrayer =
+                                  context.read<PrayerCubit>();
+
+                              controllerPrayer.getPrayer(
+                                  controller.state.setting.setting!.selectCity);
+                              controller.setNotification(
+                                  controllerPrayer.state.info.preyerTimes!);
+                              Navigator.pop(context);
+                            },
+                          ),
+                        );
                       },
                     ),
                   ],

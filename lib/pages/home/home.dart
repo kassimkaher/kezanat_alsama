@@ -4,7 +4,6 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:lucide_icons/lucide_icons.dart';
 import 'package:ramadan/bussines_logic/Setting/settings_cubit.dart';
 import 'package:ramadan/bussines_logic/prayer/prayer_cubit.dart';
-import 'package:ramadan/pages/alqadr/alqader_page.dart';
 import 'package:ramadan/pages/home/emsal_view.dart';
 import 'package:ramadan/pages/home/text_display.dart';
 import 'package:ramadan/pages/setting_page.dart';
@@ -52,20 +51,15 @@ class HomePage extends StatelessWidget {
                         city: settingController
                             .state.setting.setting!.selectCity!),
                     const SizedBox(height: kDefaultSpacing),
-                    (state.info.dayNumber == 18 && DateTime.now().hour > 17) ||
-                            (state.info.dayNumber > 18 &&
-                                state.info.dayNumber < 24)
-                        ? Column(children: [
-                            AlqadrCard(theme: theme),
-                            const SizedBox(height: kDefaultSpacing),
-                          ])
-                        : const SizedBox(),
-                    PrayerCard(
-                        theme: theme,
-                        data: state.info.currentDay,
-                        city: settingController
-                                .state.setting.setting!.selectCity?.name ??
-                            ""),
+                    // (state.info.dayNumber == 18 && DateTime.now().hour > 17) ||
+                    //         (state.info.dayNumber > 18 &&
+                    //             state.info.dayNumber < 24)
+                    //     ? Column(children: [
+                    //         AlqadrCard(theme: theme),
+                    //         const SizedBox(height: kDefaultSpacing),
+                    //       ])
+                    //     : const SizedBox(),
+
                     const SizedBox(height: kDefaultSpacing),
                     state.info.todayPrayer != null
                         ? ListTile(

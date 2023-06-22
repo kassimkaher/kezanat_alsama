@@ -4,10 +4,9 @@ import 'package:lucide_icons/lucide_icons.dart';
 import 'package:ramadan/alert/alert_desition.dart';
 import 'package:ramadan/bussines_logic/prayer/prayer_cubit.dart';
 import 'package:ramadan/model/setting_model.dart';
-import 'package:ramadan/pages/cities_page.dart';
-import 'package:ramadan/utils/utils.dart';
+import 'package:ramadan/pages/home/emsal_view.dart';
 
-import '../bussines_logic/Setting/settings_cubit.dart';
+import 'package:ramadan/utils/utils.dart';
 
 class HomeTopCard extends StatelessWidget {
   const HomeTopCard({super.key, required this.data, required this.city});
@@ -20,63 +19,21 @@ class HomeTopCard extends StatelessWidget {
     final size = MediaQuery.of(context).size;
     return InkWell(
       onTap: () {
-        // KDAlert.showSheet(context,
-        //     height: size.height * 0.935,
-        //     width: size.width,
-        //     title: "اختر المحافظة",
-        //     child: Column(
-        //       children: [
-        //         Text(
-        //           "FAJR =${getTimeText(fajrTime)}===REAL==3:10",
-        //           style: theme.textTheme.titleMedium,
-        //         ),
-        //         Text(
-        //           "Sunris =${calc.sunriseTime.time.inHours}:${calc.sunriseTime.time.inMinutes % 60}===REAL==4:53",
-        //           style: theme.textTheme.titleLarge,
-        //         ),
-        //         Text(
-        //           "DuhUr =${getTimeText(duhurPrayer)}===REAL==12:04",
-        //           style: theme.textTheme.titleMedium,
-        //         ),
-        //         Text(
-        //           "Mugrib =${getTimeText(durationToTime(calc.sunsetTime.time))}===REAL==7:14",
-        //           style: theme.textTheme.titleLarge,
-        //         ),
-        //         Divider(),
-        //         Text(
-        //           "Mugrib prayer=${getTimeText(mugrib)}===REAL==7:32",
-        //           style: theme.textTheme.titleLarge,
-        //         ),
-        //         Text(
-        //           "Esha =${getTimeText(esha)}===REAL==8:30",
-        //           style: theme.textTheme.titleMedium,
-        //         ),
-        //         Divider(),
-        //         Text(
-        //           "Midinte =${getTimeText(midnight)}===REAL==11:12",
-        //           style: theme.textTheme.titleMedium,
-        //         ),
-        //       ],
-        //     ));
-        // return;
-        KDAlert.showSheet(
-          context,
-          height: size.height * 0.935,
-          width: size.width,
-          title: "اختر المحافظة",
-          child: CityListView(
-            onSelect: () {
-              final controller = context.read<SettingCubit>();
-              final controllerPrayer = context.read<PrayerCubit>();
-
-              controllerPrayer
-                  .getPrayer(controller.state.setting.setting!.selectCity);
-              controller
-                  .setNotification(controllerPrayer.state.info.preyerTimes!);
-              Navigator.pop(context);
-            },
-          ),
-        );
+        showModalBottomSheet(
+            backgroundColor: Colors.transparent,
+            useSafeArea: true,
+            context: context,
+            builder: (c) => BlocBuilder<PrayerCubit, PrayerState>(
+                  builder: (context, state) {
+                    return Container(
+                      margin: const EdgeInsets.only(bottom: 30),
+                      child: PrayerCard(
+                          theme: theme,
+                          data: state.info.currentDay,
+                          city: city.nameAr ?? ""),
+                    );
+                  },
+                ));
       },
       child: Container(
         height: 160,

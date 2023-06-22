@@ -1,7 +1,17 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:ramadan/utils/utils.dart';
 
 getTheme(String fontfamily, bool isDarkMode) {
+  SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
+    statusBarBrightness: !isDarkMode ? Brightness.light : Brightness.dark,
+    statusBarColor: !isDarkMode ? scaffoldColor : scaffoldColorD,
+    systemNavigationBarColor: isDarkMode ? cardColorD : cardColor,
+    systemNavigationBarIconBrightness:
+        isDarkMode ? Brightness.light : Brightness.dark,
+  ));
+  // SystemChrome.setEnabledSystemUIMode(SystemUiMode.manual,
+  //     overlays: [SystemUiOverlay.top]);
   final theme = ThemeData(
     primarySwatch:
         createMaterialColor(isDarkMode ? jbPrimaryColorD : jbPrimaryColor),
@@ -10,7 +20,7 @@ getTheme(String fontfamily, bool isDarkMode) {
 
   return isDarkMode
       ? theme.copyWith(
-          bottomNavigationBarTheme: BottomNavigationBarThemeData(),
+          bottomNavigationBarTheme: const BottomNavigationBarThemeData(),
           cardTheme: CardTheme(
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(kDefaultBorderRadius),

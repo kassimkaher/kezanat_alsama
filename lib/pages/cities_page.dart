@@ -43,6 +43,7 @@ class CityListView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final controller = context.read<SettingCubit>();
+    final theme = Theme.of(context);
     return BlocBuilder<SettingCubit, SettingState>(
       builder: (context, state) {
         return ListView.builder(
@@ -57,7 +58,10 @@ class CityListView extends StatelessWidget {
                     child: Padding(
                       padding: const EdgeInsets.all(12),
                       child: Text(
-                          state.setting.cities?.provinces?[i].nameAr ?? ""),
+                        state.setting.cities?.provinces?[i].nameAr ?? "",
+                        style:
+                            theme.textTheme.titleLarge!.copyWith(fontSize: 18),
+                      ),
                     ),
                   ),
                 ));

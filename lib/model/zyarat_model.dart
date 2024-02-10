@@ -1,22 +1,22 @@
 import 'package:ramadan/model/ramadan_dua.dart';
 
 class ZyaratMunajatModel {
-  List<Dua>? zyaratList;
-  List<Dua>? munajatList;
+  List<DuaEntity>? zyaratList;
+  List<DuaEntity>? munajatList;
 
   ZyaratMunajatModel({this.zyaratList, this.munajatList});
 
   ZyaratMunajatModel.fromJson(Map<String, dynamic> json) {
     if (json['zyarat_list'] != null) {
-      zyaratList = <Dua>[];
+      zyaratList = <DuaEntity>[];
       json['zyarat_list'].forEach((v) {
-        zyaratList!.add(new Dua.fromJson(v));
+        zyaratList!.add(new DuaEntity.fromJson(v));
       });
     }
     if (json['munajat_list'] != null) {
-      munajatList = <Dua>[];
+      munajatList = <DuaEntity>[];
       json['munajat_list'].forEach((v) {
-        munajatList!.add(new Dua.fromJson(v));
+        munajatList!.add(new DuaEntity.fromJson(v));
       });
     }
   }

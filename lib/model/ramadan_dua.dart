@@ -1,13 +1,13 @@
 class RamadanDuaModel {
-  List<Dua>? dua;
+  List<DuaEntity>? dua;
 
   RamadanDuaModel({this.dua});
 
   RamadanDuaModel.fromJson(Map<String, dynamic> json) {
     if (json['dua'] != null) {
-      dua = <Dua>[];
+      dua = <DuaEntity>[];
       json['dua'].forEach((v) {
-        dua!.add(new Dua.fromJson(v));
+        dua!.add(new DuaEntity.fromJson(v));
       });
     }
   }
@@ -21,16 +21,16 @@ class RamadanDuaModel {
   }
 }
 
-class Dua {
+class DuaEntity {
   String? title;
   String? path;
   String? text;
   String? desc;
   String? type;
 
-  Dua({this.title, this.path, this.text, this.desc, this.type});
+  DuaEntity({this.title, this.path, this.text, this.desc, this.type});
 
-  Dua.fromJson(Map<String, dynamic> json) {
+  DuaEntity.fromJson(Map<String, dynamic> json) {
     title = json['title'];
     path = json['path'];
     text = json['text'];

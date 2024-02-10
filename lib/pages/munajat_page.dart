@@ -1,12 +1,7 @@
-import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:ramadan/bussines_logic/dua/dua_cubit.dart';
-import 'package:ramadan/pages/home/emsal_view.dart';
-import 'package:ramadan/pages/zyarat_page.dart';
+import 'package:ramadan/src/main_app/dua/work_display_view.dart';
+import 'package:ramadan/src/main_app/widgets/custom_card.dart';
 import 'package:ramadan/utils/utils.dart';
-
-import '../bussines_logic/Setting/settings_cubit.dart';
 
 class MunajatPage extends StatelessWidget {
   const MunajatPage({super.key});
@@ -45,10 +40,9 @@ class MunajatPage extends StatelessWidget {
                               onTap: () => Navigator.push(
                                 context,
                                 to(
-                                  ZyaraDisplay(
+                                  WorkDisplayText(
                                     data:
                                         state.info.zyaratData!.munajatList![i],
-                                    index: i,
                                   ),
                                 ),
                               ),

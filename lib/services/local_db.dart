@@ -1,6 +1,10 @@
 import 'package:hive/hive.dart';
+import 'package:ramadan/bussines_logic/Setting/model/setting_model.dart';
+import 'package:ramadan/bussines_logic/prayer/model/arabic_date_model.dart';
 import 'package:ramadan/model/quran_model.dart';
-import 'package:ramadan/model/setting_model.dart';
+import 'package:ramadan/src/main_app/home/daily_work/model/calendar_model.dart';
+import 'package:ramadan/src/main_app/home/daily_work/model/daily_work_model.dart';
+import 'package:ramadan/src/main_app/slider/data/model/slider_model.dart';
 
 class LocalDB {
   static Box? db;
@@ -39,6 +43,40 @@ class LocalDB {
     db!.put("continu_quran", value.toJson());
   }
 
+  static DailyPostsModel? getPosts() {
+    if (db == null) {
+      return null;
+    }
+    final data = db?.get("post_data_storage");
+
+    return DailyPostsModel.fromJson(data);
+  }
+
+  static setPosts(DailyPostsModel value) {
+    if (db == null) {
+      return;
+    }
+
+    db!.put("post_data_storage", value.toJson());
+  }
+
+  static DailyWorkModel? getDailyWorkFromLocal() {
+    if (db == null) {
+      return null;
+    }
+    final data = db?.get("daily_work_data_storage");
+
+    return DailyWorkModel.fromJson(data);
+  }
+
+  static setDailyWorkFromLocal(DailyWorkModel value) {
+    if (db == null) {
+      return;
+    }
+
+    db!.put("daily_work_data_storage", value.toJson());
+  }
+
   static SettingModel? getSetting() {
     if (db == null) {
       return null;
@@ -46,6 +84,23 @@ class LocalDB {
     final data = db?.get("app_setting");
 
     return data;
+  }
+
+  static CalendarModel? getCalendar() {
+    if (db == null) {
+      return null;
+    }
+    final data = db?.get("calendar_data_storage");
+
+    return CalendarModel.fromJson(data);
+  }
+
+  static setCalendar(CalendarModel value) {
+    if (db == null) {
+      return;
+    }
+
+    db!.put("calendar_data_storage", value.toJson());
   }
 
   static saveSettingDb(SettingModel settingModel) {
@@ -107,5 +162,15 @@ class LocalDB {
     final data = db?.get("setSalatCounter");
 
     return data;
+  }
+
+  static ArabicDateEntry? getArabicDay() {
+    final data = Hive.box('kezana_alsama_local_data').get("saveArabicDate");
+
+    return data;
+  }
+
+  static saveArabicDate(ArabicDateEntry value) {
+    Hive.box('kezana_alsama_local_data').put("saveArabicDate", value);
   }
 }

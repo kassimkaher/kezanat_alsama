@@ -13,6 +13,7 @@ getTheme(String fontfamily, bool isDarkMode) {
   // SystemChrome.setEnabledSystemUIMode(SystemUiMode.manual,
   //     overlays: [SystemUiOverlay.top]);
   final theme = ThemeData(
+    useMaterial3: false,
     primarySwatch:
         createMaterialColor(isDarkMode ? jbPrimaryColorD : jbPrimaryColor),
     fontFamily: fontfamily,
@@ -23,9 +24,9 @@ getTheme(String fontfamily, bool isDarkMode) {
           bottomNavigationBarTheme: const BottomNavigationBarThemeData(),
           cardTheme: CardTheme(
               shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(kDefaultBorderRadius),
-              ),
-              color: cardColorD,
+                  borderRadius: BorderRadius.circular(kDefaultBorderRadius),
+                  side: BorderSide(color: jbSecondary)),
+              color: scaffoldColorD,
               elevation: 0),
           scaffoldBackgroundColor: scaffoldColorD,
           brightness: Brightness.dark,
@@ -63,7 +64,7 @@ getTheme(String fontfamily, bool isDarkMode) {
             bodyLarge: theme.textTheme.bodyLarge?.copyWith(
                 color: jbFontColor2D,
                 fontSize: 16,
-                fontWeight: FontWeight.w600),
+                fontWeight: FontWeight.w500),
             bodyMedium: theme.textTheme.bodyMedium
                 ?.copyWith(color: jbFontColor2D, fontSize: 14),
             bodySmall: theme.textTheme.bodySmall
@@ -88,9 +89,10 @@ getTheme(String fontfamily, bool isDarkMode) {
       : theme.copyWith(
           cardTheme: CardTheme(
               shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(kDefaultBorderRadius),
-              ),
-              shadowColor: jbUnselectColor.withOpacity(0.2)),
+                  borderRadius: BorderRadius.circular(kDefaultBorderRadius),
+                  side: BorderSide(color: jbSecondary)),
+              color: scaffoldColor,
+              elevation: 0),
           scaffoldBackgroundColor: scaffoldColor,
           brightness: Brightness.light,
           colorScheme: const ColorScheme.dark(
@@ -125,7 +127,7 @@ getTheme(String fontfamily, bool isDarkMode) {
             titleSmall: theme.textTheme.titleSmall
                 ?.copyWith(color: jbFontColor, fontSize: 16),
             bodyLarge: theme.textTheme.bodyLarge?.copyWith(
-                color: jbFontColor2, fontSize: 16, fontWeight: FontWeight.w600),
+                color: jbFontColor2, fontSize: 16, fontWeight: FontWeight.w500),
             bodyMedium: theme.textTheme.bodyMedium
                 ?.copyWith(color: jbFontColor, fontSize: 14),
             bodySmall: theme.textTheme.bodySmall

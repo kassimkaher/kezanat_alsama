@@ -1,24 +1,6 @@
-import 'dart:io';
-import 'package:flutter/scheduler.dart';
-import 'package:flutter/services.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_localizations/flutter_localizations.dart';
-import 'package:hive_flutter/hive_flutter.dart';
-import 'package:flutter/foundation.dart';
-import 'package:flutter/material.dart';
-import 'package:permission_handler/permission_handler.dart';
-import 'package:provider/provider.dart';
-import 'package:ramadan/bussines_logic/Setting/settings_cubit.dart';
-import 'package:ramadan/bussines_logic/alqadr/alqadr_cubit.dart';
-import 'package:ramadan/bussines_logic/dua/dua_cubit.dart';
-import 'package:ramadan/bussines_logic/notification_service.dart';
-import 'package:ramadan/bussines_logic/prayer/prayer_cubit.dart';
-import 'package:ramadan/bussines_logic/quran/quran_cubit.dart';
-import 'package:ramadan/model/setting_model.dart';
-import 'package:ramadan/pages/splash_page.dart';
-import 'package:ramadan/utils/theme.dart';
-
-import 'package:timezone/data/latest.dart' as tz;
+import 'package:ramadan/src/admin/logic/calendar_cubit/calendar_cubit.dart';
+import 'package:ramadan/src/main_app/home/daily_work/logic/daily_work_logic/daily_work_cubit.dart';
+import 'package:ramadan/utils/utils.dart';
 
 class CustomImageCache extends WidgetsFlutterBinding {
   @override
@@ -32,13 +14,17 @@ class CustomImageCache extends WidgetsFlutterBinding {
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
+  FirebaseFirestore.instance.settings = const Settings(
+    persistenceEnabled: true,
+  );
 
   //onsignal 71537c0e-6951-448b-a85f-47823c5c2382
   if (Platform.isMacOS) {
   } else {
     await setupFlutterNotifications();
     // await NotificationController.initializeLocalNotifications();
-    tz.initializeTimeZones();
+    initializeTimeZones();
 
     await Permission.notification.isDenied.then((value) {
       if (value) {
@@ -47,18 +33,22 @@ void main() async {
     });
   }
 
-  await Hive.initFlutter();
-  Hive.registerAdapter(SettingModelAdapter());
-  Hive.registerAdapter(CityDetailsAdapter());
-  Hive.registerAdapter(SalatContinusAdapter());
-
+  await initHive();
   // OneSignal.shared.setLogLevel(OSLogLevel.verbose, OSLogLevel.none);
   // OneSignal.shared.setAppId('71537c0e-6951-448b-a85f-47823c5c2382');
   // OneSignal.shared.promptUserForPushNotificationPermission();
   if (!kIsWeb && !Platform.isMacOS) {
     //initializeDateFormatting("ar_SA", null);
   }
-  runApp(App());
+  runApp(const App());
+}
+
+Future<void> initHive() async {
+  await Hive.initFlutter();
+  Hive.registerAdapter(SettingModelAdapter());
+  Hive.registerAdapter(CityDetailsAdapter());
+  Hive.registerAdapter(SalatContinusAdapter());
+  Hive.registerAdapter(ArabicDateEntryAdapter());
 }
 
 class App extends StatelessWidget {
@@ -68,7 +58,6 @@ class App extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    print(Platform.version);
     return MultiProvider(
       providers: [
         BlocProvider<SettingCubit>(
@@ -86,13 +75,22 @@ class App extends StatelessWidget {
         BlocProvider<AlqadrCubit>(
           create: (BuildContext context) => AlqadrCubit(),
         ),
+        BlocProvider<SliderCubit>(
+          create: (BuildContext context) => SliderCubit(),
+        ),
+        BlocProvider<DailyWorkCubit>(
+          create: (BuildContext context) => DailyWorkCubit(),
+        ),
+        BlocProvider<CalendarCubit>(
+          create: (BuildContext context) => CalendarCubit(),
+        ),
       ],
       child: BlocBuilder<SettingCubit, SettingState>(
         builder: (context, state) {
           return MaterialApp(
-            title: 'Prayer',
+            title: 'خزانة السماء',
             debugShowCheckedModeBanner: false,
-
+            navigatorKey: navigatorKey,
             supportedLocales: const [
               Locale('en', 'US'),
               Locale('ar', 'IQ'),

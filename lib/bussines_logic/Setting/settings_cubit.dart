@@ -5,21 +5,20 @@ import 'package:equatable/equatable.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:ramadan/bussines_logic/dua/dua_cubit.dart';
-import 'package:ramadan/bussines_logic/notification_service.dart';
+import 'package:ramadan/bussines_logic/Setting/model/setting_model.dart';
+import 'package:ramadan/services/notification_service.dart';
 import 'package:ramadan/bussines_logic/prayer/prayer_cubit.dart';
 import 'package:ramadan/model/city.dart';
-import 'package:ramadan/model/prayer_model.dart';
-import 'package:ramadan/model/setting_model.dart';
+import 'package:ramadan/bussines_logic/prayer/model/prayer_model.dart';
 import 'package:ramadan/services/local_db.dart';
+import 'package:ramadan/src/main_app/dua/bussines_logic/dua_cubit.dart';
 import 'package:ramadan/utils/utils.dart';
-import 'package:speech_to_text/speech_to_text.dart';
 part 'setting_state.dart';
 
 class SettingCubit extends Cubit<SettingState> {
   SettingCubit()
       : super(SettingStateInitial(SettingInfo(
-          currentpageIndex: 2,
+          currentpageIndex: 0,
           currentPage: NavPages.home,
           currentLang: Lang.arbic,
         )));
@@ -273,17 +272,17 @@ class SettingCubit extends Cubit<SettingState> {
   }
 
   listenSpeach() async {
-    SpeechToText _speechToText = SpeechToText();
-    final _speechEnabled = await _speechToText.initialize();
-    await _speechToText.listen(onResult: (a) {
-      print(a.recognizedWords);
-      if (a.recognizedWords.split(" ").length == 3) {
-        _speechToText.cancel();
-        listenSpeach();
-      }
-    });
-    print(_speechEnabled);
-    refresh();
+    // SpeechToText _speechToText = SpeechToText();
+    // final _speechEnabled = await _speechToText.initialize();
+    // await _speechToText.listen(onResult: (a) {
+    //   print(a.recognizedWords);
+    //   if (a.recognizedWords.split(" ").length == 3) {
+    //     _speechToText.cancel();
+    //     listenSpeach();
+    //   }
+    // });
+    // print(_speechEnabled);
+    // refresh();
   }
 }
 

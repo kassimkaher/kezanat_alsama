@@ -4,14 +4,15 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:lucide_icons/lucide_icons.dart';
 import 'package:ramadan/alert/alert_desition.dart';
 import 'package:ramadan/bussines_logic/Setting/settings_cubit.dart';
-import 'package:ramadan/bussines_logic/notification_service.dart';
+import 'package:ramadan/services/notification_service.dart';
 import 'package:ramadan/bussines_logic/prayer/prayer_cubit.dart';
 import 'package:ramadan/model/alqadr_model.dart';
-import 'package:ramadan/pages/alqadr/tasbeeh.dart';
+import 'package:ramadan/src/admin/pages/admin_pannel.dart';
+import 'package:ramadan/src/alqadr/tasbeeh.dart';
 import 'package:ramadan/pages/cities_page.dart';
-import 'package:ramadan/pages/home/emsal_view.dart';
-import 'package:ramadan/utils/const.dart';
-import 'package:ramadan/widget/jb_button.dart';
+import 'package:ramadan/src/core/constant/const.dart';
+import 'package:ramadan/src/core/widget/jb_button.dart';
+import 'package:ramadan/src/main_app/widgets/custom_card.dart';
 
 class SettingPage extends StatelessWidget {
   const SettingPage({
@@ -153,74 +154,73 @@ class SettingPage extends StatelessWidget {
                     Text("الاشعارات", style: theme.textTheme.titleSmall),
                     const Spacer(),
                     Container(
-                        height: 40,
-                        padding: const EdgeInsets.symmetric(
-                            horizontal: kDefaultSpacing),
-                        decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(20),
-                            color: theme.scaffoldBackgroundColor),
-                        child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                            children: [
-                              InkWell(
-                                onTap: () =>
-                                    controller.setEnableNotification(true),
-                                child: AnimatedContainer(
-                                  padding: const EdgeInsets.symmetric(
-                                      horizontal: 12),
-                                  duration: const Duration(milliseconds: 300),
-                                  decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(
-                                          kDefaultBorderRadius),
-                                      color: (state.setting.setting!
-                                              .enableNotification)
-                                          ? theme.primaryColor
-                                          : Colors.transparent),
-                                  child: Text(
-                                    "تفعيل",
-                                    style: theme.textTheme.titleMedium!
-                                        .copyWith(
-                                            color: (state.setting.setting!
-                                                    .enableNotification)
-                                                ? Colors.white
-                                                : theme.disabledColor,
-                                            fontSize: (state.setting.setting!
-                                                    .enableNotification)
-                                                ? 16
-                                                : 14),
-                                  ),
-                                ),
+                      height: 40,
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: kDefaultSpacing),
+                      decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(20),
+                          color: theme.scaffoldBackgroundColor),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: [
+                          InkWell(
+                            onTap: () => controller.setEnableNotification(true),
+                            child: AnimatedContainer(
+                              padding:
+                                  const EdgeInsets.symmetric(horizontal: 12),
+                              duration: const Duration(milliseconds: 300),
+                              decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(
+                                      kDefaultBorderRadius),
+                                  color: (state
+                                          .setting.setting!.enableNotification)
+                                      ? theme.primaryColor
+                                      : Colors.transparent),
+                              child: Text(
+                                "تفعيل",
+                                style: theme.textTheme.titleMedium!.copyWith(
+                                    color: (state.setting.setting!
+                                            .enableNotification)
+                                        ? Colors.white
+                                        : theme.disabledColor,
+                                    fontSize: (state.setting.setting!
+                                            .enableNotification)
+                                        ? 16
+                                        : 14),
                               ),
-                              InkWell(
-                                onTap: () =>
-                                    controller.setEnableNotification(false),
-                                child: AnimatedContainer(
-                                  padding: const EdgeInsets.symmetric(
-                                      horizontal: 12),
-                                  duration: const Duration(milliseconds: 300),
-                                  decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(
-                                          kDefaultBorderRadius),
-                                      color: !(state.setting.setting!
-                                              .enableNotification)
-                                          ? theme.primaryColor
-                                          : Colors.transparent),
-                                  child: Text(
-                                    "إيقاف",
-                                    style: theme.textTheme.titleMedium!
-                                        .copyWith(
-                                            color: !(state.setting.setting!
-                                                    .enableNotification)
-                                                ? Colors.white
-                                                : theme.disabledColor,
-                                            fontSize: !(state.setting.setting!
-                                                    .enableNotification)
-                                                ? 16
-                                                : 14),
-                                  ),
-                                ),
+                            ),
+                          ),
+                          InkWell(
+                            onTap: () =>
+                                controller.setEnableNotification(false),
+                            child: AnimatedContainer(
+                              padding:
+                                  const EdgeInsets.symmetric(horizontal: 12),
+                              duration: const Duration(milliseconds: 300),
+                              decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(
+                                      kDefaultBorderRadius),
+                                  color: !(state
+                                          .setting.setting!.enableNotification)
+                                      ? theme.primaryColor
+                                      : Colors.transparent),
+                              child: Text(
+                                "إيقاف",
+                                style: theme.textTheme.titleMedium!.copyWith(
+                                    color: !(state.setting.setting!
+                                            .enableNotification)
+                                        ? Colors.white
+                                        : theme.disabledColor,
+                                    fontSize: !(state.setting.setting!
+                                            .enableNotification)
+                                        ? 16
+                                        : 14),
                               ),
-                            ]))
+                            ),
+                          ),
+                        ],
+                      ),
+                    )
                   ],
                 ),
               ),
@@ -242,7 +242,7 @@ class SettingPage extends StatelessWidget {
                       color: theme.colorScheme.secondary,
                       onPressed: () {
                         controller.setNotification(
-                            controllerPrayer.state.info.preyerTimes!);
+                            controllerPrayer.state.preyerTimes!);
 
                         showSchedualNotificationAthan(
                             title: "اختبار الاذان",
@@ -287,7 +287,7 @@ class SettingPage extends StatelessWidget {
                               controllerPrayer.getPrayer(
                                   controller.state.setting.setting!.selectCity);
                               controller.setNotification(
-                                  controllerPrayer.state.info.preyerTimes!);
+                                  controllerPrayer.state.preyerTimes!);
                               Navigator.pop(context);
                             },
                           ),
@@ -324,6 +324,35 @@ class SettingPage extends StatelessWidget {
                   ),
                 ),
               ),
+              const SizedBox(height: 10),
+              appMode == AppMode.admin
+                  ? InkWell(
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          to(
+                            const AdminPageView(),
+                          ),
+                        );
+                      },
+                      child: RCard(
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: kDefaultPadding, vertical: 20),
+                        child: Row(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            Icon(
+                              LucideIcons.database,
+                              size: 25,
+                              color: theme.iconTheme.color,
+                            ),
+                            const SizedBox(width: 10),
+                            const Text("Admin"),
+                          ],
+                        ),
+                      ),
+                    )
+                  : const SizedBox(),
               const SizedBox(height: 10),
             ],
           );

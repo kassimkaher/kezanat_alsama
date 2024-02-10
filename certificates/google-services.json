@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "552259060335",
+    "project_id": "kezanat-alsama",
+    "storage_bucket": "kezanat-alsama.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:552259060335:android:440414fc1a9746a927839a",
+        "android_client_info": {
+          "package_name": "com.kaher.ramadan"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDaKoJFbVwtlK-yUICbDdifZQCcxwbMBsY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

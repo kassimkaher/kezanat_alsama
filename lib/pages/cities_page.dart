@@ -1,9 +1,4 @@
-import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:ramadan/bussines_logic/Setting/settings_cubit.dart';
-import 'package:ramadan/bussines_logic/dua/dua_cubit.dart';
-import 'package:ramadan/bussines_logic/prayer/prayer_cubit.dart';
-import 'package:ramadan/pages/main_page.dart';
+import 'package:ramadan/src/main_app/main_page.dart';
 import 'package:ramadan/utils/utils.dart';
 
 class CitiesPage extends StatelessWidget {

@@ -7,22 +7,22 @@ class QuranJuzuModel {
   String? status;
   Data? data;
 
-  QuranJuzuModel({this.code, this.status, this.data});
+  QuranJuzuModel({code, status, data});
 
   QuranJuzuModel.fromJson(Map<String, dynamic> json) {
     code = json['code'];
     status = json['status'];
-    data = json['data'] != null ? new Data.fromJson(json['data']) : null;
+    data = json['data'] != null ? Data.fromJson(json['data']) : null;
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['code'] = this.code;
-    data['status'] = this.status;
-    if (this.data != null) {
-      data['data'] = this.data!.toJson();
+    final Map<String, dynamic> data1 = {};
+    data1['code'] = code;
+    data1['status'] = status;
+    if (data != null) {
+      data1['data'] = data!.toJson();
     }
-    return data;
+    return data1;
   }
 }
 
@@ -32,7 +32,7 @@ class Data {
   List<SurahInfo>? surahsList;
   Edition? edition;
   List<QuranPages>? juzuPages;
-  Data({this.number, this.ayahs, this.surahsList, this.edition});
+  Data({number, ayahs, surahsList, edition});
 
   Data.fromJson(Map<String, dynamic> json) {
     number = json['number'];
@@ -56,7 +56,7 @@ class Data {
         juzuPages = [];
         final pages = ayahs!.asMap().values.map((e) => e.page).toSet().toList();
 
-        pages.forEach((page) {
+        for (var page in pages) {
           final ayatOfPage =
               ayahs!.where((element) => element.page == page).toList();
 
@@ -64,7 +64,7 @@ class Data {
               realPageNumber: page,
               pageNumber: pages.indexOf(page),
               ayahs: ayatOfPage));
-        });
+        }
       } catch (e) {
         kdp(name: "quran pages converter", msg: e, c: 'r');
       }
@@ -72,24 +72,24 @@ class Data {
     if (json['surahs_list'] != null) {
       surahsList = <SurahInfo>[];
       json['surahs_list'].forEach((v) {
-        surahsList!.add(new SurahInfo.fromJson(v));
+        surahsList!.add(SurahInfo.fromJson(v));
       });
     }
     edition =
-        json['edition'] != null ? new Edition.fromJson(json['edition']) : null;
+        json['edition'] != null ? Edition.fromJson(json['edition']) : null;
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['number'] = this.number;
-    if (this.ayahs != null) {
-      data['ayahs'] = this.ayahs!.map((v) => v.toJson()).toList();
+    final Map<String, dynamic> data = {};
+    data['number'] = number;
+    if (ayahs != null) {
+      data['ayahs'] = ayahs!.map((v) => v.toJson()).toList();
     }
-    if (this.surahsList != null) {
-      data['surahs_list'] = this.surahsList!.map((v) => v.toJson()).toList();
+    if (surahsList != null) {
+      data['surahs_list'] = surahsList!.map((v) => v.toJson()).toList();
     }
-    if (this.edition != null) {
-      data['edition'] = this.edition!.toJson();
+    if (edition != null) {
+      data['edition'] = edition!.toJson();
     }
     return data;
   }
@@ -110,23 +110,22 @@ class Ayahs {
   final key = GlobalKey();
 
   Ayahs(
-      {this.number,
-      this.text,
-      this.surah,
-      this.numberInSurah,
-      this.juz,
-      this.manzil,
-      this.page,
-      this.ruku,
-      this.hizbQuarter,
-      this.sajda});
+      {number,
+      text,
+      surah,
+      numberInSurah,
+      juz,
+      manzil,
+      page,
+      ruku,
+      hizbQuarter,
+      sajda});
 
   Ayahs.fromJson(Map<String, dynamic> json, {bool? value}) {
     isNew = value ?? false;
     number = json['number'];
     text = json['text'];
-    surah =
-        json['surah'] != null ? new SurahInfo.fromJson(json['surah']) : null;
+    surah = json['surah'] != null ? SurahInfo.fromJson(json['surah']) : null;
     numberInSurah = json['numberInSurah'];
     juz = json['juz'];
     manzil = json['manzil'];
@@ -135,23 +134,23 @@ class Ayahs {
     hizbQuarter = json['hizbQuarter'];
     try {
       sajda = SajdaModel.fromJson(json['sajda']);
-    } catch (e) {}
+    } catch (_) {}
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['number'] = this.number;
-    data['text'] = this.text;
-    if (this.surah != null) {
-      data['surah'] = this.surah!.toJson();
+    final Map<String, dynamic> data = {};
+    data['number'] = number;
+    data['text'] = text;
+    if (surah != null) {
+      data['surah'] = surah!.toJson();
     }
-    data['numberInSurah'] = this.numberInSurah;
-    data['juz'] = this.juz;
-    data['manzil'] = this.manzil;
-    data['page'] = this.page;
-    data['ruku'] = this.ruku;
-    data['hizbQuarter'] = this.hizbQuarter;
-    data['sajda'] = this.sajda;
+    data['numberInSurah'] = numberInSurah;
+    data['juz'] = juz;
+    data['manzil'] = manzil;
+    data['page'] = page;
+    data['ruku'] = ruku;
+    data['hizbQuarter'] = hizbQuarter;
+    data['sajda'] = sajda;
     return data;
   }
 }
@@ -165,12 +164,12 @@ class SurahInfo {
   int? numberOfAyahs;
 
   SurahInfo(
-      {this.number,
-      this.name,
-      this.englishName,
-      this.englishNameTranslation,
-      this.revelationType,
-      this.numberOfAyahs});
+      {number,
+      name,
+      englishName,
+      englishNameTranslation,
+      revelationType,
+      numberOfAyahs});
 
   SurahInfo.fromJson(Map<String, dynamic> json) {
     number = json['number'];
@@ -182,13 +181,13 @@ class SurahInfo {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['number'] = this.number;
-    data['name'] = this.name;
-    data['englishName'] = this.englishName;
-    data['englishNameTranslation'] = this.englishNameTranslation;
-    data['revelationType'] = this.revelationType;
-    data['numberOfAyahs'] = this.numberOfAyahs;
+    final Map<String, dynamic> data = {};
+    data['number'] = number;
+    data['name'] = name;
+    data['englishName'] = englishName;
+    data['englishNameTranslation'] = englishNameTranslation;
+    data['revelationType'] = revelationType;
+    data['numberOfAyahs'] = numberOfAyahs;
     return data;
   }
 }
@@ -202,14 +201,7 @@ class Edition {
   String? type;
   String? direction;
 
-  Edition(
-      {this.identifier,
-      this.language,
-      this.name,
-      this.englishName,
-      this.format,
-      this.type,
-      this.direction});
+  Edition({identifier, language, name, englishName, format, type, direction});
 
   Edition.fromJson(Map<String, dynamic> json) {
     identifier = json['identifier'];
@@ -222,14 +214,14 @@ class Edition {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['identifier'] = this.identifier;
-    data['language'] = this.language;
-    data['name'] = this.name;
-    data['englishName'] = this.englishName;
-    data['format'] = this.format;
-    data['type'] = this.type;
-    data['direction'] = this.direction;
+    final Map<String, dynamic> data = {};
+    data['identifier'] = identifier;
+    data['language'] = language;
+    data['name'] = name;
+    data['englishName'] = englishName;
+    data['format'] = format;
+    data['type'] = type;
+    data['direction'] = direction;
     return data;
   }
 }
@@ -239,5 +231,5 @@ class QuranPages {
   int? realPageNumber;
   List<Ayahs>? ayahs;
 
-  QuranPages({this.ayahs, this.pageNumber, this.realPageNumber});
+  QuranPages({ayahs, pageNumber, realPageNumber});
 }

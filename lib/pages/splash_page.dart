@@ -3,10 +3,10 @@ import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:ramadan/bussines_logic/Setting/settings_cubit.dart';
-import 'package:ramadan/bussines_logic/dua/dua_cubit.dart';
 import 'package:ramadan/bussines_logic/prayer/prayer_cubit.dart';
 import 'package:ramadan/pages/cities_page.dart';
-import 'package:ramadan/pages/main_page.dart';
+import 'package:ramadan/src/main_app/dua/bussines_logic/dua_cubit.dart';
+import 'package:ramadan/src/main_app/main_page.dart';
 import 'package:ramadan/utils/utils.dart';
 
 class SplashPage extends HookWidget {
@@ -77,12 +77,12 @@ class SplashPage extends HookWidget {
                     margin: const EdgeInsets.symmetric(horizontal: 30),
                     child: AnimatedScale(
                       onEnd: () {
-                        Future.delayed(const Duration(milliseconds: 800)).then(
+                        Future.delayed(const Duration(milliseconds: 100)).then(
                           (value) => Navigator.pushReplacement(
                             context,
                             to(
                               state.setting.setting?.city != null
-                                  ? MainPage()
+                                  ? const MainPage()
                                   : const CitiesPage(),
                             ),
                           ),

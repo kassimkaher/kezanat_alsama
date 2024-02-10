@@ -1,8 +1,9 @@
 import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:ramadan/model/prayer_model.dart';
-import 'package:ramadan/services/validation.dart';
+import 'package:ramadan/bussines_logic/prayer/fuctions/functions.dart';
+import 'package:ramadan/bussines_logic/prayer/model/prayer_model.dart';
+import 'package:ramadan/src/core/resources/validation.dart';
 import 'package:ramadan/utils/translate.dart';
 import 'package:ramadan/utils/utils.dart';
 import 'package:simple_gradient_text/simple_gradient_text.dart';
@@ -54,6 +55,10 @@ extension KQ on String {
     }
   }
 
+  int? toInt() {
+    return int.tryParse(this);
+  }
+
   String toPrice() {
     if (this.length > 2) {
       var value = this;
@@ -88,6 +93,10 @@ extension KQ on String {
     final isMinus = this.contains("-");
     final number = double.parse(this.replaceAll("+", "").replaceAll("-", "+"));
     return number * (isMinus ? -1 : 1);
+  }
+
+  String toEnglishNumber() {
+    return getEnglishNumber(this ?? "");
   }
 }
 

@@ -1,11 +1,10 @@
 import 'package:ramadan/src/core/enum/week_day.dart';
 import 'package:ramadan/src/main_app/home/daily_work/model/calendar_model.dart';
 
-getLastWeekDayDate(DateTime currentDate, WeekDay weekDay, int dayes) {
+getLastWeekDayDate(CalendarModel calendarModel, WeekDay weekDay, int dayes) {
   // Find the last Friday
+  DateTime lastDayOfMonth = DateTime(2024, calendarModel.hijreeMonth! + 1, 0);
 
-  DateTime lastDayOfMonth =
-      DateTime(currentDate.year, currentDate.month + 1, 0);
   final dateByArabic = DateTime.now().add(Duration(days: 30 - dayes));
   int lastFridayOffset =
       (weekDay.index + 1) - dateByArabic.weekday; // 5 represents Friday
@@ -16,11 +15,17 @@ getLastWeekDayDate(DateTime currentDate, WeekDay weekDay, int dayes) {
 
   // Calculate the date of the last Friday
 
-  DateTime lastFriday =
-      DateTime(lastDayOfMonth.year, currentDate.month + 1, lastFridayOffset);
+  DateTime lastFriday = DateTime(
+      lastDayOfMonth.year, calendarModel.hijreeMonth! + 1, lastFridayOffset);
   // lastDayOfMonth.add(Duration(days: lastFridayOffset - 1));
 
-  return lastFriday;
+  // return lastFriday;
+
+  if (lastFriday.month == calendarModel.hijreeMonth &&
+      lastFriday.day == calendarModel.hijreeDay) {
+    return true;
+  }
+  return false;
 }
 
 bool getFirstWeekDayDate(

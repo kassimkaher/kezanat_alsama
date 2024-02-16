@@ -96,7 +96,7 @@ extension KQ on String {
   }
 
   String toEnglishNumber() {
-    return getEnglishNumber(this ?? "");
+    return getEnglishNumber(this);
   }
 }
 

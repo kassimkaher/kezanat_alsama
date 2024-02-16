@@ -17,26 +17,40 @@ final _privateConstructorUsedError = UnsupportedError(
 /// @nodoc
 mixin _$SliderState {
   DataStatus get datastatus => throw _privateConstructorUsedError;
+  int get activeIndex => throw _privateConstructorUsedError;
+  String? get displayedPostId => throw _privateConstructorUsedError;
   DailyPostsModel? get postlist => throw _privateConstructorUsedError;
   List<QueryDocumentSnapshot<Map<String, dynamic>>>? get refrenses =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function(DataStatus datastatus, DailyPostsModel? postlist,
+    required TResult Function(
+            DataStatus datastatus,
+            int activeIndex,
+            String? displayedPostId,
+            DailyPostsModel? postlist,
             List<QueryDocumentSnapshot<Map<String, dynamic>>>? refrenses)
         initial,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function(DataStatus datastatus, DailyPostsModel? postlist,
+    TResult? Function(
+            DataStatus datastatus,
+            int activeIndex,
+            String? displayedPostId,
+            DailyPostsModel? postlist,
             List<QueryDocumentSnapshot<Map<String, dynamic>>>? refrenses)?
         initial,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function(DataStatus datastatus, DailyPostsModel? postlist,
+    TResult Function(
+            DataStatus datastatus,
+            int activeIndex,
+            String? displayedPostId,
+            DailyPostsModel? postlist,
             List<QueryDocumentSnapshot<Map<String, dynamic>>>? refrenses)?
         initial,
     required TResult orElse(),
@@ -72,6 +86,8 @@ abstract class $SliderStateCopyWith<$Res> {
   @useResult
   $Res call(
       {DataStatus datastatus,
+      int activeIndex,
+      String? displayedPostId,
       DailyPostsModel? postlist,
       List<QueryDocumentSnapshot<Map<String, dynamic>>>? refrenses});
 }
@@ -90,6 +106,8 @@ class _$SliderStateCopyWithImpl<$Res, $Val extends SliderState>
   @override
   $Res call({
     Object? datastatus = null,
+    Object? activeIndex = null,
+    Object? displayedPostId = freezed,
     Object? postlist = freezed,
     Object? refrenses = freezed,
   }) {
@@ -98,6 +116,14 @@ class _$SliderStateCopyWithImpl<$Res, $Val extends SliderState>
           ? _value.datastatus
           : datastatus // ignore: cast_nullable_to_non_nullable
               as DataStatus,
+      activeIndex: null == activeIndex
+          ? _value.activeIndex
+          : activeIndex // ignore: cast_nullable_to_non_nullable
+              as int,
+      displayedPostId: freezed == displayedPostId
+          ? _value.displayedPostId
+          : displayedPostId // ignore: cast_nullable_to_non_nullable
+              as String?,
       postlist: freezed == postlist
           ? _value.postlist
           : postlist // ignore: cast_nullable_to_non_nullable
@@ -120,6 +146,8 @@ abstract class _$$InitialImplCopyWith<$Res>
   @useResult
   $Res call(
       {DataStatus datastatus,
+      int activeIndex,
+      String? displayedPostId,
       DailyPostsModel? postlist,
       List<QueryDocumentSnapshot<Map<String, dynamic>>>? refrenses});
 }
@@ -136,6 +164,8 @@ class __$$InitialImplCopyWithImpl<$Res>
   @override
   $Res call({
     Object? datastatus = null,
+    Object? activeIndex = null,
+    Object? displayedPostId = freezed,
     Object? postlist = freezed,
     Object? refrenses = freezed,
   }) {
@@ -144,6 +174,14 @@ class __$$InitialImplCopyWithImpl<$Res>
           ? _value.datastatus
           : datastatus // ignore: cast_nullable_to_non_nullable
               as DataStatus,
+      activeIndex: null == activeIndex
+          ? _value.activeIndex
+          : activeIndex // ignore: cast_nullable_to_non_nullable
+              as int,
+      displayedPostId: freezed == displayedPostId
+          ? _value.displayedPostId
+          : displayedPostId // ignore: cast_nullable_to_non_nullable
+              as String?,
       postlist: freezed == postlist
           ? _value.postlist
           : postlist // ignore: cast_nullable_to_non_nullable
@@ -161,6 +199,8 @@ class __$$InitialImplCopyWithImpl<$Res>
 class _$InitialImpl implements _Initial {
   const _$InitialImpl(
       {this.datastatus = DataStatus.ideal,
+      this.activeIndex = 0,
+      this.displayedPostId,
       this.postlist,
       final List<QueryDocumentSnapshot<Map<String, dynamic>>>? refrenses})
       : _refrenses = refrenses;
@@ -168,6 +208,11 @@ class _$InitialImpl implements _Initial {
   @override
   @JsonKey()
   final DataStatus datastatus;
+  @override
+  @JsonKey()
+  final int activeIndex;
+  @override
+  final String? displayedPostId;
   @override
   final DailyPostsModel? postlist;
   final List<QueryDocumentSnapshot<Map<String, dynamic>>>? _refrenses;
@@ -182,7 +227,7 @@ class _$InitialImpl implements _Initial {
 
   @override
   String toString() {
-    return 'SliderState.initial(datastatus: $datastatus, postlist: $postlist, refrenses: $refrenses)';
+    return 'SliderState.initial(datastatus: $datastatus, activeIndex: $activeIndex, displayedPostId: $displayedPostId, postlist: $postlist, refrenses: $refrenses)';
   }
 
   @override
@@ -192,6 +237,10 @@ class _$InitialImpl implements _Initial {
             other is _$InitialImpl &&
             (identical(other.datastatus, datastatus) ||
                 other.datastatus == datastatus) &&
+            (identical(other.activeIndex, activeIndex) ||
+                other.activeIndex == activeIndex) &&
+            (identical(other.displayedPostId, displayedPostId) ||
+                other.displayedPostId == displayedPostId) &&
             (identical(other.postlist, postlist) ||
                 other.postlist == postlist) &&
             const DeepCollectionEquality()
@@ -199,7 +248,12 @@ class _$InitialImpl implements _Initial {
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, datastatus, postlist,
+  int get hashCode => Object.hash(
+      runtimeType,
+      datastatus,
+      activeIndex,
+      displayedPostId,
+      postlist,
       const DeepCollectionEquality().hash(_refrenses));
 
   @JsonKey(ignore: true)
@@ -211,33 +265,48 @@ class _$InitialImpl implements _Initial {
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function(DataStatus datastatus, DailyPostsModel? postlist,
+    required TResult Function(
+            DataStatus datastatus,
+            int activeIndex,
+            String? displayedPostId,
+            DailyPostsModel? postlist,
             List<QueryDocumentSnapshot<Map<String, dynamic>>>? refrenses)
         initial,
   }) {
-    return initial(datastatus, postlist, refrenses);
+    return initial(
+        datastatus, activeIndex, displayedPostId, postlist, refrenses);
   }
 
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function(DataStatus datastatus, DailyPostsModel? postlist,
+    TResult? Function(
+            DataStatus datastatus,
+            int activeIndex,
+            String? displayedPostId,
+            DailyPostsModel? postlist,
             List<QueryDocumentSnapshot<Map<String, dynamic>>>? refrenses)?
         initial,
   }) {
-    return initial?.call(datastatus, postlist, refrenses);
+    return initial?.call(
+        datastatus, activeIndex, displayedPostId, postlist, refrenses);
   }
 
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function(DataStatus datastatus, DailyPostsModel? postlist,
+    TResult Function(
+            DataStatus datastatus,
+            int activeIndex,
+            String? displayedPostId,
+            DailyPostsModel? postlist,
             List<QueryDocumentSnapshot<Map<String, dynamic>>>? refrenses)?
         initial,
     required TResult orElse(),
   }) {
     if (initial != null) {
-      return initial(datastatus, postlist, refrenses);
+      return initial(
+          datastatus, activeIndex, displayedPostId, postlist, refrenses);
     }
     return orElse();
   }
@@ -274,12 +343,18 @@ class _$InitialImpl implements _Initial {
 abstract class _Initial implements SliderState {
   const factory _Initial(
           {final DataStatus datastatus,
+          final int activeIndex,
+          final String? displayedPostId,
           final DailyPostsModel? postlist,
           final List<QueryDocumentSnapshot<Map<String, dynamic>>>? refrenses}) =
       _$InitialImpl;
 
   @override
   DataStatus get datastatus;
+  @override
+  int get activeIndex;
+  @override
+  String? get displayedPostId;
   @override
   DailyPostsModel? get postlist;
   @override

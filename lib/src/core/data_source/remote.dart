@@ -17,12 +17,12 @@ class FireStoreRemote {
   }
 
   static Future<DataState<DailyPostsModel>> getPostsApi() async {
-    final data = LocalDB.getPosts();
+    // final data = LocalDB.getPosts();
 
-    if (data != null &&
-        (data.dateTime?.difference(DateTime.now()).inDays ?? 1) == 0) {
-      return DataSuccess(data);
-    }
+    // if (data != null &&
+    //     (data.dateTime?.difference(DateTime.now()).inDays ?? 1) == 0) {
+    //   return DataSuccess(data);
+    // }
     try {
       final data = await dailyPosts.get();
       final List<DailyPostData> list = [];

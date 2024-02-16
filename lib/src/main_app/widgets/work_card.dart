@@ -58,12 +58,15 @@ class WorkCard extends StatelessWidget {
             style: theme.textTheme.bodyLarge,
           ),
           // const SizedBox(width: 5),
-          subtitle: Text(
-            dailyWorkData.description ?? "",
-            maxLines: 1,
-            overflow: TextOverflow.ellipsis,
-            style: theme.textTheme.titleSmall,
-          ),
+          subtitle: dailyWorkData.description == null ||
+                  dailyWorkData.description!.isEmpty
+              ? null
+              : Text(
+                  dailyWorkData.description ?? "",
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                  style: theme.textTheme.titleSmall,
+                ),
           trailing: ondelete != null
               ? ActionChip(
                   backgroundColor: Colors.red,

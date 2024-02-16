@@ -6,7 +6,6 @@ import 'package:ramadan/src/main_app/widgets/custom_card.dart';
 import 'package:ramadan/model/alqadr_model.dart';
 import 'package:ramadan/src/alqadr/salat_day.dart';
 import 'package:ramadan/src/alqadr/salat_page.dart';
-import 'package:ramadan/src/alqadr/tasbeeh.dart';
 import 'package:ramadan/pages/read_sheet.dart';
 import 'package:ramadan/src/main_app/quran/quran_list_suar.dart';
 import 'package:ramadan/utils/utils.dart';
@@ -795,13 +794,13 @@ class AlqaderPage extends StatelessWidget {
                                                                 .scaffoldBackgroundColor),
                                                         child: InkWell(
                                                           onTap: () {
-                                                            Navigator.push(
-                                                              context,
-                                                              to(
-                                                                TasbeehPage(
-                                                                    data: e),
-                                                              ),
-                                                            );
+                                                            // Navigator.push(
+                                                            //   context,
+                                                            //   to(
+                                                            //     TasbeehPage(
+                                                            //         data: e),
+                                                            //   ),
+                                                            // );
                                                           },
                                                           child: Text(
                                                             e.title ?? "",

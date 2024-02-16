@@ -79,7 +79,6 @@ class _AddPostPageState extends State<AddPostPage> {
                 const SizedBox(height: 12),
                 CustomTextInput(
                   isRequired: ValidatorEnum.required,
-                  validator: ValidatorEnum.textOnly,
                   controller: titleController,
                   label: "العنوان",
                   rightPadding: 16,

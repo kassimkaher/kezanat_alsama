@@ -16,73 +16,71 @@ class BottomBar extends StatelessWidget {
   final int currentpageIndex;
   @override
   Widget build(BuildContext context) {
-    return true
-        ? BottomNavigationBar(
-            selectedItemColor: theme.primaryColor,
-            currentIndex: currentpageIndex,
-            type: BottomNavigationBarType.fixed,
-            selectedFontSize: 12,
-            unselectedFontSize: 12,
-            onTap: (a) => controller.changePage(NavPages.values[0], a),
-            items: [
-              customBottomAppbar(
-                onTap: () => controller.changePage(NavPages.values[0], 2),
-                theme: theme,
-                isSelect: currentpageIndex == 0,
-                svgIcon: "assets/svg/home.svg",
-                title: "الرئيسية",
-              ),
-              customBottomAppbar(
-                onTap: () => controller.changePage(NavPages.values[0], 0),
-                theme: theme,
-                isSelect: currentpageIndex == 1,
-                svgIcon: "assets/svg/quran.svg",
-                title: "القرآن الكريم",
-              ),
-              customBottomAppbar(
-                onTap: () => controller.changePage(NavPages.values[0], 1),
-                theme: theme,
-                isSelect: currentpageIndex == 2,
-                svgIcon: "assets/svg/dua.svg",
-                title: "الادعية",
-              ),
+    return BottomNavigationBar(
+      selectedItemColor: theme.primaryColor,
+      currentIndex: currentpageIndex,
+      type: BottomNavigationBarType.fixed,
+      selectedFontSize: 12,
+      unselectedFontSize: 12,
+      onTap: (a) => controller.changePage(NavPages.values[0], a),
+      items: [
+        customBottomAppbar(
+          onTap: () => controller.changePage(NavPages.values[0], 2),
+          theme: theme,
+          isSelect: currentpageIndex == 0,
+          svgIcon: "assets/svg/home.svg",
+          title: "الرئيسية",
+        ),
+        customBottomAppbar(
+          onTap: () => controller.changePage(NavPages.values[0], 0),
+          theme: theme,
+          isSelect: currentpageIndex == 1,
+          svgIcon: "assets/svg/quran.svg",
+          title: "القرآن الكريم",
+        ),
+        customBottomAppbar(
+          onTap: () => controller.changePage(NavPages.values[0], 1),
+          theme: theme,
+          isSelect: currentpageIndex == 2,
+          svgIcon: "assets/svg/dua.svg",
+          title: "الادعية",
+        ),
 
-              customBottomAppbar(
-                onTap: () => controller.changePage(NavPages.values[0], 3),
-                theme: theme,
-                isSelect: currentpageIndex == 3,
-                svgIcon: "assets/svg/zyara.svg",
-                title: "الزيارات",
-              ),
+        customBottomAppbar(
+          onTap: () => controller.changePage(NavPages.values[0], 3),
+          theme: theme,
+          isSelect: currentpageIndex == 3,
+          svgIcon: "assets/svg/zyara.svg",
+          title: "الزيارات",
+        ),
 
-              // InkWell(
-              //   onTap: () =>
-              //       controller.changePage(NavPages.values[0], 4),
-              //   child: AnimatedContainer(
-              //     duration: const Duration(milliseconds: 300),
-              //     height: 45,
-              //     width: 45,
-              //     decoration: BoxDecoration(
-              //       color: presenter.setting.currentpageIndex == 4
-              //           ? theme.primaryColor
-              //           : Colors.transparent,
-              //       borderRadius: BorderRadius.circular(30),
-              //     ),
-              //     alignment: Alignment.center,
-              //     child: SvgPicture.asset(
-              //       "assets/svg/munajat.svg",
-              //       height: presenter.setting.currentpageIndex == 4
-              //           ? 26
-              //           : 30,
-              //       color: presenter.setting.currentpageIndex == 4
-              //           ? theme.cardColor
-              //           : jbUnselectColor,
-              //     ),
-              //   ),
-              // ),
-            ],
-          )
-        : const SizedBox();
+        // InkWell(
+        //   onTap: () =>
+        //       controller.changePage(NavPages.values[0], 4),
+        //   child: AnimatedContainer(
+        //     duration: const Duration(milliseconds: 300),
+        //     height: 45,
+        //     width: 45,
+        //     decoration: BoxDecoration(
+        //       color: presenter.setting.currentpageIndex == 4
+        //           ? theme.primaryColor
+        //           : Colors.transparent,
+        //       borderRadius: BorderRadius.circular(30),
+        //     ),
+        //     alignment: Alignment.center,
+        //     child: SvgPicture.asset(
+        //       "assets/svg/munajat.svg",
+        //       height: presenter.setting.currentpageIndex == 4
+        //           ? 26
+        //           : 30,
+        //       color: presenter.setting.currentpageIndex == 4
+        //           ? theme.cardColor
+        //           : jbUnselectColor,
+        //     ),
+        //   ),
+        // ),
+      ],
+    );
   }
 }
 

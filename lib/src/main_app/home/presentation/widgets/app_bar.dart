@@ -1,5 +1,8 @@
+import 'package:flutter_svg/svg.dart';
 import 'package:lucide_icons/lucide_icons.dart';
 import 'package:ramadan/pages/setting_page.dart';
+import 'package:ramadan/services/tasbeeh/entity/model/tasbeeh_model.dart';
+import 'package:ramadan/services/tasbeeh/presentation/tasbeeh_page.dart';
 import 'package:ramadan/src/admin/logic/calendar_cubit/calendar_cubit.dart';
 import 'package:ramadan/src/core/entity/data_status.dart';
 import 'package:ramadan/utils/utils.dart';
@@ -9,9 +12,50 @@ class AppBarHome extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
     return Row(
+      crossAxisAlignment: CrossAxisAlignment.center,
       children: [
         const Expanded(child: DateWidget()),
+        IconButton(
+          icon: SvgPicture.asset(
+            "assets/svg/beads.svg",
+            height: 25,
+            color: theme.scaffoldBackgroundColor,
+          ),
+          onPressed: () => Navigator.push(
+            context,
+            to(
+              TasbeehPage(
+                tasbeehModel: TasbeehModel(
+                  tasbeehList: [
+                    TasbeehData(
+                        title: "'تسبيح الزهراء عليها السلام'",
+                        description:
+                            "تسبيح الزهراء، أو تسبيح فاطمة من الأذكار المشهورة عند الشيعة، وهو أن يقول المسبّح: الله أكبر (34) مرة، الحمد لله (33) مرة، سبحان الله (33) مرة.",
+                        number: 34,
+                        subtitle: "",
+                        speak: "الله أكبر"),
+                    TasbeehData(
+                        title: "'تسبيح الزهراء عليها السلام'",
+                        description:
+                            "تسبيح الزهراء، أو تسبيح فاطمة من الأذكار المشهورة عند الشيعة، وهو أن يقول المسبّح: الله أكبر (34) مرة، الحمد لله (33) مرة، سبحان الله (33) مرة.",
+                        number: 33,
+                        subtitle: "",
+                        speak: "الحمد لله"),
+                    TasbeehData(
+                        title: "'تسبيح الزهراء عليها السلام'",
+                        description:
+                            "تسبيح الزهراء، أو تسبيح فاطمة من الأذكار المشهورة عند الشيعة، وهو أن يقول المسبّح: الله أكبر (34) مرة، الحمد لله (33) مرة، سبحان الله (33) مرة.",
+                        number: 33,
+                        subtitle: "",
+                        speak: "سبحان الله")
+                  ],
+                ),
+              ),
+            ),
+          ),
+        ),
         Align(
           alignment: Alignment.topLeft,
           child: IconButton(

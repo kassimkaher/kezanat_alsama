@@ -759,6 +759,8 @@ PODS:
   - permission_handler_apple (9.1.1):
     - Flutter
   - PromisesObjC (2.3.1)
+  - text_to_speech (0.0.1):
+    - Flutter
   - uni_links (0.0.1):
     - Flutter
 
@@ -770,6 +772,7 @@ DEPENDENCIES:
   - flutter_local_notifications (from `.symlinks/plugins/flutter_local_notifications/ios`)
   - path_provider_foundation (from `.symlinks/plugins/path_provider_foundation/darwin`)
   - permission_handler_apple (from `.symlinks/plugins/permission_handler_apple/ios`)
+  - text_to_speech (from `.symlinks/plugins/text_to_speech/ios`)
   - uni_links (from `.symlinks/plugins/uni_links/ios`)
 
 SPEC REPOS:
@@ -806,6 +809,8 @@ EXTERNAL SOURCES:
     :path: ".symlinks/plugins/path_provider_foundation/darwin"
   permission_handler_apple:
     :path: ".symlinks/plugins/permission_handler_apple/ios"
+  text_to_speech:
+    :path: ".symlinks/plugins/text_to_speech/ios"
   uni_links:
     :path: ".symlinks/plugins/uni_links/ios"
 
@@ -833,6 +838,7 @@ SPEC CHECKSUMS:
   path_provider_foundation: 29f094ae23ebbca9d3d0cec13889cd9060c0e943
   permission_handler_apple: e76247795d700c14ea09e3a2d8855d41ee80a2e6
   PromisesObjC: c50d2056b5253dadbd6c2bea79b0674bd5a52fa4
+  text_to_speech: 8669facdbd5b72d2939b810493defd991634f6f9
   uni_links: d97da20c7701486ba192624d99bffaaffcfc298a
 
 PODFILE CHECKSUM: c4c93c5f6502fe2754f48404d3594bf779584011

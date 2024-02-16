@@ -37,11 +37,11 @@ class AlqadrInfo {
   SalatContinus? salatCounterContinus;
 
   int cardIndex = -1;
-  TasbeehData? currentTasbeeh;
+  TasbeehDataOld? currentTasbeeh;
 }
 
-class TasbeehData {
+class TasbeehDataOld {
   int all;
   int current;
-  TasbeehData(this.all, this.current);
+  TasbeehDataOld(this.all, this.current);
 }

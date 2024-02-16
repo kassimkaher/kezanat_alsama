@@ -141,7 +141,7 @@ class AlqadrCubit extends Cubit<AlqadrState> {
 
   increesTasbeeh(int all, int current) {
     HapticFeedback.heavyImpact();
-    state.alqadrInfo.currentTasbeeh ??= TasbeehData(all, current);
+    state.alqadrInfo.currentTasbeeh ??= TasbeehDataOld(all, current);
 
     if (state.alqadrInfo.currentTasbeeh!.current ==
         state.alqadrInfo.currentTasbeeh!.all) {

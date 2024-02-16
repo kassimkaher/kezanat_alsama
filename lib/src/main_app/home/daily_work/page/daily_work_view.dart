@@ -23,31 +23,35 @@ class DailyWorkView extends StatelessWidget {
         WorkTaps(
           keys: keyArray,
         ),
-        BlocBuilder<DailyWorkCubit, DailyWorkState>(
-            builder: (context, state) => switch (state.datastatus) {
-                  DataStatus.loading || DataStatus.ideal => ListView.separated(
-                      padding: const EdgeInsets.all(8),
-                      shrinkWrap: true,
-                      itemBuilder: (c, i) => const WorkCardPlaceHolder(),
-                      separatorBuilder: (c, i) => const SizedBox(height: 0),
-                      itemCount: 4),
-                  DataStatus.success => Column(children: [
-                      _getWeekWorkUi(state, theme, keyArray[0]),
-                      _getDailyWorkUi(state, theme, keyArray[1]),
-                      VisibilityDetector(
-                          key: keyArray[2],
-                          child: Column(
-                            children: [],
-                          ),
-                          onVisibilityChanged: (_) {}),
-                    ]),
-                  _ => const Text("error")
-                }),
+        Expanded(
+          child: BlocBuilder<DailyWorkCubit, DailyWorkState>(
+              builder: (context, state) => switch (state.datastatus) {
+                    DataStatus.loading ||
+                    DataStatus.ideal =>
+                      ListView.separated(
+                          padding: const EdgeInsets.all(8),
+                          itemBuilder: (c, i) => const WorkCardPlaceHolder(),
+                          separatorBuilder: (c, i) => const SizedBox(height: 0),
+                          itemCount: 4),
+                    DataStatus.success => ListView(children: [
+                        _getDailyWorkListView(state, theme, keyArray[0]),
+                        _getThisMonthWorksListView(state, theme, keyArray[1]),
+                        VisibilityDetector(
+                            key: keyArray[2],
+                            child: Column(
+                              children: [],
+                            ),
+                            onVisibilityChanged: (_) {}),
+                      ]),
+                    _ => const Text("error")
+                  }),
+        ),
       ],
     );
   }
 
-  Widget _getDailyWorkUi(DailyWorkState state, ThemeData theme, Key key) {
+  Widget _getThisMonthWorksListView(
+      DailyWorkState state, ThemeData theme, Key key) {
     return VisibilityDetector(
         key: key,
         child: state.todayWorkModel == null ||
@@ -70,9 +74,9 @@ class DailyWorkView extends StatelessWidget {
                     shrinkWrap: true,
                     physics: const NeverScrollableScrollPhysics(),
                     separatorBuilder: (c, i) => const SizedBox(height: 0),
-                    itemCount: state.todayWorkModel?.data?.length ?? 0,
+                    itemCount: state.monthWorkModel?.data?.length ?? 0,
                     itemBuilder: (c, i) => WorkCard(
-                      dailyWorkData: state.todayWorkModel!.data![i],
+                      dailyWorkData: state.allDailyWorkModel!.data![i],
                       onTap: () => onTapWork(state.todayWorkModel!.data![i]),
                     ),
                   ),
@@ -81,7 +85,7 @@ class DailyWorkView extends StatelessWidget {
         onVisibilityChanged: (a) {});
   }
 
-  Widget _getWeekWorkUi(DailyWorkState state, ThemeData theme, Key key) {
+  Widget _getDailyWorkListView(DailyWorkState state, ThemeData theme, Key key) {
     return VisibilityDetector(
         key: key,
         child: state.todayWorkModel == null ||

@@ -16,9 +16,24 @@ class SliderCubit extends Cubit<SliderState> {
 
     final data = await FireStoreRemote.getPostsApi();
     if (data is DataSuccess) {
-      emit(state.copyWith(datastatus: DataStatus.success, postlist: data.data));
+      emit(state.copyWith(
+          datastatus: DataStatus.success,
+          postlist: data.data,
+          displayedPostId: data.data?.data?.first.id));
+      Future.delayed(const Duration(seconds: 5))
+          .then((value) => changeActiveIndex(1));
       return;
     }
     emit(state.copyWith(datastatus: DataStatus.error));
+  }
+
+  changeActiveIndex(int index) {
+    if (index >= state.postlist!.data!.length) {
+      emit(state.copyWith(activeIndex: 0));
+
+      return;
+    }
+
+    emit(state.copyWith(activeIndex: index));
   }
 }

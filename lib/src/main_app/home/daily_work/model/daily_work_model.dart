@@ -75,7 +75,7 @@ class DailyWorkData {
     hour = json['hour'];
     isRequired = json['isRequired'];
 
-    if (json['week_day'] != null) {
+    if (json['week_day'] != null && json['week_day'].toString().isNotEmpty) {
       weekDay = WeekDay.values.byName(json['week_day']);
     }
     if (json['type'] != null) {

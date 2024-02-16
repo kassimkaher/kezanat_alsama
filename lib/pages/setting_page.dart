@@ -6,9 +6,10 @@ import 'package:ramadan/alert/alert_desition.dart';
 import 'package:ramadan/bussines_logic/Setting/settings_cubit.dart';
 import 'package:ramadan/services/notification_service.dart';
 import 'package:ramadan/bussines_logic/prayer/prayer_cubit.dart';
-import 'package:ramadan/model/alqadr_model.dart';
+import 'package:ramadan/services/tasbeeh/entity/model/tasbeeh_model.dart';
+import 'package:ramadan/services/tasbeeh/presentation/tasbeeh_page.dart';
 import 'package:ramadan/src/admin/pages/admin_pannel.dart';
-import 'package:ramadan/src/alqadr/tasbeeh.dart';
+
 import 'package:ramadan/pages/cities_page.dart';
 import 'package:ramadan/src/core/constant/const.dart';
 import 'package:ramadan/src/core/widget/jb_button.dart';
@@ -303,7 +304,33 @@ class SettingPage extends StatelessWidget {
                   Navigator.push(
                     context,
                     to(
-                      TasbeehPage(data: DataList(title: "تسبيح", index: 33)),
+                      TasbeehPage(
+                        tasbeehModel: TasbeehModel(
+                          tasbeehList: [
+                            TasbeehData(
+                                title: "'تسبيح الزهراء عليها السلام'",
+                                description:
+                                    "تسبيح الزهراء، أو تسبيح فاطمة من الأذكار المشهورة عند الشيعة، وهو أن يقول المسبّح: الله أكبر (34) مرة، الحمد لله (33) مرة، سبحان الله (33) مرة.",
+                                number: 34,
+                                subtitle: "",
+                                speak: "الله أكبر"),
+                            TasbeehData(
+                                title: "'تسبيح الزهراء عليها السلام'",
+                                description:
+                                    "تسبيح الزهراء، أو تسبيح فاطمة من الأذكار المشهورة عند الشيعة، وهو أن يقول المسبّح: الله أكبر (34) مرة، الحمد لله (33) مرة، سبحان الله (33) مرة.",
+                                number: 33,
+                                subtitle: "",
+                                speak: "الحمد لله"),
+                            TasbeehData(
+                                title: "'تسبيح الزهراء عليها السلام'",
+                                description:
+                                    "تسبيح الزهراء، أو تسبيح فاطمة من الأذكار المشهورة عند الشيعة، وهو أن يقول المسبّح: الله أكبر (34) مرة، الحمد لله (33) مرة، سبحان الله (33) مرة.",
+                                number: 33,
+                                subtitle: "",
+                                speak: "سبحان الله")
+                          ],
+                        ),
+                      ),
                     ),
                   );
                 },

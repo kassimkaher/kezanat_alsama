@@ -1,10 +1,7 @@
-import 'dart:developer';
-
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:ramadan/src/core/data_source/remote.dart';
 import 'package:ramadan/src/core/entity/data_state.dart';
 import 'package:ramadan/src/core/entity/data_status.dart';
-import 'package:ramadan/src/core/enum/week_day.dart';
 import 'package:ramadan/src/core/enum/work_timing.dart';
 import 'package:ramadan/src/main_app/home/daily_work/logic/daily_work_logic/functions.dart';
 import 'package:ramadan/src/main_app/home/daily_work/model/calendar_model.dart';
@@ -82,13 +79,13 @@ class DailyWorkCubit extends Cubit<DailyWorkState> {
     //final lastFriday = getLastWeekDayDate(firstDayOfMonth, WeekDay.friday, 1);
 
     if (calendarModel != null && data != null && data.isNotEmpty) {
-      log("90834902849");
       final filteredData = <DailyWorkData>[];
 
       for (var element in data) {
         switch (element.workTiming) {
           case WorkTiming.daily:
             filteredData.add(element);
+
             break;
 
           case WorkTiming.dailyInMonth
@@ -102,27 +99,22 @@ class DailyWorkCubit extends Cubit<DailyWorkState> {
             break;
           case WorkTiming.oneWeekDayInMonth
               when (element.month == calendarModel.hijreeMonth &&
-                  getFirstWeekDayDate(calendarModel, WeekDay.friday, 1)):
+                  getLastWeekDayDate(calendarModel, element.weekDay!, 1)):
             filteredData.add(element);
             break;
-          case WorkTiming.weekly when DateTime.now().weekday == element.weekDay:
+          case WorkTiming.weekly
+              when (DateTime.now().weekday == element.weekDay!.index + 1):
             filteredData.add(element);
 
             break;
           case WorkTiming.weeklyInMonth
               when (element.month == calendarModel.hijreeMonth &&
-                  element.weekDay == DateTime.now().weekday):
+                  element.weekDay!.index + 1 == DateTime.now().weekday):
             filteredData.add(element);
             break;
           default:
         }
       }
-      // filteredData = data
-      //     ?.where((element) =>
-      //         element.day == calendarModel.hijreeDay &&
-      //         element.month == calendarModel.hijreeMonth &&
-      //         (element.weekDay ?? -1) < 0)
-      //     .toList();
 
       return filteredData;
     } else {

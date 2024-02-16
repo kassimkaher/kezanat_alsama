@@ -23,6 +23,7 @@ class _MainPage extends State<MainPage> {
   void initState() {
     super.initState();
     context.read<CalendarCubit>().getCalendar();
+    context.read<SliderCubit>().getSliders();
   }
 
   @override

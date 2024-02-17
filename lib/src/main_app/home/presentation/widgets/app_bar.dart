@@ -30,12 +30,12 @@ class AppBarHome extends StatelessWidget {
                 tasbeehModel: TasbeehModel(
                   tasbeehList: [
                     TasbeehData(
-                        title: "'تسبيح الزهراء عليها السلام'",
+                        title: "تسبيح الزهراء عليها السلام",
                         description:
                             "تسبيح الزهراء، أو تسبيح فاطمة من الأذكار المشهورة عند الشيعة، وهو أن يقول المسبّح: الله أكبر (34) مرة، الحمد لله (33) مرة، سبحان الله (33) مرة.",
                         number: 34,
                         subtitle: "",
-                        speak: "الله أكبر"),
+                        speak: "قل الله أكبر"),
                     TasbeehData(
                         title: "'تسبيح الزهراء عليها السلام'",
                         description:

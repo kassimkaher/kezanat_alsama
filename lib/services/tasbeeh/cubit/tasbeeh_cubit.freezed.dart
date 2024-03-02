@@ -169,7 +169,7 @@ class _$InitialImpl implements _Initial {
       {this.tasbeehModel,
       this.count = 0,
       this.index = 0,
-      this.repetitionNumber = 0});
+      this.repetitionNumber = 1});
 
   @override
   final TasbeehModel? tasbeehModel;

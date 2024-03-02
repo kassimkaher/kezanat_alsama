@@ -1,11 +1,5 @@
-import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/framework.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
-import 'package:ramadan/bussines_logic/Setting/settings_cubit.dart';
-import 'package:ramadan/bussines_logic/prayer/prayer_cubit.dart';
 import 'package:ramadan/pages/cities_page.dart';
-import 'package:ramadan/src/main_app/dua/bussines_logic/dua_cubit.dart';
 import 'package:ramadan/src/main_app/main_page.dart';
 import 'package:ramadan/utils/utils.dart';
 
@@ -30,47 +24,47 @@ class SplashPage extends HookWidget {
           body: Container(
             decoration: const BoxDecoration(
               color: scaffoldColor,
-              image: DecorationImage(
-                image: AssetImage("assets/images/bak.png"),
-                fit: BoxFit.cover,
-              ),
+              // image: DecorationImage(
+              //   //  image: AssetImage("assets/images/bak.png"),
+              //   fit: BoxFit.cover,
+              // ),
             ),
             child: Stack(
               children: [
                 SizedBox(width: size.width, height: size.height),
-                AnimatedPositioned(
-                  duration: const Duration(milliseconds: kSplashDuration),
-                  right: state.setting.isBegin ? -80 : -300,
-                  top: state.setting.isBegin ? -80 : -150,
-                  child: Transform.rotate(
-                    angle: 0.2,
-                    child: SizedBox(
-                      child: Image.asset(
-                        "assets/images/splash.png",
-                        fit: BoxFit.contain,
-                        height: 300,
-                        alignment: Alignment.topRight,
-                      ),
-                    ),
-                  ),
-                ),
-                AnimatedPositioned(
-                  duration: const Duration(milliseconds: kSplashDuration),
-                  left: state.setting.isBegin ? -100 : -300,
-                  bottom: state.setting.isBegin ? -100 : -400,
-                  child: Transform.scale(
-                    scale: 1,
-                    child: SizedBox(
-                      height: 300,
-                      width: 300,
-                      child: Image.asset(
-                        "assets/images/splash.png",
-                        fit: BoxFit.contain,
-                        alignment: Alignment.topRight,
-                      ),
-                    ),
-                  ),
-                ),
+                // AnimatedPositioned(
+                //   duration: const Duration(milliseconds: kSplashDuration),
+                //   right: state.setting.isBegin ? -80 : -300,
+                //   top: state.setting.isBegin ? -80 : -150,
+                //   child: Transform.rotate(
+                //     angle: 0.2,
+                //     child: SizedBox(
+                //       child: Image.asset(
+                //         "assets/images/splash.png",
+                //         fit: BoxFit.contain,
+                //         height: 300,
+                //         alignment: Alignment.topRight,
+                //       ),
+                //     ),
+                //   ),
+                // ),
+                // AnimatedPositioned(
+                //   duration: const Duration(milliseconds: kSplashDuration),
+                //   left: state.setting.isBegin ? -100 : -300,
+                //   bottom: state.setting.isBegin ? -100 : -400,
+                //   child: Transform.scale(
+                //     scale: 1,
+                //     child: SizedBox(
+                //       height: 300,
+                //       width: 300,
+                //       child: Image.asset(
+                //         "assets/images/splash.png",
+                //         fit: BoxFit.contain,
+                //         alignment: Alignment.topRight,
+                //       ),
+                //     ),
+                //   ),
+                // ),
                 Align(
                   alignment: Alignment.center,
                   child: Container(

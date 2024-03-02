@@ -7,7 +7,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
 import 'package:ramadan/bussines_logic/Setting/model/setting_model.dart';
 import 'package:ramadan/model/alqadr_model.dart';
-import 'package:ramadan/services/local_db.dart';
+import 'package:ramadan/src/core/resources/local_db.dart';
 
 part 'alqadr_state.dart';
 
@@ -128,33 +128,14 @@ class AlqadrCubit extends Cubit<AlqadrState> {
 
   getSala() async {
     try {
-      final salaDay = await LocalDB.getSalatDay();
+      final salaDay = LocalDB.getSalatDay();
       state.alqadrInfo.salatDayCountinus = salaDay;
-    } catch (e) {}
+    } catch (_) {}
 
     try {
-      final salaCounter = await LocalDB.getSalatCounter();
+      final salaCounter = LocalDB.getSalatCounter();
       state.alqadrInfo.salatCounterContinus = salaCounter;
-    } catch (e) {}
-    refresh();
-  }
-
-  increesTasbeeh(int all, int current) {
-    HapticFeedback.heavyImpact();
-    state.alqadrInfo.currentTasbeeh ??= TasbeehDataOld(all, current);
-
-    if (state.alqadrInfo.currentTasbeeh!.current ==
-        state.alqadrInfo.currentTasbeeh!.all) {
-      return;
-    }
-    state.alqadrInfo.currentTasbeeh!.current = current;
-
-    refresh();
-  }
-
-  resetTasbeeh() {
-    state.alqadrInfo.currentTasbeeh = null;
-
+    } catch (_) {}
     refresh();
   }
 }

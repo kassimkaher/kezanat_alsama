@@ -22,7 +22,7 @@ class CitiesPage extends StatelessWidget {
           Navigator.pushReplacement(
             context,
             to(
-              MainPage(),
+              const MainPage(),
             ),
           );
         },

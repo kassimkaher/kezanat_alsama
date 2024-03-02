@@ -22,6 +22,7 @@ class BottomBar extends StatelessWidget {
       type: BottomNavigationBarType.fixed,
       selectedFontSize: 12,
       unselectedFontSize: 12,
+      unselectedItemColor: theme.disabledColor,
       onTap: (a) => controller.changePage(NavPages.values[0], a),
       items: [
         customBottomAppbar(

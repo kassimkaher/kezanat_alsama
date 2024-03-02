@@ -1,5 +1,6 @@
 import 'package:ramadan/src/admin/logic/calendar_cubit/calendar_cubit.dart';
 import 'package:ramadan/src/main_app/home/daily_work/logic/daily_work_logic/daily_work_cubit.dart';
+import 'package:ramadan/utils/injector.dart';
 import 'package:ramadan/utils/utils.dart';
 
 class CustomImageCache extends WidgetsFlutterBinding {
@@ -40,6 +41,7 @@ void main() async {
   if (!kIsWeb && !Platform.isMacOS) {
     //initializeDateFormatting("ar_SA", null);
   }
+  registerDependencies();
   runApp(const App());
 }
 

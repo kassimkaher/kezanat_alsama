@@ -7,7 +7,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/services.dart';
 import 'package:ramadan/model/quran_juzu_model.dart';
 import 'package:ramadan/model/quran_model.dart';
-import 'package:ramadan/services/local_db.dart';
+import 'package:ramadan/src/core/resources/local_db.dart';
 import 'package:ramadan/utils/extention.dart';
 
 part 'quran_state.dart';

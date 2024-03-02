@@ -1,8 +1,11 @@
+import 'dart:async';
+
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:ramadan/src/core/data_source/remote.dart';
 import 'package:ramadan/src/core/entity/data_state.dart';
 import 'package:ramadan/src/core/entity/data_status.dart';
 import 'package:ramadan/src/core/enum/work_timing.dart';
+import 'package:ramadan/src/core/enum/work_type.dart';
 import 'package:ramadan/src/main_app/home/daily_work/logic/daily_work_logic/functions.dart';
 import 'package:ramadan/src/main_app/home/daily_work/model/calendar_model.dart';
 import 'package:ramadan/src/main_app/home/daily_work/model/daily_work_model.dart';
@@ -12,113 +15,115 @@ part 'daily_work_state.dart';
 part 'daily_work_cubit.freezed.dart';
 
 class DailyWorkCubit extends Cubit<DailyWorkState> {
-  DailyWorkCubit() : super(const DailyWorkState.initial());
+  DailyWorkCubit()
+      : super(const DailyWorkState.initial(datastatus: DataIdeal()));
   getTodayWork(CalendarModel? calendarModel) async {
-    emit(state.copyWith(datastatus: DataStatus.loading));
+    emit(state.copyWith(datastatus: const DataLoading()));
 
     final data = await FireStoreRemote.getWorkspi();
     if (data is DataSuccess) {
-      DailyWorkModel todaWork = DailyWorkModel(dateTime: DateTime.now());
-      DailyWorkModel monthlyWork = DailyWorkModel(dateTime: DateTime.now());
+      DailyWorkModel allWorkModel = DailyWorkModel(dateTime: DateTime.now());
+      DailyWorkModel allRelationShipModel =
+          DailyWorkModel(dateTime: DateTime.now());
 
-      monthlyWork.data = data.data?.dailyWorkModel!.data
-          ?.where((element) => element.month == calendarModel!.hijreeMonth)
+      DailyWorkModel monthlyWork = DailyWorkModel(dateTime: DateTime.now());
+      DailyWorkModel relationShipData =
+          DailyWorkModel(dateTime: DateTime.now());
+
+      // get all work exepct
+      allWorkModel.data = data.data?.dailyWorkModel!.data
+          ?.where((element) => element.type != WorkType.relationship)
           .toList();
 
-      todaWork.data =
-          filterTodayWork(calendarModel, data.data!.dailyWorkModel!.data);
+      // get all relationship
+      allRelationShipModel.data = data.data?.dailyWorkModel!.data
+          ?.where((element) => element.type == WorkType.relationship)
+          .toList();
+
+      monthlyWork.data = data.data?.dailyWorkModel!.data
+          ?.where((element) =>
+              element.month == calendarModel!.hijreeMonth &&
+              element.type != WorkType.relationship)
+          .toList();
+
+      relationShipData.data = data.data?.dailyWorkModel!.data
+          ?.where((element) =>
+              element.month == calendarModel!.hijreeMonth &&
+              element.day == calendarModel.hijreeDay &&
+              element.type == WorkType.relationship)
+          .toList();
 
       emit(state.copyWith(
-          datastatus: DataStatus.success,
-          todayWorkModel: todaWork,
+          datastatus: const DataSucess(),
+          todayWorkModel:
+              filterTodayWork(calendarModel, data.data!.dailyWorkModel!.data),
           allDailyWorkModel: data.data!.dailyWorkModel,
           monthWorkModel: monthlyWork,
+          //مناسبات
+          allRelationShipModel: allRelationShipModel,
+          relationShipData: relationShipData,
           refrenses: data.data!.refrenses));
+      startSchedual(calendarModel!);
       return;
     }
-    emit(state.copyWith(datastatus: DataStatus.error));
+    emit(state.copyWith(datastatus: const DataError()));
   }
 
-  deletWork(String id) async {
-    emit(state.copyWith(datastatus: DataStatus.loading));
-
-    try {
-      await state.refrenses
-          ?.where((element) => element.id == id)
-          .first
-          .reference
-          .delete();
-      final allwork = state.allDailyWorkModel!;
-      final todaywork = state.todayWorkModel!;
-      allwork.data!.removeWhere((element) => element.id == id);
-      todaywork.data!.removeWhere((element) => element.id == id);
-
-      emit(state.copyWith(
-          datastatus: DataStatus.success,
-          todayWorkModel: todaywork,
-          allDailyWorkModel: allwork));
-    } catch (e) {
-      emit(state.copyWith(datastatus: DataStatus.error));
-    }
-  }
-
-  void add(DailyWorkData dailyWorkData) {
-    emit(state.copyWith(datastatus: DataStatus.loading));
-
-    final data = state.allDailyWorkModel ?? DailyWorkModel(data: []);
-    data.data!.insert(0, dailyWorkData);
-
-    emit(state.copyWith(
-        datastatus: DataStatus.success, allDailyWorkModel: data));
-  }
-
-  List<DailyWorkData>? filterTodayWork(
+  DailyWorkModel? filterTodayWork(
       CalendarModel? calendarModel, List<DailyWorkData>? data) {
-    // Get the first day of the month
-
-    //final lastFriday = getLastWeekDayDate(firstDayOfMonth, WeekDay.friday, 1);
+    DailyWorkModel todaWork =
+        DailyWorkModel(dateTime: DateTime.now(), data: []);
 
     if (calendarModel != null && data != null && data.isNotEmpty) {
-      final filteredData = <DailyWorkData>[];
-
       for (var element in data) {
+        if (element.type == WorkType.relationship ||
+            DateTime.now().hour < element.hour!) {
+          continue;
+        }
+
         switch (element.workTiming) {
           case WorkTiming.daily:
-            filteredData.add(element);
+            todaWork.data!.add(element);
 
             break;
 
           case WorkTiming.dailyInMonth
               when element.month == calendarModel.hijreeMonth:
-            filteredData.add(element);
+            todaWork.data!.add(element);
             break;
           case WorkTiming.dayInmonth
               when (element.month == calendarModel.hijreeMonth &&
                   element.day == calendarModel.hijreeDay):
-            filteredData.add(element);
+            todaWork.data!.add(element);
             break;
           case WorkTiming.oneWeekDayInMonth
               when (element.month == calendarModel.hijreeMonth &&
                   getLastWeekDayDate(calendarModel, element.weekDay!, 1)):
-            filteredData.add(element);
+            todaWork.data!.add(element);
             break;
           case WorkTiming.weekly
               when (DateTime.now().weekday == element.weekDay!.index + 1):
-            filteredData.add(element);
+            todaWork.data!.add(element);
 
             break;
           case WorkTiming.weeklyInMonth
               when (element.month == calendarModel.hijreeMonth &&
                   element.weekDay!.index + 1 == DateTime.now().weekday):
-            filteredData.add(element);
+            todaWork.data!.add(element);
             break;
           default:
         }
       }
 
-      return filteredData;
+      return todaWork;
     } else {
-      return [];
+      return null;
     }
+  }
+
+  void startSchedual(CalendarModel calendarMode) {
+    Timer.periodic(const Duration(minutes: 1), (timer) {
+      getTodayWork(calendarMode);
+    });
   }
 }

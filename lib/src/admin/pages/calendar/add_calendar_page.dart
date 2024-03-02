@@ -55,7 +55,7 @@ class _UpdateCalendarFormState extends State<UpdateCalendarForm> {
     return BlocConsumer<CalendarCubit, CalendarState>(
       bloc: calendarCubit,
       listener: (context, state) {
-        if (state.datastatus == DataStatus.error) {
+        if (state.datastatus == const DataError()) {
           showTMDialog(
             title: "fail".tr(),
             msg: "connection_error_confirm".tr(),
@@ -65,7 +65,7 @@ class _UpdateCalendarFormState extends State<UpdateCalendarForm> {
             ),
           );
         }
-        if (state.datastatus == DataStatus.success) {
+        if (state.datastatus == const DataSucess()) {
           showTMDialog(
               title: "Sucess".tr(),
               msg: "Done Add Work".tr(),
@@ -156,7 +156,7 @@ class _UpdateCalendarFormState extends State<UpdateCalendarForm> {
           bottomNavigationBar: Padding(
             padding: const EdgeInsets.all(16),
             child: JBButtonMix(
-              isLoading: state.datastatus == DataStatus.loading,
+              isLoading: state.datastatus == const DataLoading(),
               icon: const Icon(LucideIcons.plusCircle),
               title: "تحديث التقويم",
               onPressed: () {

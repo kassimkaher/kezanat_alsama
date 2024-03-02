@@ -109,16 +109,16 @@ class AlqaderPage extends StatelessWidget {
         height: query.size.height,
         decoration: BoxDecoration(
           color: theme.scaffoldBackgroundColor,
-          image: theme.brightness == Brightness.dark
-              ? null
-              : DecorationImage(
-                  image: AssetImage(
-                    theme.brightness == Brightness.dark
-                        ? "assets/images/bac_dark.jpg"
-                        : "assets/images/bak.png",
-                  ),
-                  fit: BoxFit.cover,
-                ),
+          // image: theme.brightness == Brightness.dark
+          //     ? null
+          //     : DecorationImage(
+          //         image: AssetImage(
+          //           theme.brightness == Brightness.dark
+          //               ? "assets/images/bac_dark.jpg"
+          //               : "assets/images/bak.png",
+          //         ),
+          //   fit: BoxFit.cover,
+          // ),
         ),
         child: BlocBuilder<AlqadrCubit, AlqadrState>(
           builder: (context, state) {
@@ -128,7 +128,7 @@ class AlqaderPage extends StatelessWidget {
             }
 
             return state is! AlqadrStateMain
-                ? Column(
+                ? const Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: const [
                       CircularProgressIndicator(),

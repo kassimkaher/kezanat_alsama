@@ -16,8 +16,8 @@ final _privateConstructorUsedError = UnsupportedError(
 
 /// @nodoc
 mixin _$SliderState {
-  DataStatus get datastatus => throw _privateConstructorUsedError;
-  int get activeIndex => throw _privateConstructorUsedError;
+  DataStatus<dynamic> get datastatus => throw _privateConstructorUsedError;
+  double get activeIndex => throw _privateConstructorUsedError;
   String? get displayedPostId => throw _privateConstructorUsedError;
   DailyPostsModel? get postlist => throw _privateConstructorUsedError;
   List<QueryDocumentSnapshot<Map<String, dynamic>>>? get refrenses =>
@@ -25,8 +25,8 @@ mixin _$SliderState {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function(
-            DataStatus datastatus,
-            int activeIndex,
+            DataStatus<dynamic> datastatus,
+            double activeIndex,
             String? displayedPostId,
             DailyPostsModel? postlist,
             List<QueryDocumentSnapshot<Map<String, dynamic>>>? refrenses)
@@ -36,8 +36,8 @@ mixin _$SliderState {
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function(
-            DataStatus datastatus,
-            int activeIndex,
+            DataStatus<dynamic> datastatus,
+            double activeIndex,
             String? displayedPostId,
             DailyPostsModel? postlist,
             List<QueryDocumentSnapshot<Map<String, dynamic>>>? refrenses)?
@@ -47,8 +47,8 @@ mixin _$SliderState {
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function(
-            DataStatus datastatus,
-            int activeIndex,
+            DataStatus<dynamic> datastatus,
+            double activeIndex,
             String? displayedPostId,
             DailyPostsModel? postlist,
             List<QueryDocumentSnapshot<Map<String, dynamic>>>? refrenses)?
@@ -85,8 +85,8 @@ abstract class $SliderStateCopyWith<$Res> {
       _$SliderStateCopyWithImpl<$Res, SliderState>;
   @useResult
   $Res call(
-      {DataStatus datastatus,
-      int activeIndex,
+      {DataStatus<dynamic> datastatus,
+      double activeIndex,
       String? displayedPostId,
       DailyPostsModel? postlist,
       List<QueryDocumentSnapshot<Map<String, dynamic>>>? refrenses});
@@ -115,11 +115,11 @@ class _$SliderStateCopyWithImpl<$Res, $Val extends SliderState>
       datastatus: null == datastatus
           ? _value.datastatus
           : datastatus // ignore: cast_nullable_to_non_nullable
-              as DataStatus,
+              as DataStatus<dynamic>,
       activeIndex: null == activeIndex
           ? _value.activeIndex
           : activeIndex // ignore: cast_nullable_to_non_nullable
-              as int,
+              as double,
       displayedPostId: freezed == displayedPostId
           ? _value.displayedPostId
           : displayedPostId // ignore: cast_nullable_to_non_nullable
@@ -145,8 +145,8 @@ abstract class _$$InitialImplCopyWith<$Res>
   @override
   @useResult
   $Res call(
-      {DataStatus datastatus,
-      int activeIndex,
+      {DataStatus<dynamic> datastatus,
+      double activeIndex,
       String? displayedPostId,
       DailyPostsModel? postlist,
       List<QueryDocumentSnapshot<Map<String, dynamic>>>? refrenses});
@@ -173,11 +173,11 @@ class __$$InitialImplCopyWithImpl<$Res>
       datastatus: null == datastatus
           ? _value.datastatus
           : datastatus // ignore: cast_nullable_to_non_nullable
-              as DataStatus,
+              as DataStatus<dynamic>,
       activeIndex: null == activeIndex
           ? _value.activeIndex
           : activeIndex // ignore: cast_nullable_to_non_nullable
-              as int,
+              as double,
       displayedPostId: freezed == displayedPostId
           ? _value.displayedPostId
           : displayedPostId // ignore: cast_nullable_to_non_nullable
@@ -198,19 +198,18 @@ class __$$InitialImplCopyWithImpl<$Res>
 
 class _$InitialImpl implements _Initial {
   const _$InitialImpl(
-      {this.datastatus = DataStatus.ideal,
-      this.activeIndex = 0,
+      {required this.datastatus,
+      this.activeIndex = 0.0,
       this.displayedPostId,
       this.postlist,
       final List<QueryDocumentSnapshot<Map<String, dynamic>>>? refrenses})
       : _refrenses = refrenses;
 
   @override
-  @JsonKey()
-  final DataStatus datastatus;
+  final DataStatus<dynamic> datastatus;
   @override
   @JsonKey()
-  final int activeIndex;
+  final double activeIndex;
   @override
   final String? displayedPostId;
   @override
@@ -266,8 +265,8 @@ class _$InitialImpl implements _Initial {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function(
-            DataStatus datastatus,
-            int activeIndex,
+            DataStatus<dynamic> datastatus,
+            double activeIndex,
             String? displayedPostId,
             DailyPostsModel? postlist,
             List<QueryDocumentSnapshot<Map<String, dynamic>>>? refrenses)
@@ -281,8 +280,8 @@ class _$InitialImpl implements _Initial {
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function(
-            DataStatus datastatus,
-            int activeIndex,
+            DataStatus<dynamic> datastatus,
+            double activeIndex,
             String? displayedPostId,
             DailyPostsModel? postlist,
             List<QueryDocumentSnapshot<Map<String, dynamic>>>? refrenses)?
@@ -296,8 +295,8 @@ class _$InitialImpl implements _Initial {
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function(
-            DataStatus datastatus,
-            int activeIndex,
+            DataStatus<dynamic> datastatus,
+            double activeIndex,
             String? displayedPostId,
             DailyPostsModel? postlist,
             List<QueryDocumentSnapshot<Map<String, dynamic>>>? refrenses)?
@@ -342,17 +341,17 @@ class _$InitialImpl implements _Initial {
 
 abstract class _Initial implements SliderState {
   const factory _Initial(
-          {final DataStatus datastatus,
-          final int activeIndex,
+          {required final DataStatus<dynamic> datastatus,
+          final double activeIndex,
           final String? displayedPostId,
           final DailyPostsModel? postlist,
           final List<QueryDocumentSnapshot<Map<String, dynamic>>>? refrenses}) =
       _$InitialImpl;
 
   @override
-  DataStatus get datastatus;
+  DataStatus<dynamic> get datastatus;
   @override
-  int get activeIndex;
+  double get activeIndex;
   @override
   String? get displayedPostId;
   @override

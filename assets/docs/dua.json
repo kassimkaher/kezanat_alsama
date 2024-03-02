@@ -15,6 +15,13 @@
             "type": "DUA"
         },
         {
+            "title": "دُعاءُ الندبة",
+            "path": "dua/alnudba.txt",
+            "text": null,
+            "desc": null,
+            "type": "DUA"
+        },
+        {
             "title": "دُعاءُ الجوشن الكبير",
             "path": "dua/big_jushan.txt",
             "text": null,
@@ -54,6 +61,36 @@
             "path": "dua/small_sahar.txt",
             "text": null,
             "desc": " يُستحب الابتهال إلى الله عزَّ و جلَّ في أسحار ليالي شهر رمضان المبارك بهذا الدّعاء، و هو :",
+            "type": "DUA"
+        },
+        
+        {
+            "title": "دُعاءُ السّمات",
+            "path": "dua/alsmat.txt",
+            "text": null,
+            "desc": "",
+            "type": "DUA"
+        },
+        {
+            "title": "دُعاءُ التوسل",
+            "path": "dua/altawasul.txt",
+            "text": null,
+            "desc": "",
+            "type": "DUA"
+        },
+        {
+            "title": "حديث الكساء ",
+            "path": "dua/alqsaa.txt",
+            "text": null,
+            "desc": "",
+            "type": "DUA"
+        },
+        
+        {
+            "title": "دُعاءُ البهاء",
+            "path": "dua/albahaa.txt",
+            "text": null,
+            "desc": "(وتستحب قراءته وقت السحر قبل أذان الفجر)",
             "type": "DUA"
         },
         {

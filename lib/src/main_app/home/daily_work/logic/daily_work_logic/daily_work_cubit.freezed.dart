@@ -16,19 +16,24 @@ final _privateConstructorUsedError = UnsupportedError(
 
 /// @nodoc
 mixin _$DailyWorkState {
-  DataStatus get datastatus => throw _privateConstructorUsedError;
+  DataStatus<dynamic> get datastatus => throw _privateConstructorUsedError;
   DailyWorkModel? get allDailyWorkModel => throw _privateConstructorUsedError;
+  DailyWorkModel? get allRelationShipModel =>
+      throw _privateConstructorUsedError;
   DailyWorkModel? get todayWorkModel => throw _privateConstructorUsedError;
   DailyWorkModel? get monthWorkModel => throw _privateConstructorUsedError;
+  DailyWorkModel? get relationShipData => throw _privateConstructorUsedError;
   List<QueryDocumentSnapshot<Map<String, dynamic>>>? get refrenses =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function(
-            DataStatus datastatus,
+            DataStatus<dynamic> datastatus,
             DailyWorkModel? allDailyWorkModel,
+            DailyWorkModel? allRelationShipModel,
             DailyWorkModel? todayWorkModel,
             DailyWorkModel? monthWorkModel,
+            DailyWorkModel? relationShipData,
             List<QueryDocumentSnapshot<Map<String, dynamic>>>? refrenses)
         initial,
   }) =>
@@ -36,10 +41,12 @@ mixin _$DailyWorkState {
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function(
-            DataStatus datastatus,
+            DataStatus<dynamic> datastatus,
             DailyWorkModel? allDailyWorkModel,
+            DailyWorkModel? allRelationShipModel,
             DailyWorkModel? todayWorkModel,
             DailyWorkModel? monthWorkModel,
+            DailyWorkModel? relationShipData,
             List<QueryDocumentSnapshot<Map<String, dynamic>>>? refrenses)?
         initial,
   }) =>
@@ -47,10 +54,12 @@ mixin _$DailyWorkState {
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function(
-            DataStatus datastatus,
+            DataStatus<dynamic> datastatus,
             DailyWorkModel? allDailyWorkModel,
+            DailyWorkModel? allRelationShipModel,
             DailyWorkModel? todayWorkModel,
             DailyWorkModel? monthWorkModel,
+            DailyWorkModel? relationShipData,
             List<QueryDocumentSnapshot<Map<String, dynamic>>>? refrenses)?
         initial,
     required TResult orElse(),
@@ -85,10 +94,12 @@ abstract class $DailyWorkStateCopyWith<$Res> {
       _$DailyWorkStateCopyWithImpl<$Res, DailyWorkState>;
   @useResult
   $Res call(
-      {DataStatus datastatus,
+      {DataStatus<dynamic> datastatus,
       DailyWorkModel? allDailyWorkModel,
+      DailyWorkModel? allRelationShipModel,
       DailyWorkModel? todayWorkModel,
       DailyWorkModel? monthWorkModel,
+      DailyWorkModel? relationShipData,
       List<QueryDocumentSnapshot<Map<String, dynamic>>>? refrenses});
 }
 
@@ -107,18 +118,24 @@ class _$DailyWorkStateCopyWithImpl<$Res, $Val extends DailyWorkState>
   $Res call({
     Object? datastatus = null,
     Object? allDailyWorkModel = freezed,
+    Object? allRelationShipModel = freezed,
     Object? todayWorkModel = freezed,
     Object? monthWorkModel = freezed,
+    Object? relationShipData = freezed,
     Object? refrenses = freezed,
   }) {
     return _then(_value.copyWith(
       datastatus: null == datastatus
           ? _value.datastatus
           : datastatus // ignore: cast_nullable_to_non_nullable
-              as DataStatus,
+              as DataStatus<dynamic>,
       allDailyWorkModel: freezed == allDailyWorkModel
           ? _value.allDailyWorkModel
           : allDailyWorkModel // ignore: cast_nullable_to_non_nullable
+              as DailyWorkModel?,
+      allRelationShipModel: freezed == allRelationShipModel
+          ? _value.allRelationShipModel
+          : allRelationShipModel // ignore: cast_nullable_to_non_nullable
               as DailyWorkModel?,
       todayWorkModel: freezed == todayWorkModel
           ? _value.todayWorkModel
@@ -127,6 +144,10 @@ class _$DailyWorkStateCopyWithImpl<$Res, $Val extends DailyWorkState>
       monthWorkModel: freezed == monthWorkModel
           ? _value.monthWorkModel
           : monthWorkModel // ignore: cast_nullable_to_non_nullable
+              as DailyWorkModel?,
+      relationShipData: freezed == relationShipData
+          ? _value.relationShipData
+          : relationShipData // ignore: cast_nullable_to_non_nullable
               as DailyWorkModel?,
       refrenses: freezed == refrenses
           ? _value.refrenses
@@ -145,10 +166,12 @@ abstract class _$$InitialImplCopyWith<$Res>
   @override
   @useResult
   $Res call(
-      {DataStatus datastatus,
+      {DataStatus<dynamic> datastatus,
       DailyWorkModel? allDailyWorkModel,
+      DailyWorkModel? allRelationShipModel,
       DailyWorkModel? todayWorkModel,
       DailyWorkModel? monthWorkModel,
+      DailyWorkModel? relationShipData,
       List<QueryDocumentSnapshot<Map<String, dynamic>>>? refrenses});
 }
 
@@ -165,18 +188,24 @@ class __$$InitialImplCopyWithImpl<$Res>
   $Res call({
     Object? datastatus = null,
     Object? allDailyWorkModel = freezed,
+    Object? allRelationShipModel = freezed,
     Object? todayWorkModel = freezed,
     Object? monthWorkModel = freezed,
+    Object? relationShipData = freezed,
     Object? refrenses = freezed,
   }) {
     return _then(_$InitialImpl(
       datastatus: null == datastatus
           ? _value.datastatus
           : datastatus // ignore: cast_nullable_to_non_nullable
-              as DataStatus,
+              as DataStatus<dynamic>,
       allDailyWorkModel: freezed == allDailyWorkModel
           ? _value.allDailyWorkModel
           : allDailyWorkModel // ignore: cast_nullable_to_non_nullable
+              as DailyWorkModel?,
+      allRelationShipModel: freezed == allRelationShipModel
+          ? _value.allRelationShipModel
+          : allRelationShipModel // ignore: cast_nullable_to_non_nullable
               as DailyWorkModel?,
       todayWorkModel: freezed == todayWorkModel
           ? _value.todayWorkModel
@@ -185,6 +214,10 @@ class __$$InitialImplCopyWithImpl<$Res>
       monthWorkModel: freezed == monthWorkModel
           ? _value.monthWorkModel
           : monthWorkModel // ignore: cast_nullable_to_non_nullable
+              as DailyWorkModel?,
+      relationShipData: freezed == relationShipData
+          ? _value.relationShipData
+          : relationShipData // ignore: cast_nullable_to_non_nullable
               as DailyWorkModel?,
       refrenses: freezed == refrenses
           ? _value._refrenses
@@ -198,22 +231,27 @@ class __$$InitialImplCopyWithImpl<$Res>
 
 class _$InitialImpl implements _Initial {
   const _$InitialImpl(
-      {this.datastatus = DataStatus.ideal,
+      {required this.datastatus,
       this.allDailyWorkModel,
+      this.allRelationShipModel,
       this.todayWorkModel,
       this.monthWorkModel,
+      this.relationShipData,
       final List<QueryDocumentSnapshot<Map<String, dynamic>>>? refrenses})
       : _refrenses = refrenses;
 
   @override
-  @JsonKey()
-  final DataStatus datastatus;
+  final DataStatus<dynamic> datastatus;
   @override
   final DailyWorkModel? allDailyWorkModel;
+  @override
+  final DailyWorkModel? allRelationShipModel;
   @override
   final DailyWorkModel? todayWorkModel;
   @override
   final DailyWorkModel? monthWorkModel;
+  @override
+  final DailyWorkModel? relationShipData;
   final List<QueryDocumentSnapshot<Map<String, dynamic>>>? _refrenses;
   @override
   List<QueryDocumentSnapshot<Map<String, dynamic>>>? get refrenses {
@@ -226,7 +264,7 @@ class _$InitialImpl implements _Initial {
 
   @override
   String toString() {
-    return 'DailyWorkState.initial(datastatus: $datastatus, allDailyWorkModel: $allDailyWorkModel, todayWorkModel: $todayWorkModel, monthWorkModel: $monthWorkModel, refrenses: $refrenses)';
+    return 'DailyWorkState.initial(datastatus: $datastatus, allDailyWorkModel: $allDailyWorkModel, allRelationShipModel: $allRelationShipModel, todayWorkModel: $todayWorkModel, monthWorkModel: $monthWorkModel, relationShipData: $relationShipData, refrenses: $refrenses)';
   }
 
   @override
@@ -238,10 +276,14 @@ class _$InitialImpl implements _Initial {
                 other.datastatus == datastatus) &&
             (identical(other.allDailyWorkModel, allDailyWorkModel) ||
                 other.allDailyWorkModel == allDailyWorkModel) &&
+            (identical(other.allRelationShipModel, allRelationShipModel) ||
+                other.allRelationShipModel == allRelationShipModel) &&
             (identical(other.todayWorkModel, todayWorkModel) ||
                 other.todayWorkModel == todayWorkModel) &&
             (identical(other.monthWorkModel, monthWorkModel) ||
                 other.monthWorkModel == monthWorkModel) &&
+            (identical(other.relationShipData, relationShipData) ||
+                other.relationShipData == relationShipData) &&
             const DeepCollectionEquality()
                 .equals(other._refrenses, _refrenses));
   }
@@ -251,8 +293,10 @@ class _$InitialImpl implements _Initial {
       runtimeType,
       datastatus,
       allDailyWorkModel,
+      allRelationShipModel,
       todayWorkModel,
       monthWorkModel,
+      relationShipData,
       const DeepCollectionEquality().hash(_refrenses));
 
   @JsonKey(ignore: true)
@@ -265,47 +309,53 @@ class _$InitialImpl implements _Initial {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function(
-            DataStatus datastatus,
+            DataStatus<dynamic> datastatus,
             DailyWorkModel? allDailyWorkModel,
+            DailyWorkModel? allRelationShipModel,
             DailyWorkModel? todayWorkModel,
             DailyWorkModel? monthWorkModel,
+            DailyWorkModel? relationShipData,
             List<QueryDocumentSnapshot<Map<String, dynamic>>>? refrenses)
         initial,
   }) {
-    return initial(datastatus, allDailyWorkModel, todayWorkModel,
-        monthWorkModel, refrenses);
+    return initial(datastatus, allDailyWorkModel, allRelationShipModel,
+        todayWorkModel, monthWorkModel, relationShipData, refrenses);
   }
 
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function(
-            DataStatus datastatus,
+            DataStatus<dynamic> datastatus,
             DailyWorkModel? allDailyWorkModel,
+            DailyWorkModel? allRelationShipModel,
             DailyWorkModel? todayWorkModel,
             DailyWorkModel? monthWorkModel,
+            DailyWorkModel? relationShipData,
             List<QueryDocumentSnapshot<Map<String, dynamic>>>? refrenses)?
         initial,
   }) {
-    return initial?.call(datastatus, allDailyWorkModel, todayWorkModel,
-        monthWorkModel, refrenses);
+    return initial?.call(datastatus, allDailyWorkModel, allRelationShipModel,
+        todayWorkModel, monthWorkModel, relationShipData, refrenses);
   }
 
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function(
-            DataStatus datastatus,
+            DataStatus<dynamic> datastatus,
             DailyWorkModel? allDailyWorkModel,
+            DailyWorkModel? allRelationShipModel,
             DailyWorkModel? todayWorkModel,
             DailyWorkModel? monthWorkModel,
+            DailyWorkModel? relationShipData,
             List<QueryDocumentSnapshot<Map<String, dynamic>>>? refrenses)?
         initial,
     required TResult orElse(),
   }) {
     if (initial != null) {
-      return initial(datastatus, allDailyWorkModel, todayWorkModel,
-          monthWorkModel, refrenses);
+      return initial(datastatus, allDailyWorkModel, allRelationShipModel,
+          todayWorkModel, monthWorkModel, relationShipData, refrenses);
     }
     return orElse();
   }
@@ -341,21 +391,27 @@ class _$InitialImpl implements _Initial {
 
 abstract class _Initial implements DailyWorkState {
   const factory _Initial(
-          {final DataStatus datastatus,
+          {required final DataStatus<dynamic> datastatus,
           final DailyWorkModel? allDailyWorkModel,
+          final DailyWorkModel? allRelationShipModel,
           final DailyWorkModel? todayWorkModel,
           final DailyWorkModel? monthWorkModel,
+          final DailyWorkModel? relationShipData,
           final List<QueryDocumentSnapshot<Map<String, dynamic>>>? refrenses}) =
       _$InitialImpl;
 
   @override
-  DataStatus get datastatus;
+  DataStatus<dynamic> get datastatus;
   @override
   DailyWorkModel? get allDailyWorkModel;
+  @override
+  DailyWorkModel? get allRelationShipModel;
   @override
   DailyWorkModel? get todayWorkModel;
   @override
   DailyWorkModel? get monthWorkModel;
+  @override
+  DailyWorkModel? get relationShipData;
   @override
   List<QueryDocumentSnapshot<Map<String, dynamic>>>? get refrenses;
   @override

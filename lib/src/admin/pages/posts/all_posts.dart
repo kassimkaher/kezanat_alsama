@@ -26,6 +26,9 @@ class _AllPostsViewState extends State<AllPostsView> {
   Widget build(BuildContext context) {
     // final theme = Theme.of(context);
     return Scaffold(
+      appBar: AppBar(
+        title: const Text("اقوال"),
+      ),
       floatingActionButton: FloatingActionButton(
         child: const Icon(LucideIcons.plus),
         onPressed: () => showAdaptiveDialog(
@@ -37,18 +40,18 @@ class _AllPostsViewState extends State<AllPostsView> {
       body: BlocConsumer<PostsCRUDCubit, PostsCRUDState>(
           bloc: postsCRUDCubit,
           listener: (context, state) {
-            // if (state.datastatus == DataStatus.error) {
+            // if (state.datastatus == const DataError()) {
             //   showDialog(context: context, builder: (c) => Text("error add"));
             // }
           },
           builder: (context, state) => switch (state.datastatus) {
-                DataStatus.loading || DataStatus.ideal => ListView.separated(
+                DataLoading() || DataIdeal() => ListView.separated(
                     padding: const EdgeInsets.all(16),
                     shrinkWrap: true,
                     itemBuilder: (c, i) => const PostCardPlaceHolder(),
                     separatorBuilder: (c, i) => const SizedBox(height: 0),
                     itemCount: 4),
-                DataStatus.success => ListView.separated(
+                const DataSucess() => ListView.separated(
                     padding: const EdgeInsets.all(16),
                     separatorBuilder: (c, i) => const SizedBox(height: 0),
                     itemCount: state.dailyPostsModel?.data?.length ?? 0,

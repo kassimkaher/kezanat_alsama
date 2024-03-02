@@ -41,10 +41,10 @@ class PrayerTimesView extends StatelessWidget {
         padding: const EdgeInsets.symmetric(horizontal: 12),
         decoration: BoxDecoration(
           color: theme.primaryColor,
-          gradient: LinearGradient(
-              colors: [const Color(0xff4f6d7a), theme.primaryColor],
-              begin: Alignment.topRight,
-              end: Alignment.bottomCenter),
+          gradient: LinearGradient(colors: [
+            theme.colorScheme.tertiary,
+            theme.colorScheme.tertiaryContainer
+          ], begin: Alignment.topRight, end: Alignment.bottomLeft),
           borderRadius: BorderRadius.circular(20),
         ),
         child: BlocBuilder<PrayerCubit, PrayerState>(
@@ -123,11 +123,13 @@ class CircularProgresTimer extends StatelessWidget {
   final bool isKnow;
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 8),
       width: 100,
       decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(16), color: Color(0xff0C7E82)),
+          borderRadius: BorderRadius.circular(16),
+          color: theme.colorScheme.onTertiary),
       child: isKnow
           ? const Text(
               "حان الموعد",

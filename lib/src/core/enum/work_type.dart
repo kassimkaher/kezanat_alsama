@@ -1,1 +1,1 @@
-enum WorkType { quran, dua, zyara, salat, munajat }
+enum WorkType { quran, dua, zyara, salat, munajat, tasbeeh, relationship }

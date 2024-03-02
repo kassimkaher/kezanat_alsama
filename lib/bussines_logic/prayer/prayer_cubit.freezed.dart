@@ -16,7 +16,7 @@ final _privateConstructorUsedError = UnsupportedError(
 
 /// @nodoc
 mixin _$PrayerState {
-  DataStatus get datastatus => throw _privateConstructorUsedError;
+  DataStatus<dynamic> get datastatus => throw _privateConstructorUsedError;
   PrayersTimeModel? get preyerTimes => throw _privateConstructorUsedError;
   PrayerTimesEntity? get currentDay => throw _privateConstructorUsedError;
   PrayerTimesEntity? get nextDay => throw _privateConstructorUsedError;
@@ -27,7 +27,7 @@ mixin _$PrayerState {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function(
-            DataStatus datastatus,
+            DataStatus<dynamic> datastatus,
             PrayersTimeModel? preyerTimes,
             PrayerTimesEntity? currentDay,
             PrayerTimesEntity? nextDay,
@@ -41,7 +41,7 @@ mixin _$PrayerState {
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function(
-            DataStatus datastatus,
+            DataStatus<dynamic> datastatus,
             PrayersTimeModel? preyerTimes,
             PrayerTimesEntity? currentDay,
             PrayerTimesEntity? nextDay,
@@ -55,7 +55,7 @@ mixin _$PrayerState {
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function(
-            DataStatus datastatus,
+            DataStatus<dynamic> datastatus,
             PrayersTimeModel? preyerTimes,
             PrayerTimesEntity? currentDay,
             PrayerTimesEntity? nextDay,
@@ -96,7 +96,7 @@ abstract class $PrayerStateCopyWith<$Res> {
       _$PrayerStateCopyWithImpl<$Res, PrayerState>;
   @useResult
   $Res call(
-      {DataStatus datastatus,
+      {DataStatus<dynamic> datastatus,
       PrayersTimeModel? preyerTimes,
       PrayerTimesEntity? currentDay,
       PrayerTimesEntity? nextDay,
@@ -132,7 +132,7 @@ class _$PrayerStateCopyWithImpl<$Res, $Val extends PrayerState>
       datastatus: null == datastatus
           ? _value.datastatus
           : datastatus // ignore: cast_nullable_to_non_nullable
-              as DataStatus,
+              as DataStatus<dynamic>,
       preyerTimes: freezed == preyerTimes
           ? _value.preyerTimes
           : preyerTimes // ignore: cast_nullable_to_non_nullable
@@ -174,7 +174,7 @@ abstract class _$$InitialImplCopyWith<$Res>
   @override
   @useResult
   $Res call(
-      {DataStatus datastatus,
+      {DataStatus<dynamic> datastatus,
       PrayersTimeModel? preyerTimes,
       PrayerTimesEntity? currentDay,
       PrayerTimesEntity? nextDay,
@@ -208,7 +208,7 @@ class __$$InitialImplCopyWithImpl<$Res>
       datastatus: null == datastatus
           ? _value.datastatus
           : datastatus // ignore: cast_nullable_to_non_nullable
-              as DataStatus,
+              as DataStatus<dynamic>,
       preyerTimes: freezed == preyerTimes
           ? _value.preyerTimes
           : preyerTimes // ignore: cast_nullable_to_non_nullable
@@ -245,7 +245,7 @@ class __$$InitialImplCopyWithImpl<$Res>
 
 class _$InitialImpl implements _Initial {
   const _$InitialImpl(
-      {this.datastatus = DataStatus.ideal,
+      {required this.datastatus,
       this.preyerTimes,
       this.currentDay,
       this.nextDay,
@@ -255,8 +255,7 @@ class _$InitialImpl implements _Initial {
       this.dayNumber = 0});
 
   @override
-  @JsonKey()
-  final DataStatus datastatus;
+  final DataStatus<dynamic> datastatus;
   @override
   final PrayersTimeModel? preyerTimes;
   @override
@@ -313,7 +312,7 @@ class _$InitialImpl implements _Initial {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function(
-            DataStatus datastatus,
+            DataStatus<dynamic> datastatus,
             PrayersTimeModel? preyerTimes,
             PrayerTimesEntity? currentDay,
             PrayerTimesEntity? nextDay,
@@ -331,7 +330,7 @@ class _$InitialImpl implements _Initial {
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function(
-            DataStatus datastatus,
+            DataStatus<dynamic> datastatus,
             PrayersTimeModel? preyerTimes,
             PrayerTimesEntity? currentDay,
             PrayerTimesEntity? nextDay,
@@ -349,7 +348,7 @@ class _$InitialImpl implements _Initial {
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function(
-            DataStatus datastatus,
+            DataStatus<dynamic> datastatus,
             PrayersTimeModel? preyerTimes,
             PrayerTimesEntity? currentDay,
             PrayerTimesEntity? nextDay,
@@ -398,7 +397,7 @@ class _$InitialImpl implements _Initial {
 
 abstract class _Initial implements PrayerState {
   const factory _Initial(
-      {final DataStatus datastatus,
+      {required final DataStatus<dynamic> datastatus,
       final PrayersTimeModel? preyerTimes,
       final PrayerTimesEntity? currentDay,
       final PrayerTimesEntity? nextDay,
@@ -408,7 +407,7 @@ abstract class _Initial implements PrayerState {
       final int dayNumber}) = _$InitialImpl;
 
   @override
-  DataStatus get datastatus;
+  DataStatus<dynamic> get datastatus;
   @override
   PrayersTimeModel? get preyerTimes;
   @override

@@ -20,8 +20,9 @@ class PostDetails extends StatelessWidget {
             children: [
               Text(
                 post.author ?? "",
-                style: theme.textTheme.bodyLarge!
-                    .copyWith(fontWeight: FontWeight.w600, color: fontTitle),
+                style: theme.textTheme.titleMedium!.copyWith(
+                  fontWeight: FontWeight.w600,
+                ),
               ),
               const Spacer(),
               JBIconButton(
@@ -39,7 +40,7 @@ class PostDetails extends StatelessWidget {
               child: Text(
                 post.description ?? "",
                 style: theme.textTheme.bodyLarge!
-                    .copyWith(fontWeight: FontWeight.w400, color: fontTitle),
+                    .copyWith(fontWeight: FontWeight.w400),
               ),
             ),
           ),

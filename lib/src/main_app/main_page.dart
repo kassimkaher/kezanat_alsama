@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:ramadan/src/admin/logic/calendar_cubit/calendar_cubit.dart';
 import 'package:ramadan/src/core/entity/data_status.dart';
@@ -41,12 +43,12 @@ class _MainPage extends State<MainPage> {
       const MunajatPage()
     ];
 
-    if (controllerPrayer.state.datastatus == DataStatus.ideal) {
+    if (controllerPrayer.state.datastatus is DataIdeal) {
       controllerPrayer.listenTime(
         duaCupit,
       );
     }
-    if (controllerPrayer.state.datastatus == DataStatus.ideal &&
+    if (controllerPrayer.state.datastatus is DataIdeal &&
         controllerPrayer.state.preyerTimes != null &&
         controller.state.setting.setting?.isSetNotification !=
             DateTime.now().day) {
@@ -59,46 +61,45 @@ class _MainPage extends State<MainPage> {
       //whait calendar loaded today info and then get dailwork
       child: BlocListener<CalendarCubit, CalendarState>(
         listener: (context, state) {
-          if (state.datastatus == DataStatus.success) {
+          if (state.datastatus == const DataSucess()) {
             context.read<DailyWorkCubit>().getTodayWork(state.today);
             context.read<QuranCubit>().getQuran();
           }
         },
         child: BlocBuilder<SettingCubit, SettingState>(
-            builder: (context, presenter) => Container(
-                  // decoration: BoxDecoration(
-                  //   color: theme.scaffoldBackgroundColor,
-                  //   image: theme.brightness == Brightness.dark
-                  //       ? null
-                  //       : DecorationImage(
-                  //           image: AssetImage(
-                  //             theme.brightness == Brightness.dark
-                  //                 ? "assets/images/bac_dark.jpg"
-                  //                 : "assets/images/bak.png",
-                  //           ),
-                  //           fit: BoxFit.cover,
-                  //         ),
-                  // ),
-                  child: Scaffold(
-                    backgroundColor: theme.brightness == Brightness.dark
-                        ? theme.scaffoldBackgroundColor
-                        : Colors.white,
-                    appBar: PreferredSize(
-                        preferredSize: const Size.fromHeight(0),
-                        child: AppBar(excludeHeaderSemantics: true)),
-                    extendBody: true,
-                    key: _scaffoldKey,
-                    bottomNavigationBar: BottomBar(
-                      theme: theme,
-                      controller: controller,
-                      currentpageIndex: presenter.setting.currentpageIndex,
-                    ),
-                    body: IndexedStack(
+          builder: (context, presenter) => Scaffold(
+            backgroundColor: Colors.transparent,
+            key: _scaffoldKey,
+            bottomNavigationBar: BottomBar(
+              theme: theme,
+              controller: controller,
+              currentpageIndex: presenter.setting.currentpageIndex,
+            ),
+            body: Container(
+              decoration: BoxDecoration(
+                color: theme.canvasColor,
+                image: const DecorationImage(
+                    image: AssetImage("assets/images/bk.png"),
+                    fit: BoxFit.fitHeight),
+              ),
+              child: BackdropFilter(
+                filter: ImageFilter.blur(sigmaX: 1, sigmaY: 1),
+                child: Stack(
+                  children: [
+                    // Container(
+                    //     width: double.infinity,
+                    //     height: double.infinity,
+                    //     color: Colors.black45),
+                    IndexedStack(
                       index: presenter.setting.currentpageIndex,
                       children: pages,
                     ),
-                  ),
-                )),
+                  ],
+                ),
+              ),
+            ),
+          ),
+        ),
       ),
     );
   }
@@ -140,7 +141,7 @@ class BottomNavigationIcon extends StatelessWidget {
         child: SvgPicture.asset(
           "assets/svg/$iconData.svg",
           height: 25,
-          color: isSelect ? Colors.white : jbUnselectColor,
+          color: isSelect ? Colors.white : theme.disabledColor,
         ));
   }
 }

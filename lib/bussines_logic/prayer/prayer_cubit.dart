@@ -7,7 +7,7 @@ import 'package:ramadan/bussines_logic/Setting/model/setting_model.dart';
 import 'package:ramadan/bussines_logic/prayer/fuctions/functions.dart';
 import 'package:ramadan/bussines_logic/prayer/model/arabic_date_model.dart';
 import 'package:ramadan/bussines_logic/prayer/model/prayer_model.dart';
-import 'package:ramadan/services/local_db.dart';
+import 'package:ramadan/src/core/resources/local_db.dart';
 import 'package:ramadan/src/core/entity/data_status.dart';
 import 'package:ramadan/src/main_app/dua/bussines_logic/dua_cubit.dart';
 import 'package:ramadan/utils/extention.dart';
@@ -17,7 +17,7 @@ part 'paryer_state.dart';
 part 'prayer_cubit.freezed.dart';
 
 class PrayerCubit extends Cubit<PrayerState> {
-  PrayerCubit() : super(PrayerState.initial());
+  PrayerCubit() : super(const PrayerState.initial(datastatus: DataIdeal()));
   ArabicDateEntry? arabicDate;
   getPrayer(CityDetails? cityDetails) async {
     if (cityDetails == null) {
@@ -30,7 +30,7 @@ class PrayerCubit extends Cubit<PrayerState> {
   }
 
   listenTime(DuaCubit duaCubit) async {
-    emit(state.copyWith(datastatus: DataStatus.success));
+    emit(state.copyWith(datastatus: const DataSucess()));
     if (state.timer) {
       return;
     }

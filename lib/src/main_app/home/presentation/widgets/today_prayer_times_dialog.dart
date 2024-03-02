@@ -19,7 +19,7 @@ class PrayerTimesTodayDialog extends HookWidget {
     final theme = Theme.of(context);
     return BlocBuilder<PrayerCubit, PrayerState>(
       builder: (context, state) {
-        return state.datastatus == DataStatus.success
+        return state.datastatus == const DataSucess()
             ? SingleChildScrollView(
                 padding: const EdgeInsets.all(kDefaultPadding),
                 child: Column(

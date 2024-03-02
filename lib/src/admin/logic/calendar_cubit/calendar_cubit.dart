@@ -10,21 +10,21 @@ part 'calendar_state.dart';
 part 'calendar_cubit.freezed.dart';
 
 class CalendarCubit extends Cubit<CalendarState> {
-  CalendarCubit() : super(const CalendarState.initial());
+  CalendarCubit() : super(const CalendarState.initial(datastatus: DataIdeal()));
   getCalendar() async {
-    emit(state.copyWith(datastatus: DataStatus.loading));
+    emit(state.copyWith(datastatus: const DataLoading()));
 
     final data = await FireStoreRemote.getCalendarApi();
 
     if (data is DataSuccess) {
       final today = getCalculation(data.data!);
       emit(state.copyWith(
-          datastatus: DataStatus.success,
+          datastatus: const DataSucess(),
           calendarModel: data.data,
           today: today));
       return;
     }
-    emit(state.copyWith(datastatus: DataStatus.error));
+    emit(state.copyWith(datastatus: const DataError()));
   }
 
   getCalculation(CalendarModel calendarModel) {
@@ -48,18 +48,18 @@ class CalendarCubit extends Cubit<CalendarState> {
   }
 
   Future<void> updateCalendar(CalendarModel calendarModel) async {
-    emit(state.copyWith(datastatus: DataStatus.loading));
+    emit(state.copyWith(datastatus: const DataLoading()));
 
     final data = await FireStoreRemote.updateCalendarApi(calendarModel);
 
     if (data is DataSuccess) {
       final today = getCalculation(calendarModel);
       emit(state.copyWith(
-          datastatus: DataStatus.success,
+          datastatus: const DataSucess(),
           calendarModel: calendarModel,
           today: today));
       return;
     }
-    emit(state.copyWith(datastatus: DataStatus.error));
+    emit(state.copyWith(datastatus: const DataError()));
   }
 }

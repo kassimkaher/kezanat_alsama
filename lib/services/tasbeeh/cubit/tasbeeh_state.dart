@@ -6,6 +6,6 @@ class TasbeehState with _$TasbeehState {
     TasbeehModel? tasbeehModel,
     @Default(0) int count,
     @Default(0) int index,
-    @Default(0) int repetitionNumber,
+    @Default(1) int repetitionNumber,
   }) = _Initial;
 }

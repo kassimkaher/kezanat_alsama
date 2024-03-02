@@ -37,7 +37,6 @@ class AlqadrInfo {
   SalatContinus? salatCounterContinus;
 
   int cardIndex = -1;
-  TasbeehDataOld? currentTasbeeh;
 }
 
 class TasbeehDataOld {

@@ -10,7 +10,7 @@ import 'package:ramadan/services/notification_service.dart';
 import 'package:ramadan/bussines_logic/prayer/prayer_cubit.dart';
 import 'package:ramadan/model/city.dart';
 import 'package:ramadan/bussines_logic/prayer/model/prayer_model.dart';
-import 'package:ramadan/services/local_db.dart';
+import 'package:ramadan/src/core/resources/local_db.dart';
 import 'package:ramadan/src/main_app/dua/bussines_logic/dua_cubit.dart';
 import 'package:ramadan/utils/utils.dart';
 part 'setting_state.dart';

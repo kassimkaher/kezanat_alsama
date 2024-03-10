@@ -19,7 +19,7 @@ class _CalendarAdminViewState extends State<CalendarAdminView> {
     // TODO: implement initState
     super.initState();
     calendarCubit = CalendarCubit();
-    calendarCubit.getCalendar();
+    calendarCubit.getCalendarEvent();
   }
 
   @override
@@ -47,11 +47,11 @@ class _CalendarAdminViewState extends State<CalendarAdminView> {
             // }
           },
           builder: (context, state) => switch (state.datastatus) {
-                DataLoading() || DataIdeal() => const Padding(
+                StateLoading() || DataIdeal() => const Padding(
                     padding: EdgeInsets.all(16),
                     child: CircularProgressIndicator(),
                   ),
-                const DataSucess() => ListView(
+                const SateSucess() => ListView(
                     padding: const EdgeInsets.all(16),
                     children: [
                       Container(

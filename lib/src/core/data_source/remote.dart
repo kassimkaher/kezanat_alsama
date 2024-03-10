@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:ramadan/src/core/resources/local_db.dart';
 import 'package:ramadan/src/core/entity/data_state.dart';
 import 'package:ramadan/src/core/entity/work_entity.dart';
@@ -9,7 +11,7 @@ import 'package:ramadan/utils/utils.dart';
 class FireStoreRemote {
   static final dailyPosts = FirebaseFirestore.instance.collection('/posts');
   static final workToday = FirebaseFirestore.instance.collection('/work_today');
-  static final claendar = FirebaseFirestore.instance.collection('/calendar');
+  static final calendar = FirebaseFirestore.instance.collection('/calendar');
 
   static Future<DataState<DocumentReference<Map<String, dynamic>>>> addWork(
       DailyWorkData dailyWorkData) async {
@@ -62,11 +64,13 @@ class FireStoreRemote {
     }
   }
 
-  static Future<DataState<WorkEntity>> getWorkspi() async {
+  static Future<DataState<WorkEntity>> getWorkspi(
+      {bool fromLocal = false}) async {
     final data = LocalDB.getDailyWorkFromLocal();
-    if (appMode == AppMode.user &&
-        data != null &&
-        (data.dateTime?.difference(DateTime.now()).inDays ?? 1) == 0) {
+    if (fromLocal ||
+        (appMode == AppMode.user &&
+            data != null &&
+            (data.dateTime?.difference(DateTime.now()).inDays ?? 1) == 0)) {
       return DataSuccess(WorkEntity(data, null));
     }
     try {
@@ -99,19 +103,19 @@ class FireStoreRemote {
   }
 
   static Future<DataState<CalendarModel>> getCalendarApi() async {
-    final data = LocalDB.getCalendar();
-    if (data != null &&
-        (data.dateTime?.difference(DateTime.now()).inDays ?? 1) == 0 &&
+    final datalocal = LocalDB.getCalendar();
+    if (datalocal != null &&
+        (datalocal.dateTime?.difference(DateTime.now()).inDays ?? 1) == 0 &&
         appMode == AppMode.user) {
-      return DataSuccess(data);
+      return DataSuccess(datalocal);
     }
     try {
-      final data = await claendar.get();
+      final data = await calendar.get();
 
       // data['id'] = data.docs.first.id;
 
       final cal = CalendarModel.fromJson(data.docs.first);
-
+      log(cal.hijreYear.toString());
       LocalDB.setCalendar(cal);
 
       return DataSuccess(cal);

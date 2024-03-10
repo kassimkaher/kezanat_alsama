@@ -2,6 +2,7 @@ import 'package:assets_audio_player/assets_audio_player.dart';
 import 'package:bloc/bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:ramadan/services/tasbeeh/entity/model/tasbeeh_model.dart';
+import 'package:ramadan/src/core/resources/local_db.dart';
 import 'package:ramadan/utils/utils.dart';
 
 part 'tasbeeh_state.dart';
@@ -26,6 +27,8 @@ class TasbeehCubit extends Cubit<TasbeehState> {
     }
 
     emit(state.copyWith(repetitionNumber: index));
+    LocalDB.setTasbeehCache(
+        TasbeehLocalModel(tasbeehModel: tasbeehModel, repetitionNumber: index));
 
     HapticFeedback.heavyImpact();
 
@@ -41,6 +44,8 @@ class TasbeehCubit extends Cubit<TasbeehState> {
       HapticFeedback.vibrate();
 
       emit(state.copyWith(repetitionNumber: 1, index: 0));
+      LocalDB.setTasbeehCache(
+          TasbeehLocalModel(tasbeehModel: tasbeehModel, repetitionNumber: 0));
     }
 
     return;
@@ -75,8 +80,34 @@ class TasbeehCubit extends Cubit<TasbeehState> {
   void incrementOpenTasbeeh(int index) {
     if (state.repetitionNumber == 101) {
       emit(state.copyWith(repetitionNumber: 1, index: 0, count: 0));
+      LocalDB.setTasbeehCache(
+          TasbeehLocalModel(tasbeehModel: tasbeehModel, repetitionNumber: 0));
       return;
     }
     emit(state.copyWith(repetitionNumber: index));
+    LocalDB.setTasbeehCache(
+        TasbeehLocalModel(tasbeehModel: tasbeehModel, repetitionNumber: index));
+  }
+
+  checkIfThereIsLocalContinue() {
+    final oldData = LocalDB.getTasbeehCache();
+    if (oldData != null &&
+        tasbeehModel.tasbeehList.isEmpty &&
+        oldData.tasbeehModel.tasbeehList.isEmpty) {
+      emit(state.copyWith(repetitionNumber: oldData.repetitionNumber));
+      return;
+    }
+    if (oldData == null ||
+        tasbeehModel.tasbeehList.isEmpty ||
+        oldData.tasbeehModel.tasbeehList.isEmpty) {
+      return;
+    }
+    for (var i = 0; i < oldData.tasbeehModel.tasbeehList.length; i++) {
+      if (!oldData.tasbeehModel.tasbeehList[i]
+          .isEqual(tasbeehModel.tasbeehList[i])) {
+        return;
+      }
+    }
+    emit(state.copyWith(repetitionNumber: oldData.repetitionNumber));
   }
 }

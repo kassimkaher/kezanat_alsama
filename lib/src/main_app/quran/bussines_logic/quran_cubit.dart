@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:developer';
 
 import 'package:audioplayers/audioplayers.dart';
 import 'package:bloc/bloc.dart';
@@ -15,7 +16,7 @@ part 'quran_state.dart';
 class QuranCubit extends Cubit<QuranState> {
   QuranCubit() : super(QuranStateInital(QuranData()));
 
-  getQuran() async {
+  getQuranEvent() async {
     emit(QuranStateLoading(state.info));
     try {
       final String response =
@@ -24,13 +25,15 @@ class QuranCubit extends Cubit<QuranState> {
 
       state.info.quranModel = QuranModel.fromJson(jsondata);
       try {
-        state.info.cachQuranModel = state.info.quranModel!.data!.surahs;
-      } catch (e) {}
+        state.info.cachQuranModelForSearch =
+            state.info.quranModel!.data!.surahs;
+      } catch (_) {}
       await getContinu();
-      getQuranJuzu();
+
+      getQuranJuzuData();
       emit(QuranStateLoaded(state.info));
     } catch (e) {
-      print(e);
+      log(e.toString());
       emit(QuranStateFiald(state.info));
     }
   }
@@ -41,7 +44,7 @@ class QuranCubit extends Cubit<QuranState> {
 
       return;
     }
-    state.info.quranModel!.data!.surahs = state.info.cachQuranModel;
+    state.info.quranModel!.data!.surahs = state.info.cachQuranModelForSearch;
     final data = state.info.quranModel?.data?.surahs?.where((sura) => sura.name!
         .replaceAll("َ", "")
         .replaceAll("ً", "")
@@ -59,8 +62,7 @@ class QuranCubit extends Cubit<QuranState> {
     if (data != null && data.isNotEmpty) {
       state.info.quranModel?.data?.surahs = data.toList();
       refresh();
-      print(state.info.quranModel!.data!.surahs!.length);
-      print(state.info.cachQuranModel!.length);
+
       return;
     }
   }
@@ -71,7 +73,7 @@ class QuranCubit extends Cubit<QuranState> {
   }
 
   void resetQuran() {
-    state.info.quranModel!.data!.surahs = state.info.cachQuranModel;
+    state.info.quranModel!.data!.surahs = state.info.cachQuranModelForSearch;
     refresh();
   }
 
@@ -104,7 +106,7 @@ class QuranCubit extends Cubit<QuranState> {
       await LocalDB.setContinu(continuQuran);
       state.info.continuQuranModel = continuQuran;
     } catch (e) {
-      print(e);
+      log(e.toString());
     }
     refresh();
   }
@@ -143,7 +145,7 @@ class QuranCubit extends Cubit<QuranState> {
   //   // some time later...
   // }
 
-  getQuranJuzu() async {
+  getQuranJuzuData() async {
     for (var i = 1; i < 31; i++) {
       try {
         final String response =
@@ -151,11 +153,13 @@ class QuranCubit extends Cubit<QuranState> {
         final jsondata = await json.decode(response);
 
         final juzu = QuranJuzuModel.fromJson(jsondata);
+
         state.info.quranJuzuList.add(juzu);
       } catch (e) {
         kdp(name: "quran juzu ", msg: "error $e==$i", c: 'r');
       }
     }
+
     refresh();
   }
 
@@ -201,7 +205,7 @@ class QuranCubit extends Cubit<QuranState> {
 
   void previousPage(int juzu) {
     state.info.currentPage =
-        (state.info.quranJuzuList[juzu - 2].data?.juzuPages?.length ?? 1) - 1;
+        (state.info.quranJuzuList[juzu - 2].data?.juzuPages.length ?? 1) - 1;
     state.info.currentAyaIndex = 0;
 
     state.info.currentQuranJuzu = state.info.quranJuzuList[juzu - 2];

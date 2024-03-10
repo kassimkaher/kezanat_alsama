@@ -1,7 +1,9 @@
 import 'dart:math';
 
+import 'package:intl/intl.dart';
 import 'package:ramadan/bussines_logic/Setting/model/setting_model.dart';
 import 'package:ramadan/bussines_logic/prayer/model/prayer_model.dart';
+import 'package:ramadan/src/main_app/home/daily_work/model/calendar_model.dart';
 import 'package:ramadan/utils/utils.dart';
 import 'package:solar_calculator/solar_calculator.dart';
 
@@ -118,12 +120,14 @@ double radToDeg(double radians) {
   return radians * 180 / pi;
 }
 
-PrayersTimeModel? getPrayersTimeOfMonth(CityDetails cityDetails) {
+PrayersTimeModel? getPrayersTimeOfMonth(
+    CityDetails cityDetails, CalendarModel calendarModel) {
   final prayers = PrayersTimeModel(days: []);
-  var date = DateTime.now();
+  var date = DateTime(DateTime.now().year, calendarModel.meladyMonth!,
+      calendarModel.meladyDay!);
 
   for (int i = 0; i < 30; i++) {
-    final timezone = DateTime.now().timeZoneName.toTimeZone();
+    final timezone = date.timeZoneName.toTimeZone();
     double equationTime = equationOfTime(getDayNumberInYear(date));
     final duhurPrayer =
         12 + timezone - (cityDetails.longitude! / 15) - (equationTime);
@@ -132,7 +136,7 @@ PrayersTimeModel? getPrayersTimeOfMonth(CityDetails cityDetails) {
         year: date.year,
         month: date.month,
         day: date.day,
-        hour: 1,
+        hour: 12,
         timeZoneOffset: timezone);
 
     final calc =
@@ -145,15 +149,25 @@ PrayersTimeModel? getPrayersTimeOfMonth(CityDetails cityDetails) {
         calculateMidnite(sunset: calc.sunsetTime.time, fajer: fajrTime);
     final sunset = calc.sunsetTime.time.toTime();
     final sunris = calc.sunriseTime.time.toTime();
-
+//     kdp(
+//         name: "prayer day name",
+//         msg: '''
+// date.weekday=${date.weekday}
+// day name=${DateFormat('EEEE').format(date)}
+// date = $date
+// ''',
+//         c: "cy");
     prayers.days!.add(
       PrayerTimesEntity(
           month: date.month,
           day: date.day,
-          dayname: date.weekday,
+          dayname: DateFormat('EEEE', "ar").format(date),
+          emsak: calendarModel.hijreeMonth == 9
+              ? PrayerTimeData.fill(fajrTime)
+              : null,
           fajer: PrayerTimeData.fill(fajrTime),
           duhur: PrayerTimeData.fill(duhurPrayer),
-          magrib: PrayerTimeData.fill(mugrib),
+          magrib: PrayerTimeData.fill(mugrib).addMinuts(2),
           esha: PrayerTimeData.fill(esha),
           middileNight: PrayerTimeData.fill(midnight),
           sunrise: PrayerTimeData.fill(sunris),

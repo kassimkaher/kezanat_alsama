@@ -61,7 +61,7 @@ class _AddWorkPageState extends State<AddWorkPage> {
     return BlocConsumer<WorkCrudCubit, WorkCrudState>(
       bloc: workCrudCubit,
       listener: (context, state) {
-        if (state.dataStatus == const DataError()) {
+        if (state.dataStatus == const StateError()) {
           showTMDialog(
             title: "fail".tr(),
             msg: "connection_error_confirm".tr(),
@@ -215,7 +215,7 @@ class _AddWorkPageState extends State<AddWorkPage> {
           bottomNavigationBar: Padding(
             padding: const EdgeInsets.all(16),
             child: JBButtonMix(
-              isLoading: state.dataStatus == const DataLoading(),
+              isLoading: state.dataStatus == const StateLoading(),
               icon: Icon(widget.dailyWorkData != null &&
                       widget.dailyWorkData?.id != null
                   ? LucideIcons.edit

@@ -61,7 +61,6 @@ class _DateWidgetState extends State<DateWidget> {
     // TODO: implement initState
     super.initState();
     calendarCubit = context.read<CalendarCubit>();
-    calendarCubit.getCalendar();
   }
 
   @override
@@ -70,7 +69,7 @@ class _DateWidgetState extends State<DateWidget> {
 
     return BlocBuilder<CalendarCubit, CalendarState>(
       builder: (context, state) {
-        return state.datastatus != const DataSucess()
+        return state.datastatus != const SateSucess()
             ? const SizedBox(
                 height: 25,
               )

@@ -22,7 +22,8 @@ class _TasbeehPageState extends State<TasbeehPage> {
   Widget build(BuildContext context) {
     return BlocProvider(
       create: (BuildContext context) =>
-          TasbeehCubit(tasbeehModel: widget.tasbeehModel),
+          TasbeehCubit(tasbeehModel: widget.tasbeehModel)
+            ..checkIfThereIsLocalContinue(),
       child: const TasbeehView(),
     );
   }

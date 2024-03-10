@@ -1,7 +1,9 @@
+import 'package:ramadan/src/alqadr/alqader_page.dart';
 import 'package:ramadan/src/main_app/home/daily_work/page/daily_work_view.dart';
 import 'package:ramadan/src/main_app/home/presentation/widgets/app_bar.dart';
 import 'package:ramadan/src/main_app/home/presentation/widgets/prayer_time_view.dart';
 import 'package:ramadan/src/main_app/slider/presentation/pages/home_slider.dart';
+import 'package:ramadan/src/main_app/widgets/check_battery_optimization_button.dart';
 import 'package:ramadan/utils/utils.dart';
 
 class HomePage extends StatelessWidget {
@@ -11,20 +13,10 @@ class HomePage extends StatelessWidget {
     return Scaffold(
       backgroundColor: Colors.transparent,
       appBar: AppBar(
-        backgroundColor: Colors.transparent,
         elevation: 0,
         flexibleSpace: const SafeArea(child: AppBarHome()),
       ),
-      body:
-          // (state.info.dayNumber == 18 && DateTime.now().hour > 17) ||
-          //         (state.info.dayNumber > 18 &&
-          //             state.info.dayNumber < 24)
-          //     ? Column(children: [
-          //         AlqadrCard(theme: theme),
-          //         const SizedBox(height: kDefaultSpacing),
-          //       ])
-          //     : const SizedBox(),
-          SingleChildScrollView(
+      body: SingleChildScrollView(
         child: Column(
           children: [
             Container(
@@ -34,7 +26,7 @@ class HomePage extends StatelessWidget {
                       image: AssetImage("assets/images/sliders.png"),
                       opacity: 1,
                       fit: BoxFit.fitWidth)),
-              child: Column(
+              child: const Column(
                 children: [
                   SizedBox(height: 24),
                   HomeSliderView(),
@@ -42,11 +34,13 @@ class HomePage extends StatelessWidget {
                 ],
               ),
             ),
-            SizedBox(height: kDefaultSpacing),
-            PrayerTimesView(),
-            SizedBox(height: kDefaultSpacing),
-            DailyWorkView(),
-            SizedBox(height: kDefaultSpacing),
+            const ChekBatteryOptimizeIsDisable(),
+            const SizedBox(height: kDefaultSpacing),
+            const PrayerTimesView(),
+            const AlqadrCard(),
+            const SizedBox(height: kDefaultSpacing),
+            const DailyWorkView(),
+            const SizedBox(height: kDefaultSpacing),
           ],
         ),
       ),

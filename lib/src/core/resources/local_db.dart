@@ -2,6 +2,7 @@ import 'package:hive/hive.dart';
 import 'package:ramadan/bussines_logic/Setting/model/setting_model.dart';
 import 'package:ramadan/bussines_logic/prayer/model/arabic_date_model.dart';
 import 'package:ramadan/model/quran_model.dart';
+import 'package:ramadan/services/tasbeeh/entity/model/tasbeeh_model.dart';
 import 'package:ramadan/src/main_app/home/daily_work/model/calendar_model.dart';
 import 'package:ramadan/src/main_app/home/daily_work/model/daily_work_model.dart';
 import 'package:ramadan/src/main_app/slider/data/model/slider_model.dart';
@@ -172,5 +173,22 @@ class LocalDB {
 
   static saveArabicDate(ArabicDateEntry value) {
     Hive.box('kezana_alsama_local_data').put("saveArabicDate", value);
+  }
+
+  static TasbeehLocalModel? getTasbeehCache() {
+    if (db == null) {
+      return null;
+    }
+    final data = db?.get("tasbeeh_data_storage") as Map<dynamic, dynamic>?;
+
+    return data == null ? null : TasbeehLocalModel.fromJson(data);
+  }
+
+  static setTasbeehCache(TasbeehLocalModel value) {
+    if (db == null) {
+      return;
+    }
+
+    db!.put("tasbeeh_data_storage", value.toJson());
   }
 }

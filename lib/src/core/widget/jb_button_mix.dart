@@ -31,7 +31,7 @@ class JBButtonMix extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    final backgroundColor = this.backgroundColor ?? theme.colorScheme.secondary;
+    final backgroundColor = this.backgroundColor ?? theme.primaryColor;
 
     return ElevatedButton.icon(
       style: ElevatedButton.styleFrom(

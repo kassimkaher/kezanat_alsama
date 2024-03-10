@@ -25,8 +25,7 @@ class CalendarModel {
     try {
       id = json.id;
       refrence = json.reference;
-    } catch (e) {}
-    try {
+
       hijreeMonth = json['hijree_month'];
 
       hijreeDay = json['hijree_day'];
@@ -35,9 +34,7 @@ class CalendarModel {
       meladyDay = json['melady_day'];
       hijreeMonthName = json['hijree_month_name'];
       hijreYear = json['hijre_year'];
-    } catch (e) {}
 
-    try {
       dateTime = DateTime.tryParse(json['dateTime'].toString());
     } catch (_) {}
   }
@@ -54,5 +51,29 @@ class CalendarModel {
     data['dateTime'] = dateTime.toString();
     data['id'] = id;
     return data;
+  }
+
+  CalendarModel copyWith({
+    int? hijreeMonth,
+    int? hijreeDay,
+    int? meladyMonth,
+    int? meladyDay,
+    String? hijreeMonthName,
+    DateTime? dateTime,
+    String? hijreYear,
+    DocumentReference<Map<String, dynamic>>? reference,
+    String? id,
+  }) {
+    return CalendarModel(
+      hijreeMonth: hijreeMonth ?? this.hijreeMonth,
+      hijreeDay: hijreeDay ?? this.hijreeDay,
+      meladyMonth: meladyMonth ?? this.meladyMonth,
+      meladyDay: meladyDay ?? this.meladyDay,
+      hijreeMonthName: hijreeMonthName ?? this.hijreeMonthName,
+      dateTime: dateTime ?? this.dateTime,
+      hijreYear: hijreYear ?? this.hijreYear,
+      refrence: reference ?? this.refrence,
+      id: id ?? this.id,
+    );
   }
 }

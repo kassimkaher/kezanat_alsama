@@ -1,6 +1,5 @@
-import 'dart:ui';
-
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:ramadan/bussines_logic/Setting/cubit/setting_cubit.dart';
 import 'package:ramadan/src/admin/logic/calendar_cubit/calendar_cubit.dart';
 import 'package:ramadan/src/core/entity/data_status.dart';
 import 'package:ramadan/src/main_app/dua/dua_page.dart';
@@ -8,7 +7,7 @@ import 'package:ramadan/pages/munajat_page.dart';
 import 'package:ramadan/src/main_app/home/daily_work/logic/daily_work_logic/daily_work_cubit.dart';
 import 'package:ramadan/src/main_app/home/presentation/page/home.dart';
 import 'package:ramadan/src/main_app/zyarat/zyarat_page.dart';
-import 'package:ramadan/src/main_app/quran/quran_page.dart';
+import 'package:ramadan/src/main_app/quran/pages/quran_page.dart';
 import 'package:ramadan/src/main_app/widgets/bottom_bar.dart';
 import 'package:ramadan/utils/utils.dart';
 
@@ -24,8 +23,12 @@ class _MainPage extends State<MainPage> {
   @override
   void initState() {
     super.initState();
-    context.read<CalendarCubit>().getCalendar();
+
     context.read<SliderCubit>().getSliders();
+    context
+        .read<DailyWorkCubit>()
+        .getTodayWorkFromRemote(context.read<CalendarCubit>().state.today);
+    context.read<QuranCubit>().getQuranEvent();
   }
 
   @override
@@ -33,7 +36,6 @@ class _MainPage extends State<MainPage> {
     final theme = Theme.of(context);
     final controller = context.read<SettingCubit>();
     final controllerPrayer = context.read<PrayerCubit>();
-    final duaCupit = context.read<DuaCubit>();
 
     final pages = [
       const HomePage(),
@@ -44,15 +46,8 @@ class _MainPage extends State<MainPage> {
     ];
 
     if (controllerPrayer.state.datastatus is DataIdeal) {
-      controllerPrayer.listenTime(
-        duaCupit,
-      );
-    }
-    if (controllerPrayer.state.datastatus is DataIdeal &&
-        controllerPrayer.state.preyerTimes != null &&
-        controller.state.setting.setting?.isSetNotification !=
-            DateTime.now().day) {
-      controller.setNotification(controllerPrayer.state.preyerTimes!);
+      controllerPrayer
+          .prayerSchedular(context.read<CalendarCubit>().state.today!);
     }
 
     return AnimatedSwitcher(
@@ -61,10 +56,7 @@ class _MainPage extends State<MainPage> {
       //whait calendar loaded today info and then get dailwork
       child: BlocListener<CalendarCubit, CalendarState>(
         listener: (context, state) {
-          if (state.datastatus == const DataSucess()) {
-            context.read<DailyWorkCubit>().getTodayWork(state.today);
-            context.read<QuranCubit>().getQuran();
-          }
+          if (state.datastatus == const SateSucess()) {}
         },
         child: BlocBuilder<SettingCubit, SettingState>(
           builder: (context, presenter) => Scaffold(
@@ -73,29 +65,20 @@ class _MainPage extends State<MainPage> {
             bottomNavigationBar: BottomBar(
               theme: theme,
               controller: controller,
-              currentpageIndex: presenter.setting.currentpageIndex,
+              currentpageIndex: presenter.currentpageIndex,
             ),
             body: Container(
               decoration: BoxDecoration(
                 color: theme.canvasColor,
-                image: const DecorationImage(
-                    image: AssetImage("assets/images/bk.png"),
+                image: DecorationImage(
+                    image: AssetImage(context.read<SettingCubit>().isDarkMode()
+                        ? "assets/images/bk.png"
+                        : "assets/images/bk_light.png"),
                     fit: BoxFit.fitHeight),
               ),
-              child: BackdropFilter(
-                filter: ImageFilter.blur(sigmaX: 1, sigmaY: 1),
-                child: Stack(
-                  children: [
-                    // Container(
-                    //     width: double.infinity,
-                    //     height: double.infinity,
-                    //     color: Colors.black45),
-                    IndexedStack(
-                      index: presenter.setting.currentpageIndex,
-                      children: pages,
-                    ),
-                  ],
-                ),
+              child: IndexedStack(
+                index: presenter.currentpageIndex,
+                children: pages,
               ),
             ),
           ),

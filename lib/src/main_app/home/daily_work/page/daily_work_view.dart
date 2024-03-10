@@ -6,7 +6,7 @@ import 'package:ramadan/src/main_app/dua/work_display_view.dart';
 import 'package:ramadan/src/main_app/home/daily_work/logic/daily_work_logic/daily_work_cubit.dart';
 import 'package:ramadan/src/main_app/home/daily_work/model/daily_work_model.dart';
 import 'package:ramadan/src/main_app/home/daily_work/widgets/tabs_view.dart';
-import 'package:ramadan/src/main_app/quran/quran_list_suar.dart';
+import 'package:ramadan/src/main_app/quran/pages/sura/quran_suar_view.dart';
 import 'package:ramadan/src/main_app/widgets/relationship_card.dart';
 import 'package:ramadan/src/main_app/widgets/work_card.dart';
 import 'package:ramadan/utils/utils.dart';
@@ -28,12 +28,12 @@ class DailyWorkView extends StatelessWidget {
         ),
         BlocBuilder<DailyWorkCubit, DailyWorkState>(
             builder: (context, state) => switch (state.datastatus) {
-                  DataLoading() || DataIdeal() => Column(
+                  StateLoading() || DataIdeal() => Column(
                       children: [1, 2, 3, 4, 5]
                           .map((e) => const WorkCardPlaceHolder())
                           .toList(),
                     ),
-                  const DataSucess() => Column(children: [
+                  const SateSucess() => Column(children: [
                       _getDailyWorkListView(state, theme, keyArray[0]),
                       _getTRelationOfTodayDayListView(
                           state, theme, keyArray[1]),
@@ -117,8 +117,8 @@ class DailyWorkView extends StatelessWidget {
       DailyWorkState state, ThemeData theme, Key key) {
     return VisibilityDetector(
         key: key,
-        child: state.allRelationShipModel == null ||
-                state.allRelationShipModel!.data!.isEmpty
+        child: state.relationShipData == null ||
+                state.relationShipData!.data!.isEmpty
             ? const SizedBox()
             : Column(
                 crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -136,9 +136,9 @@ class DailyWorkView extends StatelessWidget {
                     shrinkWrap: true,
                     physics: const NeverScrollableScrollPhysics(),
                     separatorBuilder: (c, i) => const SizedBox(height: 0),
-                    itemCount: state.allRelationShipModel?.data?.length ?? 0,
+                    itemCount: state.relationShipData?.data?.length ?? 0,
                     itemBuilder: (c, i) => RelationshibsCard(
-                      dailyWorkData: state.allRelationShipModel!.data![i],
+                      dailyWorkData: state.relationShipData!.data![i],
                     ),
                   ),
                 ],

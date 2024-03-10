@@ -1,5 +1,7 @@
 import 'dart:ui';
 
+import 'package:flutter_hooks/flutter_hooks.dart';
+import 'package:ramadan/bussines_logic/Setting/cubit/setting_cubit.dart';
 import 'package:ramadan/services/tasbeeh/cubit/tasbeeh_cubit.dart';
 import 'package:ramadan/utils/utils.dart';
 import 'dart:math' as math;
@@ -18,6 +20,7 @@ class TasbeehView extends StatelessWidget {
       builder: (context, state) {
         return Scaffold(
           appBar: AppBar(
+            elevation: 5,
             title: Text(tasbeehCubit.tasbeehModel.tasbeehList.isNotEmpty
                 ? tasbeehCubit.tasbeehModel.tasbeehList.first.title
                 : "تسبيح مفتوح"),
@@ -25,16 +28,19 @@ class TasbeehView extends StatelessWidget {
           ),
           body: Container(
             decoration: BoxDecoration(
-              gradient: LinearGradient(
-                  colors: [theme.primaryColor, theme.scaffoldBackgroundColor],
-                  stops: const [0, 0.8],
-                  begin: Alignment.topRight,
-                  end: Alignment.bottomLeft),
+              color: theme.canvasColor,
+              image: DecorationImage(
+                  image: AssetImage(context.read<SettingCubit>().isDarkMode()
+                      ? "assets/images/bk.png"
+                      : "assets/images/bk_light.png"),
+                  fit: BoxFit.cover),
             ),
             child: Stack(
               alignment: Alignment.center,
               children: [
-                const ThreadWidget(),
+                ThreadWidget(
+                    count: state.repetitionNumber,
+                    incrementCount: (a) => tasbeehCubit.incrementCount(a)),
                 AnimatedPositioned(
                   duration: const Duration(milliseconds: 100),
                   bottom: ((query.size.height / 60)) * 60 * 0.3 -
@@ -89,23 +95,35 @@ class TasbeehView extends StatelessWidget {
 }
 
 class ThreadWidget extends StatelessWidget {
-  const ThreadWidget({
-    super.key,
-  });
+  final int count;
 
+  final Function(int index) incrementCount;
+  const ThreadWidget(
+      {super.key, required this.count, required this.incrementCount});
   @override
   Widget build(BuildContext context) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        Container(
-            height: double.infinity,
-            width: 100,
-            decoration: const BoxDecoration(
-              image: DecorationImage(
-                image: AssetImage("assets/images/thread.png"),
-              ),
-            )),
+        GestureDetector(
+          onVerticalDragEnd: (details) {
+            // log(details.velocity.pixelsPerSecond.distance.toString() ?? "kk");
+            if ((details.primaryVelocity ?? 0) > 0) {
+              incrementCount(count + 1);
+            }
+            if ((details.primaryVelocity ?? 0) < 0) {
+              incrementCount(count - 1);
+            }
+          },
+          child: Container(
+              height: double.infinity,
+              width: 100,
+              decoration: const BoxDecoration(
+                image: DecorationImage(
+                  image: AssetImage("assets/images/thread.png"),
+                ),
+              )),
+        ),
       ],
     );
   }
@@ -151,7 +169,7 @@ class ArcPainter extends CustomPainter {
   }
 }
 
-class BeadItem extends StatelessWidget {
+class BeadItem extends HookWidget {
   final int count;
   final int index;
   final Function(int index) incrementCount;
@@ -163,11 +181,13 @@ class BeadItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final plus = useState(0);
     return SizedBox(
       width: double.infinity,
       child: GestureDetector(
-        onTap: () => incrementCount(count + 1),
+        onTap: () => index == count ? incrementCount(count + 1) : null,
         onVerticalDragEnd: (details) {
+          // log(details.velocity.pixelsPerSecond.distance.toString() ?? "kk");
           if ((details.primaryVelocity ?? 0) > 0 && index == count) {
             incrementCount(count + 1);
           }
@@ -178,11 +198,15 @@ class BeadItem extends StatelessWidget {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
+            // Draggable(
+            //   affinity: Axis.vertical,
+            //   axis: Axis.vertical,
+            //   child:
             Opacity(
               opacity: 0.9,
               child: AnimatedContainer(
                 duration: const Duration(milliseconds: 100),
-                curve: Curves.ease,
+                curve: Curves.slowMiddle,
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(50),
                   gradient: _calculateGradient(),
@@ -197,8 +221,8 @@ class BeadItem extends StatelessWidget {
                 height: (index == 34 || index == 68) ? 40 : 60.0,
                 margin: EdgeInsets.symmetric(vertical: index >= count ? 5 : 0)
                     .copyWith(
-                  bottom: count == index ? 100 : 0,
-                ),
+                        bottom: count == index ? 100 : 0,
+                        top: count == index ? plus.value.toDouble() : 0),
                 child: Center(
                   child: Text(
                     index == count ? '$index' : '',
@@ -211,6 +235,50 @@ class BeadItem extends StatelessWidget {
                 ),
               ),
             ),
+            //   feedback: Opacity(
+            //     opacity: 0.9,
+            //     child: AnimatedContainer(
+            //       duration: const Duration(milliseconds: 100),
+            //       curve: Curves.ease,
+            //       decoration: BoxDecoration(
+            //         borderRadius: BorderRadius.circular(50),
+            //         gradient: _calculateGradient(),
+            //         image: DecorationImage(
+            //             image: const AssetImage("assets/images/bead.png"),
+            //             fit: BoxFit.cover,
+            //             colorFilter: (index == 34 || index == 68)
+            //                 ? const ColorFilter.srgbToLinearGamma()
+            //                 : null),
+            //       ),
+            //       width: 70.0,
+            //       height: (index == 34 || index == 68) ? 40 : 60.0,
+            //       margin: EdgeInsets.symmetric(vertical: index >= count ? 5 : 0)
+            //           .copyWith(
+            //               bottom: count == index ? 100 : 0,
+            //               top: count == index ? plus.value.toDouble() : 0),
+            //       child: Center(
+            //         child: Text(
+            //           index == count ? '$index' : '',
+            //           style: const TextStyle(
+            //             fontSize: 24.0,
+            //             fontWeight: FontWeight.bold,
+            //             color: Colors.white,
+            //           ),
+            //         ),
+            //       ),
+            //     ),
+            //   ),
+            //   onDragEnd: (details) {
+            //     log(details.velocity.pixelsPerSecond.dy.toString());
+
+            //     if (details.velocity.pixelsPerSecond.dy > 0 && index == count) {
+            //       incrementCount(count + 1);
+            //     }
+            //     if (details.velocity.pixelsPerSecond.dy < 0 && index == count) {
+            //       incrementCount(count - 1);
+            //     }
+            //   },
+            // ),
           ],
         ),
       ),

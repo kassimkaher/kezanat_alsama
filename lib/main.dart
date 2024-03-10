@@ -1,7 +1,11 @@
+import 'package:flutter_timezone/flutter_timezone.dart';
+import 'package:ramadan/bussines_logic/Setting/cubit/setting_cubit.dart';
 import 'package:ramadan/src/admin/logic/calendar_cubit/calendar_cubit.dart';
 import 'package:ramadan/src/main_app/home/daily_work/logic/daily_work_logic/daily_work_cubit.dart';
 import 'package:ramadan/utils/injector.dart';
 import 'package:ramadan/utils/utils.dart';
+
+import 'package:timezone/timezone.dart' as tz;
 
 class CustomImageCache extends WidgetsFlutterBinding {
   @override
@@ -15,6 +19,7 @@ class CustomImageCache extends WidgetsFlutterBinding {
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
   FirebaseFirestore.instance.settings = const Settings(
     persistenceEnabled: true,
@@ -26,7 +31,9 @@ void main() async {
     await setupFlutterNotifications();
     // await NotificationController.initializeLocalNotifications();
     initializeTimeZones();
-
+    tz.setLocalLocation(
+        tz.getLocation(await FlutterTimezone.getLocalTimezone()));
+    appMode = AppMode.user;
     await Permission.notification.isDenied.then((value) {
       if (value) {
         Permission.notification.request();
@@ -105,14 +112,7 @@ class App extends StatelessWidget {
             ],
             locale: const Locale('ar', 'IQ'),
 
-            theme: getTheme(
-                "Somar",
-                state.setting.setting?.isDarkMode == 1
-                    ? false
-                    : state.setting.setting?.isDarkMode == 2
-                        ? true
-                        : SchedulerBinding.instance.window.platformBrightness ==
-                            Brightness.dark),
+            theme: getTheme("Somar", context.read<SettingCubit>().isDarkMode()),
             themeMode: ThemeMode.system,
             showPerformanceOverlay: false,
             home: const SplashPage(),

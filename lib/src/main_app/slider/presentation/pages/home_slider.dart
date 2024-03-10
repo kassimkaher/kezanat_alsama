@@ -13,12 +13,8 @@ class HomeSliderView extends StatelessWidget {
 
     return BlocBuilder<SliderCubit, SliderState>(
       builder: (context, state) => switch (state.datastatus) {
-        DataSucess() => InkWell(
-            onTap: () => showBottomSheet(
-              elevation: 10,
-              shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(16)),
-              constraints: BoxConstraints(maxHeight: query.size.height - 24),
+        SateSucess() => InkWell(
+            onTap: () => showAdaptiveDialog(
               context: context,
               builder: (c) => ClipRRect(
                 borderRadius: BorderRadius.circular(16),
@@ -96,7 +92,7 @@ class HomeSliderView extends StatelessWidget {
               ),
             ),
           ),
-        const DataLoading() => AspectRatio(
+        const StateLoading() => AspectRatio(
             aspectRatio: 16 / 8,
             child: Container(
               margin: const EdgeInsets.symmetric(horizontal: 16),

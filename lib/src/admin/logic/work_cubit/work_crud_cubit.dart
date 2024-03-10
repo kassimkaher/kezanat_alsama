@@ -23,12 +23,12 @@ class WorkCrudCubit extends Cubit<WorkCrudState> {
   }
 
   addNewWork(DailyWorkData dailyWorkData) async {
-    emit(state.copyWith(dataStatus: const DataLoading()));
+    emit(state.copyWith(dataStatus: const StateLoading()));
 
     final result = await FireStoreRemote.addWork(dailyWorkData);
 
     if (result is DataFailed) {
-      emit(state.copyWith(dataStatus: const DataError()));
+      emit(state.copyWith(dataStatus: const StateError()));
       return;
     }
 
@@ -37,43 +37,43 @@ class WorkCrudCubit extends Cubit<WorkCrudState> {
 
     emit(state.copyWith(
         dataStatus: const DataSucessOperation(), dailyWorkData: dailyWorkData));
-    emit(state.copyWith(dataStatus: const DataSucess()));
+    emit(state.copyWith(dataStatus: const SateSucess()));
     add(state.dailyWorkData!);
   }
 
   updateWork(DailyWorkData dailyWorkData) async {
-    emit(state.copyWith(dataStatus: DataLoading(data: dailyWorkData.id)));
+    emit(state.copyWith(dataStatus: StateLoading(data: dailyWorkData.id)));
 
     final result =
         await FireStoreRemote.updateWork(dailyWorkData: dailyWorkData);
 
     if (result is DataFailed) {
-      emit(state.copyWith(dataStatus: const DataError()));
+      emit(state.copyWith(dataStatus: const StateError()));
       return;
     }
 
     emit(state.copyWith(
         dataStatus: const DataSucessOperation(), dailyWorkData: dailyWorkData));
-    emit(state.copyWith(dataStatus: const DataSucess()));
+    emit(state.copyWith(dataStatus: const SateSucess()));
   }
 
   getWorkData() async {
-    emit(state.copyWith(dataStatus: const DataLoading()));
+    emit(state.copyWith(dataStatus: const StateLoading()));
 
     final data = await FireStoreRemote.getWorkspi();
     if (data is DataSuccess) {
       emit(state.copyWith(
-          dataStatus: const DataSucess(),
+          dataStatus: const SateSucess(),
           worksData: data.data,
           workListModel: data.data?.dailyWorkModel));
 
       return;
     }
-    emit(state.copyWith(dataStatus: const DataError()));
+    emit(state.copyWith(dataStatus: const StateError()));
   }
 
   deletWork(String id) async {
-    emit(state.copyWith(dataStatus: DataLoading(data: id)));
+    emit(state.copyWith(dataStatus: StateLoading(data: id)));
 
     try {
       await state.worksData!.refrenses
@@ -88,15 +88,15 @@ class WorkCrudCubit extends Cubit<WorkCrudState> {
       emit(state.copyWith(
           dataStatus: const DataSucessOperation(),
           workListModel: state.worksData?.dailyWorkModel));
-      emit(state.copyWith(dataStatus: const DataSucess()));
+      emit(state.copyWith(dataStatus: const SateSucess()));
     } catch (e) {
-      emit(state.copyWith(dataStatus: const DataError()));
-      emit(state.copyWith(dataStatus: const DataSucess()));
+      emit(state.copyWith(dataStatus: const StateError()));
+      emit(state.copyWith(dataStatus: const SateSucess()));
     }
   }
 
   deletRelation(String id) async {
-    emit(state.copyWith(dataStatus: DataLoading(data: id)));
+    emit(state.copyWith(dataStatus: StateLoading(data: id)));
 
     try {
       await state.worksData!.refrenses
@@ -110,9 +110,9 @@ class WorkCrudCubit extends Cubit<WorkCrudState> {
       emit(state.copyWith(
           dataStatus: const DataSucessOperation(),
           workListModel: state.worksData?.dailyWorkModel));
-      emit(state.copyWith(dataStatus: const DataSucess()));
+      emit(state.copyWith(dataStatus: const SateSucess()));
     } catch (e) {
-      emit(state.copyWith(dataStatus: const DataError()));
+      emit(state.copyWith(dataStatus: const StateError()));
     }
   }
 
@@ -128,7 +128,7 @@ class WorkCrudCubit extends Cubit<WorkCrudState> {
     }
 
     emit(state.copyWith(
-        dataStatus: const DataSucess(),
+        dataStatus: const SateSucess(),
         workListModel: state.worksData?.dailyWorkModel));
     return;
   }

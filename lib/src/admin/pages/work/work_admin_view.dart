@@ -51,7 +51,7 @@ class WorkAdminView extends StatelessWidget {
         ),
         body: BlocBuilder<WorkCrudCubit, WorkCrudState>(
             builder: (context, state) => switch (state.dataStatus) {
-                  DataLoading() ||
+                  StateLoading() ||
                   DataIdeal() when (state.worksData == null) =>
                     ListView.separated(
                         padding: const EdgeInsets.all(16),
@@ -59,7 +59,7 @@ class WorkAdminView extends StatelessWidget {
                         itemBuilder: (c, i) => const WorkCardPlaceHolder(),
                         separatorBuilder: (c, i) => const SizedBox(height: 0),
                         itemCount: 4),
-                  const DataError() => Text("Error"),
+                  const StateError() => Text("Error"),
                   _ => ListView.separated(
                       padding: const EdgeInsets.all(16),
                       // shrinkWrap: true,
@@ -71,7 +71,7 @@ class WorkAdminView extends StatelessWidget {
                           ? const SizedBox()
                           : WorkCard(
                               dailyWorkData: state.workListModel!.data![i],
-                              whenDeleting: state.dataStatus is DataLoading &&
+                              whenDeleting: state.dataStatus is StateLoading &&
                                   state.dataStatus.data ==
                                       state.workListModel!.data![i].id,
                               ondelete: () {

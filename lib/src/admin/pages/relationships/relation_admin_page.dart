@@ -18,7 +18,7 @@ class _RelationAdminPageState extends State<RelationAdminPage> {
   void initState() {
     super.initState();
     workCrudCubit = getIt<WorkCrudCubit>();
-    if (workCrudCubit.state.dataStatus != const DataSucess()) {
+    if (workCrudCubit.state.dataStatus != const SateSucess()) {
       workCrudCubit.getWorkData();
     }
   }

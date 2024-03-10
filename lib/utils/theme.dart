@@ -1,5 +1,3 @@
-import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:ramadan/utils/utils.dart';
 
 getTheme(String fontfamily, bool isDarkMode) {
@@ -19,7 +17,7 @@ getTheme(String fontfamily, bool isDarkMode) {
     fontFamily: fontfamily,
   );
 
-  return true
+  return isDarkMode
       ? theme.copyWith(
           bottomNavigationBarTheme: const BottomNavigationBarThemeData(),
           cardTheme: CardTheme(

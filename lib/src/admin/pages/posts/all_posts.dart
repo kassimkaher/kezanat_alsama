@@ -45,13 +45,13 @@ class _AllPostsViewState extends State<AllPostsView> {
             // }
           },
           builder: (context, state) => switch (state.datastatus) {
-                DataLoading() || DataIdeal() => ListView.separated(
+                StateLoading() || DataIdeal() => ListView.separated(
                     padding: const EdgeInsets.all(16),
                     shrinkWrap: true,
                     itemBuilder: (c, i) => const PostCardPlaceHolder(),
                     separatorBuilder: (c, i) => const SizedBox(height: 0),
                     itemCount: 4),
-                const DataSucess() => ListView.separated(
+                const SateSucess() => ListView.separated(
                     padding: const EdgeInsets.all(16),
                     separatorBuilder: (c, i) => const SizedBox(height: 0),
                     itemCount: state.dailyPostsModel?.data?.length ?? 0,

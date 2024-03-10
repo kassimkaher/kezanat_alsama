@@ -18,22 +18,22 @@ abstract class DataStatus<T> {
   });
 }
 
-class DataLoading<T> extends DataStatus<T> {
-  const DataLoading({dynamic data}) : super(data: data);
+class StateLoading<T> extends DataStatus<T> {
+  const StateLoading({dynamic data}) : super(data: data);
 }
 
 class DataIdeal<T> extends DataStatus<T> {
   const DataIdeal() : super(data: null);
 }
 
-class DataSucess<T> extends DataStatus<T> {
-  const DataSucess() : super(data: null);
+class SateSucess<T> extends DataStatus<T> {
+  const SateSucess() : super(data: null);
 }
 
 class DataSucessOperation<T> extends DataStatus<T> {
   const DataSucessOperation() : super(data: null);
 }
 
-class DataError<T> extends DataStatus<T> {
-  const DataError() : super(data: null);
+class StateError<T> extends DataStatus<T> {
+  const StateError() : super(data: null);
 }

@@ -19,7 +19,7 @@ class _WorkAdminPageState extends State<WorkAdminPage> {
     super.initState();
     workCrudCubit = getIt<WorkCrudCubit>();
 
-    if (workCrudCubit.state.dataStatus != const DataSucess()) {
+    if (workCrudCubit.state.dataStatus != const SateSucess()) {
       workCrudCubit.getWorkData();
     }
   }

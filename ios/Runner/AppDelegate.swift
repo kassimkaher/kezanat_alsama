@@ -1,6 +1,6 @@
 import UIKit
 import Flutter
-import AVFoundation
+
 import UserNotifications
 
 @UIApplicationMain
@@ -66,15 +66,6 @@ if call.method == "pushIosNotification" {
 
 
     })
-
-
-do {
-    try AVAudioSession.sharedInstance().setCategory(.playback, mode: .default)
-    try AVAudioSession.sharedInstance().setActive(true)
-} catch {
-    print(error)
-}
-
    
     GeneratedPluginRegistrant.register(with: self)
     return super.application(application, didFinishLaunchingWithOptions: launchOptions)

@@ -2,8 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:lucide_icons/lucide_icons.dart';
-import 'package:ramadan/alert/alert_desition.dart';
-import 'package:ramadan/bussines_logic/Setting/settings_cubit.dart';
+import 'package:ramadan/bussines_logic/Setting/cubit/setting_cubit.dart';
 import 'package:ramadan/services/notification_service.dart';
 import 'package:ramadan/bussines_logic/prayer/prayer_cubit.dart';
 import 'package:ramadan/services/tasbeeh/entity/model/tasbeeh_model.dart';
@@ -14,6 +13,8 @@ import 'package:ramadan/pages/cities_page.dart';
 import 'package:ramadan/src/core/constant/const.dart';
 import 'package:ramadan/src/core/widget/jb_button.dart';
 import 'package:ramadan/src/main_app/widgets/custom_card.dart';
+import 'package:ramadan/utils/routers.dart';
+import 'package:timezone/timezone.dart' as tz;
 
 class SettingPage extends StatelessWidget {
   const SettingPage({
@@ -26,7 +27,6 @@ class SettingPage extends StatelessWidget {
     final controller = context.read<SettingCubit>();
     final controllerPrayer = context.read<PrayerCubit>();
 
-    final size = MediaQuery.of(context).size;
     return Scaffold(
       appBar: AppBar(
         title: const Text("الاعدادات"),
@@ -65,21 +65,18 @@ class SettingPage extends StatelessWidget {
                               decoration: BoxDecoration(
                                   borderRadius: BorderRadius.circular(
                                       kDefaultBorderRadius),
-                                  color:
-                                      (state.setting.setting!.isDarkMode) == 0
-                                          ? theme.primaryColor
-                                          : Colors.transparent),
+                                  color: (state.setting!.isDarkMode) == 0
+                                      ? theme.primaryColor
+                                      : Colors.transparent),
                               child: Text(
                                 "تلقائي",
                                 style: theme.textTheme.titleMedium!.copyWith(
-                                    color:
-                                        (state.setting.setting!.isDarkMode) == 0
-                                            ? Colors.white
-                                            : theme.disabledColor,
-                                    fontSize:
-                                        (state.setting.setting!.isDarkMode) == 0
-                                            ? 16
-                                            : 14),
+                                    color: (state.setting!.isDarkMode) == 0
+                                        ? Colors.white
+                                        : theme.disabledColor,
+                                    fontSize: (state.setting!.isDarkMode) == 0
+                                        ? 16
+                                        : 14),
                               ),
                             ),
                           ),
@@ -92,21 +89,18 @@ class SettingPage extends StatelessWidget {
                               decoration: BoxDecoration(
                                   borderRadius: BorderRadius.circular(
                                       kDefaultBorderRadius),
-                                  color:
-                                      (state.setting.setting!.isDarkMode) == 2
-                                          ? theme.primaryColor
-                                          : Colors.transparent),
+                                  color: (state.setting!.isDarkMode) == 2
+                                      ? theme.primaryColor
+                                      : Colors.transparent),
                               child: Text(
                                 "الداكن",
                                 style: theme.textTheme.titleMedium!.copyWith(
-                                    color:
-                                        (state.setting.setting!.isDarkMode) == 2
-                                            ? Colors.white
-                                            : theme.disabledColor,
-                                    fontSize:
-                                        (state.setting.setting!.isDarkMode) == 2
-                                            ? 16
-                                            : 14),
+                                    color: (state.setting!.isDarkMode) == 2
+                                        ? Colors.white
+                                        : theme.disabledColor,
+                                    fontSize: (state.setting!.isDarkMode) == 2
+                                        ? 16
+                                        : 14),
                               ),
                             ),
                           ),
@@ -119,21 +113,18 @@ class SettingPage extends StatelessWidget {
                               decoration: BoxDecoration(
                                   borderRadius: BorderRadius.circular(
                                       kDefaultBorderRadius),
-                                  color:
-                                      (state.setting.setting!.isDarkMode) == 1
-                                          ? theme.primaryColor
-                                          : Colors.transparent),
+                                  color: (state.setting!.isDarkMode) == 1
+                                      ? theme.primaryColor
+                                      : Colors.transparent),
                               child: Text(
                                 "فاتح",
                                 style: theme.textTheme.titleMedium!.copyWith(
-                                    color:
-                                        (state.setting.setting!.isDarkMode) == 1
-                                            ? Colors.white
-                                            : theme.disabledColor,
-                                    fontSize:
-                                        (state.setting.setting!.isDarkMode) == 1
-                                            ? 16
-                                            : 14),
+                                    color: (state.setting!.isDarkMode) == 1
+                                        ? Colors.white
+                                        : theme.disabledColor,
+                                    fontSize: (state.setting!.isDarkMode) == 1
+                                        ? 16
+                                        : 14),
                               ),
                             ),
                           ),
@@ -173,21 +164,19 @@ class SettingPage extends StatelessWidget {
                               decoration: BoxDecoration(
                                   borderRadius: BorderRadius.circular(
                                       kDefaultBorderRadius),
-                                  color: (state
-                                          .setting.setting!.enableNotification)
+                                  color: (state.setting!.enableNotification)
                                       ? theme.primaryColor
                                       : Colors.transparent),
                               child: Text(
                                 "تفعيل",
                                 style: theme.textTheme.titleMedium!.copyWith(
-                                    color: (state.setting.setting!
-                                            .enableNotification)
+                                    color: (state.setting!.enableNotification)
                                         ? Colors.white
                                         : theme.disabledColor,
-                                    fontSize: (state.setting.setting!
-                                            .enableNotification)
-                                        ? 16
-                                        : 14),
+                                    fontSize:
+                                        (state.setting!.enableNotification)
+                                            ? 16
+                                            : 14),
                               ),
                             ),
                           ),
@@ -201,21 +190,19 @@ class SettingPage extends StatelessWidget {
                               decoration: BoxDecoration(
                                   borderRadius: BorderRadius.circular(
                                       kDefaultBorderRadius),
-                                  color: !(state
-                                          .setting.setting!.enableNotification)
+                                  color: !(state.setting!.enableNotification)
                                       ? theme.primaryColor
                                       : Colors.transparent),
                               child: Text(
                                 "إيقاف",
                                 style: theme.textTheme.titleMedium!.copyWith(
-                                    color: !(state.setting.setting!
-                                            .enableNotification)
+                                    color: !(state.setting!.enableNotification)
                                         ? Colors.white
                                         : theme.disabledColor,
-                                    fontSize: !(state.setting.setting!
-                                            .enableNotification)
-                                        ? 16
-                                        : 14),
+                                    fontSize:
+                                        !(state.setting!.enableNotification)
+                                            ? 16
+                                            : 14),
                               ),
                             ),
                           ),
@@ -244,12 +231,14 @@ class SettingPage extends StatelessWidget {
                       onPressed: () {
                         controller.setNotification(
                             controllerPrayer.state.preyerTimes!);
-
-                        showSchedualNotificationAthan(
-                            title: "اختبار الاذان",
-                            subtitle: "حان موعد اذان المغرب",
-                            dateTime: DateTime.now().add(Duration(seconds: 5)),
-                            id: 1);
+                        if (appMode == AppMode.admin) {
+                          showSchedualNotificationAthan(
+                              title: "اختبار ",
+                              subtitle: "حان موعد اذان test",
+                              dateTime: tz.TZDateTime.now(tz.local)
+                                  .add(const Duration(seconds: 5)),
+                              id: 6000011 + DateTime.now().millisecond);
+                        }
                       },
                     ),
                   ],
@@ -265,7 +254,7 @@ class SettingPage extends StatelessWidget {
                     const Icon(LucideIcons.locate),
                     const SizedBox(width: 10),
                     Text(
-                      state.setting.setting?.selectCity?.nameAr ?? "",
+                      state.setting?.selectCity?.nameAr ?? "",
                       style: theme.textTheme.titleSmall,
                     ),
                     const Spacer(),
@@ -274,25 +263,9 @@ class SettingPage extends StatelessWidget {
                       backgroundColor: Colors.transparent,
                       color: theme.colorScheme.secondary,
                       onPressed: () {
-                        KDAlert.showSheet(
-                          context,
-                          height: size.height * 0.935,
-                          width: size.width,
-                          title: "اختر المحافظة",
-                          child: CityListView(
-                            onSelect: () {
-                              final controller = context.read<SettingCubit>();
-                              final controllerPrayer =
-                                  context.read<PrayerCubit>();
-
-                              controllerPrayer.getPrayer(
-                                  controller.state.setting.setting!.selectCity);
-                              controller.setNotification(
-                                  controllerPrayer.state.preyerTimes!);
-                              Navigator.pop(context);
-                            },
-                          ),
-                        );
+                        showAdaptiveDialog(
+                            context: context,
+                            builder: (c) => const CitiesPage());
                       },
                     ),
                   ],
@@ -308,7 +281,7 @@ class SettingPage extends StatelessWidget {
                         tasbeehModel: TasbeehModel(
                           tasbeehList: [
                             TasbeehData(
-                                title: "'تسبيح الزهراء عليها السلام'",
+                                title: "تسبيح الزهراء عليها السلام",
                                 description:
                                     "تسبيح الزهراء، أو تسبيح فاطمة من الأذكار المشهورة عند الشيعة، وهو أن يقول المسبّح: الله أكبر (34) مرة، الحمد لله (33) مرة، سبحان الله (33) مرة.",
                                 number: 34,
@@ -346,7 +319,7 @@ class SettingPage extends StatelessWidget {
                         color: theme.iconTheme.color,
                       ),
                       const SizedBox(width: 10),
-                      const Text("المسبحة"),
+                      const Text("تسبيح الزهراء عليها السلام"),
                     ],
                   ),
                 ),

@@ -1,16 +1,13 @@
 import 'dart:async';
-
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:http/http.dart' as http;
+
 import 'package:bloc/bloc.dart';
-import 'package:ramadan/bussines_logic/Setting/model/setting_model.dart';
+import 'package:ramadan/bussines_logic/Setting/cubit/setting_cubit.dart';
 import 'package:ramadan/bussines_logic/prayer/fuctions/functions.dart';
-import 'package:ramadan/bussines_logic/prayer/model/arabic_date_model.dart';
 import 'package:ramadan/bussines_logic/prayer/model/prayer_model.dart';
-import 'package:ramadan/src/core/resources/local_db.dart';
 import 'package:ramadan/src/core/entity/data_status.dart';
-import 'package:ramadan/src/main_app/dua/bussines_logic/dua_cubit.dart';
-import 'package:ramadan/utils/extention.dart';
+import 'package:ramadan/src/main_app/home/daily_work/model/calendar_model.dart';
+import 'package:ramadan/utils/utils.dart';
 
 part 'paryer_state.dart';
 
@@ -19,18 +16,36 @@ part 'prayer_cubit.freezed.dart';
 class PrayerCubit extends Cubit<PrayerState> {
   PrayerCubit() : super(const PrayerState.initial(datastatus: DataIdeal()));
   ArabicDateEntry? arabicDate;
-  getPrayer(CityDetails? cityDetails) async {
+  getPrayer(CityDetails? cityDetails, CalendarModel calendarModel) async {
     if (cityDetails == null) {
       return;
     }
 
-    final preyerTimes = getPrayersTimeOfMonth(cityDetails);
+    final preyerTimes = getPrayersTimeOfMonth(cityDetails, calendarModel);
+    //preyerTimes?.days?.forEach((element) {
+//       kdp(
+//           name: "prayer time",
+//           msg: '''
+// element.month=${element.month}
+// element.day=${element.day}
+// element.dayname=${element.dayname}
+// element.fajer=${element.fajer?.hour}:${element.fajer?.minut}
+
+// ''',
+//           c: 'm');
+//     });
 
     emit(state.copyWith(preyerTimes: preyerTimes));
+
+    final settingCubit = navigatorKey.currentContext!.read<SettingCubit>();
+    if (state.preyerTimes != null &&
+        settingCubit.state.setting?.isSetNotification != DateTime.now().day) {
+      settingCubit.setNotification(state.preyerTimes!);
+    }
   }
 
-  listenTime(DuaCubit duaCubit) async {
-    emit(state.copyWith(datastatus: const DataSucess()));
+  prayerSchedular(CalendarModel calendarModel) async {
+    emit(state.copyWith(datastatus: const SateSucess()));
     if (state.timer) {
       return;
     }
@@ -38,82 +53,87 @@ class PrayerCubit extends Cubit<PrayerState> {
     emit(state.copyWith(timer: true));
 
     Timer.periodic(const Duration(seconds: 1), (timer) {
-      var now = DateTime.now();
+      var time = DateTime.now();
 
-      if (state.preyerTimes != null) {
-        final currentdayIndex = state.preyerTimes!.days!
-            .indexWhere((day) => day.month == now.month && day.day == now.day);
+      if (state.preyerTimes == null) {
+        return;
+      }
+      final currentdayIndex = state.preyerTimes!.days!.indexWhere((day) =>
+          day.month == calendarModel.meladyMonth &&
+          day.day == calendarModel.meladyDay);
 
-        //  kdp(name: "chek time ", msg: currentdayIndex, c: 'gr');
-        if (currentdayIndex > -1) {
+      if (currentdayIndex > -1) {
+        final curprayer = state.preyerTimes!.days![currentdayIndex];
+        curprayer.fajer =
+            time.hour > state.preyerTimes!.days![currentdayIndex].fajer!.hour!
+                ? state.preyerTimes!.days![currentdayIndex + 1].fajer
+                : state.preyerTimes!.days![currentdayIndex].fajer;
+        emit(state.copyWith(
+            currentDay: curprayer, dayNumber: currentdayIndex + 1));
+        if (state.preyerTimes!.days!.length > (currentdayIndex + 1)) {
           emit(state.copyWith(
-              currentDay: state.preyerTimes!.days![currentdayIndex],
-              dayNumber: currentdayIndex + 1));
-          if (state.preyerTimes!.days!.length > (currentdayIndex + 1)) {
-            emit(state.copyWith(
-                nextDay: state.preyerTimes!.days![currentdayIndex + 1]));
-          }
-          if ((currentdayIndex - 1) > -1) {
-            emit(state.copyWith(
-                agoDay: state.preyerTimes!.days![currentdayIndex + -1]));
-          }
+              nextDay: state.preyerTimes!.days![currentdayIndex + 1]));
+        }
+        if ((currentdayIndex - 1) > -1) {
+          emit(state.copyWith(
+              agoDay: state.preyerTimes!.days![currentdayIndex + -1]));
+        }
 
-          if (now.hour < state.currentDay!.fajer!.hour! ||
-              (now.hour == state.currentDay!.fajer!.hour! &&
-                  now.minute <= state.currentDay!.fajer!.minut! + 5)) {
-            final nextTime = getNextTime(
-                state.currentDay!.fajer!,
-                state.currentDay!.fajer!,
-                state.currentDay!,
-                now,
-                "fajer_prayer.png",
-                "موعد صلاة الفجر",
-                "ص");
-            emit(state.copyWith(nextTime: nextTime));
-          }
-//"موعد صلاة الظهر"
-          else if (now.hour >= (state.currentDay!.fajer!.hour!) &&
-              (now.hour < state.currentDay!.duhur!.hour! ||
-                  (now.hour == state.currentDay!.duhur!.hour! &&
-                      now.minute <= state.currentDay!.duhur!.minut! + 5))) {
-            emit(state.copyWith(
-                nextTime: getNextTime(
-                    state.currentDay!.duhur!,
-                    state.currentDay!.fajer!,
-                    state.currentDay!,
-                    now,
-                    "afternoon_prayer.png",
-                    "موعد صلاة الظهر",
-                    "م")));
-          }
-          // "موعد صلاة المغرب",
-          else if ((now.hour >= state.currentDay!.duhur!.hour!) &&
-              (now.hour < state.currentDay!.magrib!.hour! ||
-                  (now.hour == state.currentDay!.magrib!.hour! &&
-                      now.minute <= state.currentDay!.magrib!.minut! + 5))) {
-            emit(state.copyWith(
-                nextTime: getNextTime(
-                    state.currentDay!.magrib!,
-                    state.currentDay!.duhur!,
-                    state.currentDay!,
-                    now,
-                    "mugrab_prayer.png",
-                    "موعد صلاة المغرب",
-                    "م")));
-          } else if (now.hour > state.currentDay!.magrib!.hour! ||
-              (now.hour == state.currentDay!.magrib!.hour! &&
-                  now.minute > state.currentDay!.magrib!.minut! + 5)) {
-            emit(state.copyWith(
-                nextTime: fajerTimeStay(
-              state.nextDay!.fajer!,
-              state.currentDay!.magrib!,
+        if (time.hour < state.currentDay!.fajer!.hour! ||
+            (time.hour == state.currentDay!.fajer!.hour! &&
+                time.minute <= state.currentDay!.fajer!.minut! + 5)) {
+          final nextTime = getNextTime(
+              state.currentDay!.fajer!,
+              state.currentDay!.fajer!,
               state.currentDay!,
-              now,
+              time,
               "fajer_prayer.png",
               "موعد صلاة الفجر",
-              "ص",
-            )));
-          }
+              "ص");
+          emit(state.copyWith(nextTime: nextTime));
+        }
+//"موعد صلاة الظهر"
+        else if (time.hour >= (state.currentDay!.fajer!.hour!) &&
+            (time.hour < state.currentDay!.duhur!.hour! ||
+                (time.hour == state.currentDay!.duhur!.hour! &&
+                    time.minute <= state.currentDay!.duhur!.minut! + 5))) {
+          emit(state.copyWith(
+              nextTime: getNextTime(
+                  state.currentDay!.duhur!,
+                  state.currentDay!.fajer!,
+                  state.currentDay!,
+                  time,
+                  "afternoon_prayer.png",
+                  "موعد صلاة الظهر",
+                  "م")));
+        }
+        // "موعد صلاة المغرب",
+        else if ((time.hour >= state.currentDay!.duhur!.hour!) &&
+            (time.hour < state.currentDay!.magrib!.hour! ||
+                (time.hour == state.currentDay!.magrib!.hour! &&
+                    time.minute <= state.currentDay!.magrib!.minut! + 5))) {
+          emit(state.copyWith(
+              nextTime: getNextTime(
+                  state.currentDay!.magrib!,
+                  state.currentDay!.duhur!,
+                  state.currentDay!,
+                  time,
+                  "mugrab_prayer.png",
+                  "موعد صلاة المغرب",
+                  "م")));
+        } else if (time.hour > state.currentDay!.magrib!.hour! ||
+            (time.hour == state.currentDay!.magrib!.hour! &&
+                time.minute > state.currentDay!.magrib!.minut! + 5)) {
+          emit(state.copyWith(
+              nextTime: fajerTimeStay(
+            state.nextDay!.fajer!,
+            state.currentDay!.magrib!,
+            state.currentDay!,
+            time,
+            "fajer_prayer.png",
+            "موعد صلاة الفجر",
+            "ص",
+          )));
         }
       }
     });
@@ -210,27 +230,5 @@ class PrayerCubit extends Cubit<PrayerState> {
           minut: finalTime.minuts,
           seconds: finalTime.seconds),
     );
-  }
-
-  getArabicDate() async {
-    arabicDate = LocalDB.getArabicDay();
-
-    final url =
-        Uri.parse("https://www.habibur.com/hijri/api01/date/?format=json");
-
-    try {
-      final response = await http.get(url);
-      // kdp(name: "getDaysApi", msg: response.statusCode, c: 'y');
-      // kdp(name: "getDaysApi", msg: response.body, c: 'y');
-
-      if (response.statusCode == 200) {
-        final info = response.body.split("-");
-        final arabicDateEntry = ArabicDateEntry(info[2], info[1], info[0]);
-        LocalDB.saveArabicDate(arabicDateEntry);
-        arabicDate = arabicDateEntry;
-      }
-    } catch (e) {
-      print("kjdkcljdskljcklsd===$e");
-    }
   }
 }

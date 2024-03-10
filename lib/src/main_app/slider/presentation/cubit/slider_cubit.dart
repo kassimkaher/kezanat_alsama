@@ -12,12 +12,12 @@ part 'slider_cubit.freezed.dart';
 class SliderCubit extends Cubit<SliderState> {
   SliderCubit() : super(const SliderState.initial(datastatus: DataIdeal()));
   getSliders() async {
-    emit(state.copyWith(datastatus: const DataLoading()));
+    emit(state.copyWith(datastatus: const StateLoading()));
 
     final data = await FireStoreRemote.getPostsApi();
     if (data is DataSuccess) {
       emit(state.copyWith(
-          datastatus: const DataSucess(),
+          datastatus: const SateSucess(),
           postlist: data.data,
           displayedPostId: data.data?.data?.first.id));
       Future.delayed(const Duration(seconds: 0)).then((value) => slidePost(1));
@@ -25,13 +25,13 @@ class SliderCubit extends Cubit<SliderState> {
     }
     emit(
       state.copyWith(
-        datastatus: const DataError(),
+        datastatus: const StateError(),
       ),
     );
   }
 
   slidePost(double index) {
-    Future.delayed(const Duration(seconds: 6)).then((value) {
+    Future.delayed(const Duration(seconds: 10)).then((value) {
       if ((index) > state.postlist!.data!.length - 1) {
         emit(state.copyWith(activeIndex: 0));
 

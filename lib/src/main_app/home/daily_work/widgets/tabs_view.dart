@@ -14,7 +14,6 @@ class _WorkTapsState extends State<WorkTaps> {
   late cu.NavigatorCubit navigatorCubit;
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     navigatorCubit = cu.NavigatorCubit();
   }
@@ -37,11 +36,25 @@ class _WorkTapsState extends State<WorkTaps> {
               margin: const EdgeInsets.symmetric(horizontal: kDefaultPadding),
               width: double.infinity,
               decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(16),
-                  color: theme.scaffoldBackgroundColor),
+                borderRadius: BorderRadius.circular(16),
+                color: theme.canvasColor,
+                border: Border.all(color: theme.colorScheme.outline),
+                // boxShadow: [
+                //   BoxShadow(
+                //     color: theme.disabledColor,
+                //     blurRadius: 1,
+                //     spreadRadius: -1,
+                //     blurStyle: BlurStyle.inner,
+                //   )
+                // ],
+              ),
               child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: ["الاعمال اليومية", "اعمال الشهر", "مناسبات"]
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    "الاعمال اليومية",
+                    "مناسبات",
+                    "اعمال الشهر",
+                  ]
                       .asMap()
                       .map((i, e) => MapEntry(
                             i,
@@ -67,7 +80,7 @@ class _WorkTapsState extends State<WorkTaps> {
                                   style: theme.textTheme.bodySmall!.copyWith(
                                       color: state.selected == i
                                           ? Colors.white
-                                          : jbAccesntPrimaryColor,
+                                          : theme.primaryColorDark,
                                       fontWeight: state.selected == i
                                           ? FontWeight.w600
                                           : FontWeight.w500),

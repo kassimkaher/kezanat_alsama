@@ -16,24 +16,37 @@ final _privateConstructorUsedError = UnsupportedError(
 
 /// @nodoc
 mixin _$WorkCrudState {
-  DataStatus get dataStatus => throw _privateConstructorUsedError;
+  DataStatus<dynamic> get dataStatus => throw _privateConstructorUsedError;
   DailyWorkData? get dailyWorkData => throw _privateConstructorUsedError;
+  WorkEntity? get worksData => throw _privateConstructorUsedError;
+  DailyWorkModel? get workListModel => throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function(
-            DataStatus dataStatus, DailyWorkData? dailyWorkData)
+            DataStatus<dynamic> dataStatus,
+            DailyWorkData? dailyWorkData,
+            WorkEntity? worksData,
+            DailyWorkModel? workListModel)
         initial,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function(DataStatus dataStatus, DailyWorkData? dailyWorkData)?
+    TResult? Function(
+            DataStatus<dynamic> dataStatus,
+            DailyWorkData? dailyWorkData,
+            WorkEntity? worksData,
+            DailyWorkModel? workListModel)?
         initial,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function(DataStatus dataStatus, DailyWorkData? dailyWorkData)?
+    TResult Function(
+            DataStatus<dynamic> dataStatus,
+            DailyWorkData? dailyWorkData,
+            WorkEntity? worksData,
+            DailyWorkModel? workListModel)?
         initial,
     required TResult orElse(),
   }) =>
@@ -66,7 +79,11 @@ abstract class $WorkCrudStateCopyWith<$Res> {
           WorkCrudState value, $Res Function(WorkCrudState) then) =
       _$WorkCrudStateCopyWithImpl<$Res, WorkCrudState>;
   @useResult
-  $Res call({DataStatus dataStatus, DailyWorkData? dailyWorkData});
+  $Res call(
+      {DataStatus<dynamic> dataStatus,
+      DailyWorkData? dailyWorkData,
+      WorkEntity? worksData,
+      DailyWorkModel? workListModel});
 }
 
 /// @nodoc
@@ -84,16 +101,26 @@ class _$WorkCrudStateCopyWithImpl<$Res, $Val extends WorkCrudState>
   $Res call({
     Object? dataStatus = null,
     Object? dailyWorkData = freezed,
+    Object? worksData = freezed,
+    Object? workListModel = freezed,
   }) {
     return _then(_value.copyWith(
       dataStatus: null == dataStatus
           ? _value.dataStatus
           : dataStatus // ignore: cast_nullable_to_non_nullable
-              as DataStatus,
+              as DataStatus<dynamic>,
       dailyWorkData: freezed == dailyWorkData
           ? _value.dailyWorkData
           : dailyWorkData // ignore: cast_nullable_to_non_nullable
               as DailyWorkData?,
+      worksData: freezed == worksData
+          ? _value.worksData
+          : worksData // ignore: cast_nullable_to_non_nullable
+              as WorkEntity?,
+      workListModel: freezed == workListModel
+          ? _value.workListModel
+          : workListModel // ignore: cast_nullable_to_non_nullable
+              as DailyWorkModel?,
     ) as $Val);
   }
 }
@@ -106,7 +133,11 @@ abstract class _$$InitialImplCopyWith<$Res>
       __$$InitialImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({DataStatus dataStatus, DailyWorkData? dailyWorkData});
+  $Res call(
+      {DataStatus<dynamic> dataStatus,
+      DailyWorkData? dailyWorkData,
+      WorkEntity? worksData,
+      DailyWorkModel? workListModel});
 }
 
 /// @nodoc
@@ -122,16 +153,26 @@ class __$$InitialImplCopyWithImpl<$Res>
   $Res call({
     Object? dataStatus = null,
     Object? dailyWorkData = freezed,
+    Object? worksData = freezed,
+    Object? workListModel = freezed,
   }) {
     return _then(_$InitialImpl(
       dataStatus: null == dataStatus
           ? _value.dataStatus
           : dataStatus // ignore: cast_nullable_to_non_nullable
-              as DataStatus,
+              as DataStatus<dynamic>,
       dailyWorkData: freezed == dailyWorkData
           ? _value.dailyWorkData
           : dailyWorkData // ignore: cast_nullable_to_non_nullable
               as DailyWorkData?,
+      worksData: freezed == worksData
+          ? _value.worksData
+          : worksData // ignore: cast_nullable_to_non_nullable
+              as WorkEntity?,
+      workListModel: freezed == workListModel
+          ? _value.workListModel
+          : workListModel // ignore: cast_nullable_to_non_nullable
+              as DailyWorkModel?,
     ));
   }
 }
@@ -139,17 +180,24 @@ class __$$InitialImplCopyWithImpl<$Res>
 /// @nodoc
 
 class _$InitialImpl implements _Initial {
-  const _$InitialImpl({this.dataStatus = DataStatus.ideal, this.dailyWorkData});
+  const _$InitialImpl(
+      {required this.dataStatus,
+      this.dailyWorkData,
+      this.worksData,
+      this.workListModel});
 
   @override
-  @JsonKey()
-  final DataStatus dataStatus;
+  final DataStatus<dynamic> dataStatus;
   @override
   final DailyWorkData? dailyWorkData;
+  @override
+  final WorkEntity? worksData;
+  @override
+  final DailyWorkModel? workListModel;
 
   @override
   String toString() {
-    return 'WorkCrudState.initial(dataStatus: $dataStatus, dailyWorkData: $dailyWorkData)';
+    return 'WorkCrudState.initial(dataStatus: $dataStatus, dailyWorkData: $dailyWorkData, worksData: $worksData, workListModel: $workListModel)';
   }
 
   @override
@@ -160,11 +208,16 @@ class _$InitialImpl implements _Initial {
             (identical(other.dataStatus, dataStatus) ||
                 other.dataStatus == dataStatus) &&
             (identical(other.dailyWorkData, dailyWorkData) ||
-                other.dailyWorkData == dailyWorkData));
+                other.dailyWorkData == dailyWorkData) &&
+            (identical(other.worksData, worksData) ||
+                other.worksData == worksData) &&
+            (identical(other.workListModel, workListModel) ||
+                other.workListModel == workListModel));
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, dataStatus, dailyWorkData);
+  int get hashCode => Object.hash(
+      runtimeType, dataStatus, dailyWorkData, worksData, workListModel);
 
   @JsonKey(ignore: true)
   @override
@@ -176,30 +229,41 @@ class _$InitialImpl implements _Initial {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function(
-            DataStatus dataStatus, DailyWorkData? dailyWorkData)
+            DataStatus<dynamic> dataStatus,
+            DailyWorkData? dailyWorkData,
+            WorkEntity? worksData,
+            DailyWorkModel? workListModel)
         initial,
   }) {
-    return initial(dataStatus, dailyWorkData);
+    return initial(dataStatus, dailyWorkData, worksData, workListModel);
   }
 
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function(DataStatus dataStatus, DailyWorkData? dailyWorkData)?
+    TResult? Function(
+            DataStatus<dynamic> dataStatus,
+            DailyWorkData? dailyWorkData,
+            WorkEntity? worksData,
+            DailyWorkModel? workListModel)?
         initial,
   }) {
-    return initial?.call(dataStatus, dailyWorkData);
+    return initial?.call(dataStatus, dailyWorkData, worksData, workListModel);
   }
 
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function(DataStatus dataStatus, DailyWorkData? dailyWorkData)?
+    TResult Function(
+            DataStatus<dynamic> dataStatus,
+            DailyWorkData? dailyWorkData,
+            WorkEntity? worksData,
+            DailyWorkModel? workListModel)?
         initial,
     required TResult orElse(),
   }) {
     if (initial != null) {
-      return initial(dataStatus, dailyWorkData);
+      return initial(dataStatus, dailyWorkData, worksData, workListModel);
     }
     return orElse();
   }
@@ -235,13 +299,19 @@ class _$InitialImpl implements _Initial {
 
 abstract class _Initial implements WorkCrudState {
   const factory _Initial(
-      {final DataStatus dataStatus,
-      final DailyWorkData? dailyWorkData}) = _$InitialImpl;
+      {required final DataStatus<dynamic> dataStatus,
+      final DailyWorkData? dailyWorkData,
+      final WorkEntity? worksData,
+      final DailyWorkModel? workListModel}) = _$InitialImpl;
 
   @override
-  DataStatus get dataStatus;
+  DataStatus<dynamic> get dataStatus;
   @override
   DailyWorkData? get dailyWorkData;
+  @override
+  WorkEntity? get worksData;
+  @override
+  DailyWorkModel? get workListModel;
   @override
   @JsonKey(ignore: true)
   _$$InitialImplCopyWith<_$InitialImpl> get copyWith =>

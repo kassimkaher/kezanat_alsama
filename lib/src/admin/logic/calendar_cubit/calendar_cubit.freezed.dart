@@ -16,27 +16,27 @@ final _privateConstructorUsedError = UnsupportedError(
 
 /// @nodoc
 mixin _$CalendarState {
-  DataStatus get datastatus => throw _privateConstructorUsedError;
+  DataStatus<dynamic> get datastatus => throw _privateConstructorUsedError;
   CalendarModel? get calendarModel => throw _privateConstructorUsedError;
   CalendarModel? get today => throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function(DataStatus datastatus,
+    required TResult Function(DataStatus<dynamic> datastatus,
             CalendarModel? calendarModel, CalendarModel? today)
         initial,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function(DataStatus datastatus, CalendarModel? calendarModel,
-            CalendarModel? today)?
+    TResult? Function(DataStatus<dynamic> datastatus,
+            CalendarModel? calendarModel, CalendarModel? today)?
         initial,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function(DataStatus datastatus, CalendarModel? calendarModel,
-            CalendarModel? today)?
+    TResult Function(DataStatus<dynamic> datastatus,
+            CalendarModel? calendarModel, CalendarModel? today)?
         initial,
     required TResult orElse(),
   }) =>
@@ -70,7 +70,7 @@ abstract class $CalendarStateCopyWith<$Res> {
       _$CalendarStateCopyWithImpl<$Res, CalendarState>;
   @useResult
   $Res call(
-      {DataStatus datastatus,
+      {DataStatus<dynamic> datastatus,
       CalendarModel? calendarModel,
       CalendarModel? today});
 }
@@ -96,7 +96,7 @@ class _$CalendarStateCopyWithImpl<$Res, $Val extends CalendarState>
       datastatus: null == datastatus
           ? _value.datastatus
           : datastatus // ignore: cast_nullable_to_non_nullable
-              as DataStatus,
+              as DataStatus<dynamic>,
       calendarModel: freezed == calendarModel
           ? _value.calendarModel
           : calendarModel // ignore: cast_nullable_to_non_nullable
@@ -118,7 +118,7 @@ abstract class _$$InitialImplCopyWith<$Res>
   @override
   @useResult
   $Res call(
-      {DataStatus datastatus,
+      {DataStatus<dynamic> datastatus,
       CalendarModel? calendarModel,
       CalendarModel? today});
 }
@@ -142,7 +142,7 @@ class __$$InitialImplCopyWithImpl<$Res>
       datastatus: null == datastatus
           ? _value.datastatus
           : datastatus // ignore: cast_nullable_to_non_nullable
-              as DataStatus,
+              as DataStatus<dynamic>,
       calendarModel: freezed == calendarModel
           ? _value.calendarModel
           : calendarModel // ignore: cast_nullable_to_non_nullable
@@ -159,11 +159,10 @@ class __$$InitialImplCopyWithImpl<$Res>
 
 class _$InitialImpl implements _Initial {
   const _$InitialImpl(
-      {this.datastatus = DataStatus.ideal, this.calendarModel, this.today});
+      {required this.datastatus, this.calendarModel, this.today});
 
   @override
-  @JsonKey()
-  final DataStatus datastatus;
+  final DataStatus<dynamic> datastatus;
   @override
   final CalendarModel? calendarModel;
   @override
@@ -199,7 +198,7 @@ class _$InitialImpl implements _Initial {
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function(DataStatus datastatus,
+    required TResult Function(DataStatus<dynamic> datastatus,
             CalendarModel? calendarModel, CalendarModel? today)
         initial,
   }) {
@@ -209,8 +208,8 @@ class _$InitialImpl implements _Initial {
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function(DataStatus datastatus, CalendarModel? calendarModel,
-            CalendarModel? today)?
+    TResult? Function(DataStatus<dynamic> datastatus,
+            CalendarModel? calendarModel, CalendarModel? today)?
         initial,
   }) {
     return initial?.call(datastatus, calendarModel, today);
@@ -219,8 +218,8 @@ class _$InitialImpl implements _Initial {
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function(DataStatus datastatus, CalendarModel? calendarModel,
-            CalendarModel? today)?
+    TResult Function(DataStatus<dynamic> datastatus,
+            CalendarModel? calendarModel, CalendarModel? today)?
         initial,
     required TResult orElse(),
   }) {
@@ -261,12 +260,12 @@ class _$InitialImpl implements _Initial {
 
 abstract class _Initial implements CalendarState {
   const factory _Initial(
-      {final DataStatus datastatus,
+      {required final DataStatus<dynamic> datastatus,
       final CalendarModel? calendarModel,
       final CalendarModel? today}) = _$InitialImpl;
 
   @override
-  DataStatus get datastatus;
+  DataStatus<dynamic> get datastatus;
   @override
   CalendarModel? get calendarModel;
   @override

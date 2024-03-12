@@ -1,3 +1,5 @@
+import 'package:ramadan/bussines_logic/Setting/model/setting_model.dart';
+
 class CitesModel {
   List<ProvinceData>? provinces;
 
@@ -44,6 +46,11 @@ class ProvinceData {
       data['coordinates'] = this.coordinates!.toJson();
     }
     return data;
+  }
+
+  CityDetails toCityDetailsModel() {
+    return CityDetails(
+        name, nameAr, coordinates!.latitude, coordinates!.longitude);
   }
 }
 

@@ -35,7 +35,7 @@ class _AddPostPageState extends State<AddPostPage> {
     return BlocConsumer<PostsCRUDCubit, PostsCRUDState>(
       bloc: widget.postsCRUDCubit,
       listener: (context, state) {
-        if (state.datastatus == DataStatus.error) {
+        if (state.datastatus == const StateError()) {
           showTMDialog(
             title: "fail".tr(),
             msg: "connection_error_confirm".tr(),
@@ -45,7 +45,7 @@ class _AddPostPageState extends State<AddPostPage> {
             ),
           );
         }
-        if (state.datastatus == DataStatus.success) {
+        if (state.datastatus == const SateSucess()) {
           showTMDialog(
               title: "Sucess".tr(),
               msg: "Done Add Work".tr(),
@@ -107,7 +107,7 @@ class _AddPostPageState extends State<AddPostPage> {
           bottomNavigationBar: Padding(
             padding: const EdgeInsets.all(16),
             child: JBButtonMix(
-              isLoading: state.datastatus == DataStatus.loading,
+              isLoading: state.datastatus == const StateLoading(),
               icon: const Icon(LucideIcons.plusCircle),
               title: "اضاف",
               onPressed: () {

@@ -14,43 +14,18 @@ class AppBarHome extends StatelessWidget {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     return Row(
-      crossAxisAlignment: CrossAxisAlignment.center,
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         const Expanded(child: DateWidget()),
         IconButton(
-          icon: SvgPicture.asset(
-            "assets/svg/beads.svg",
-            height: 25,
-            color: theme.scaffoldBackgroundColor,
-          ),
+          icon: SvgPicture.asset("assets/svg/beads.svg",
+              height: 25, color: theme.textTheme.bodyLarge!.color),
           onPressed: () => Navigator.push(
             context,
             to(
               TasbeehPage(
                 tasbeehModel: TasbeehModel(
-                  tasbeehList: [
-                    TasbeehData(
-                        title: "تسبيح الزهراء عليها السلام",
-                        description:
-                            "تسبيح الزهراء، أو تسبيح فاطمة من الأذكار المشهورة عند الشيعة، وهو أن يقول المسبّح: الله أكبر (34) مرة، الحمد لله (33) مرة، سبحان الله (33) مرة.",
-                        number: 34,
-                        subtitle: "",
-                        speak: "قل الله أكبر"),
-                    TasbeehData(
-                        title: "'تسبيح الزهراء عليها السلام'",
-                        description:
-                            "تسبيح الزهراء، أو تسبيح فاطمة من الأذكار المشهورة عند الشيعة، وهو أن يقول المسبّح: الله أكبر (34) مرة، الحمد لله (33) مرة، سبحان الله (33) مرة.",
-                        number: 33,
-                        subtitle: "",
-                        speak: "الحمد لله"),
-                    TasbeehData(
-                        title: "'تسبيح الزهراء عليها السلام'",
-                        description:
-                            "تسبيح الزهراء، أو تسبيح فاطمة من الأذكار المشهورة عند الشيعة، وهو أن يقول المسبّح: الله أكبر (34) مرة، الحمد لله (33) مرة، سبحان الله (33) مرة.",
-                        number: 33,
-                        subtitle: "",
-                        speak: "سبحان الله")
-                  ],
+                  tasbeehList: [],
                 ),
               ),
             ),
@@ -59,10 +34,8 @@ class AppBarHome extends StatelessWidget {
         Align(
           alignment: Alignment.topLeft,
           child: IconButton(
-            icon: const Icon(
-              LucideIcons.settings2,
-              color: Colors.white,
-            ),
+            icon: Icon(LucideIcons.settings2,
+                color: theme.textTheme.bodyLarge!.color),
             onPressed: () => Navigator.push(context, to(const SettingPage())),
           ),
         )
@@ -88,7 +61,6 @@ class _DateWidgetState extends State<DateWidget> {
     // TODO: implement initState
     super.initState();
     calendarCubit = context.read<CalendarCubit>();
-    calendarCubit.getCalendar();
   }
 
   @override
@@ -97,7 +69,7 @@ class _DateWidgetState extends State<DateWidget> {
 
     return BlocBuilder<CalendarCubit, CalendarState>(
       builder: (context, state) {
-        return state.datastatus != DataStatus.success
+        return state.datastatus != const SateSucess()
             ? const SizedBox(
                 height: 25,
               )
@@ -112,26 +84,22 @@ class _DateWidgetState extends State<DateWidget> {
                   mainAxisAlignment: MainAxisAlignment.start,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(
-                      state.today?.hijreeDay?.toString().arabicNumber ?? "",
-                      style: theme.textTheme.titleSmall!
-                          .copyWith(fontSize: 18, color: Colors.white),
-                    ),
-                    Text(
-                      "  ".arabicNumber,
-                      style: theme.textTheme.titleMedium!.copyWith(
-                        fontSize: 18,
-                      ),
-                    ),
-                    Text(
-                      state.today?.hijreYear.toString().arabicNumber ?? "",
-                      style: theme.textTheme.titleSmall!
-                          .copyWith(fontSize: 18, color: Colors.white),
+                    Text(state.today?.hijreeDay?.toString().arabicNumber ?? "",
+                        style:
+                            theme.textTheme.bodyLarge!.copyWith(fontSize: 18)),
+                    const SizedBox(
+                      width: 8,
                     ),
                     Text(
                       state.today?.hijreeMonthName ?? "",
-                      style: theme.textTheme.titleSmall!
-                          .copyWith(fontSize: 18, color: Colors.white),
+                      style: theme.textTheme.bodyLarge!.copyWith(fontSize: 18),
+                    ),
+                    const SizedBox(
+                      width: 8,
+                    ),
+                    Text(
+                      state.today?.hijreYear.toString().arabicNumber ?? "",
+                      style: theme.textTheme.bodyLarge!.copyWith(fontSize: 18),
                     ),
                   ],
                 ),

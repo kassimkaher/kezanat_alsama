@@ -13,6 +13,28 @@ class SettingModel {
   int isSetNotification = -1;
   @HiveField(4)
   CityDetails? selectCity;
+  SettingModel({
+    this.isDarkMode = 0,
+    this.city,
+    this.enableNotification = true,
+    this.isSetNotification = -1,
+    this.selectCity,
+  });
+  SettingModel copyWith({
+    int? isDarkMode,
+    int? city,
+    bool? enableNotification,
+    int? isSetNotification,
+    CityDetails? selectCity,
+  }) {
+    return SettingModel(
+      isDarkMode: isDarkMode ?? this.isDarkMode,
+      city: city ?? this.city,
+      enableNotification: enableNotification ?? this.enableNotification,
+      isSetNotification: isSetNotification ?? this.isSetNotification,
+      selectCity: selectCity ?? this.selectCity,
+    );
+  }
 }
 
 @HiveType(typeId: 1)

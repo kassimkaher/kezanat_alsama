@@ -1,3 +1,5 @@
+import 'package:ramadan/utils/utils.dart';
+
 const host = "https://api.feed.app/v1";
 const hostP = "https://api.feed.app/python";
 const guestUrl = "$host/guest/signIn";
@@ -44,6 +46,18 @@ const getSectionListUrl = "$host/section/list?locale=ar&offset=0";
 const getSectionItemsUrl = "$host/section/items/list?section_id=";
 const productDetailsUrl = "$host/product/detail/";
 const getBannerUrl = "$host/banner/list?type=TABLET";
+Route to(Widget page) {
+  return PageRouteBuilder(
+      pageBuilder: (context, animation, secondaryAnimation) => page,
+      transitionsBuilder: (context, animation, anotherAnimation, child) {
+        animation = CurvedAnimation(curve: Curves.easeIn, parent: animation);
+        return FadeTransition(
+          opacity: animation,
+          child: child,
+        );
+      });
+}
+
 
 // const getAddressListUrl = "$host/address/list?offset=";
 // const postAddress = "$host/address";

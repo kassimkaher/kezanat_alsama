@@ -16,14 +16,14 @@ final _privateConstructorUsedError = UnsupportedError(
 
 /// @nodoc
 mixin _$PostsCRUDState {
-  DataStatus get datastatus => throw _privateConstructorUsedError;
+  DataStatus<dynamic> get datastatus => throw _privateConstructorUsedError;
   DailyPostsModel? get dailyPostsModel => throw _privateConstructorUsedError;
   List<QueryDocumentSnapshot<Map<String, dynamic>>>? get refrenses =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function(
-            DataStatus datastatus,
+            DataStatus<dynamic> datastatus,
             DailyPostsModel? dailyPostsModel,
             List<QueryDocumentSnapshot<Map<String, dynamic>>>? refrenses)
         initial,
@@ -31,14 +31,18 @@ mixin _$PostsCRUDState {
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function(DataStatus datastatus, DailyPostsModel? dailyPostsModel,
+    TResult? Function(
+            DataStatus<dynamic> datastatus,
+            DailyPostsModel? dailyPostsModel,
             List<QueryDocumentSnapshot<Map<String, dynamic>>>? refrenses)?
         initial,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function(DataStatus datastatus, DailyPostsModel? dailyPostsModel,
+    TResult Function(
+            DataStatus<dynamic> datastatus,
+            DailyPostsModel? dailyPostsModel,
             List<QueryDocumentSnapshot<Map<String, dynamic>>>? refrenses)?
         initial,
     required TResult orElse(),
@@ -73,7 +77,7 @@ abstract class $PostsCRUDStateCopyWith<$Res> {
       _$PostsCRUDStateCopyWithImpl<$Res, PostsCRUDState>;
   @useResult
   $Res call(
-      {DataStatus datastatus,
+      {DataStatus<dynamic> datastatus,
       DailyPostsModel? dailyPostsModel,
       List<QueryDocumentSnapshot<Map<String, dynamic>>>? refrenses});
 }
@@ -99,7 +103,7 @@ class _$PostsCRUDStateCopyWithImpl<$Res, $Val extends PostsCRUDState>
       datastatus: null == datastatus
           ? _value.datastatus
           : datastatus // ignore: cast_nullable_to_non_nullable
-              as DataStatus,
+              as DataStatus<dynamic>,
       dailyPostsModel: freezed == dailyPostsModel
           ? _value.dailyPostsModel
           : dailyPostsModel // ignore: cast_nullable_to_non_nullable
@@ -121,7 +125,7 @@ abstract class _$$InitialImplCopyWith<$Res>
   @override
   @useResult
   $Res call(
-      {DataStatus datastatus,
+      {DataStatus<dynamic> datastatus,
       DailyPostsModel? dailyPostsModel,
       List<QueryDocumentSnapshot<Map<String, dynamic>>>? refrenses});
 }
@@ -145,7 +149,7 @@ class __$$InitialImplCopyWithImpl<$Res>
       datastatus: null == datastatus
           ? _value.datastatus
           : datastatus // ignore: cast_nullable_to_non_nullable
-              as DataStatus,
+              as DataStatus<dynamic>,
       dailyPostsModel: freezed == dailyPostsModel
           ? _value.dailyPostsModel
           : dailyPostsModel // ignore: cast_nullable_to_non_nullable
@@ -162,14 +166,13 @@ class __$$InitialImplCopyWithImpl<$Res>
 
 class _$InitialImpl implements _Initial {
   const _$InitialImpl(
-      {this.datastatus = DataStatus.ideal,
+      {required this.datastatus,
       this.dailyPostsModel,
       final List<QueryDocumentSnapshot<Map<String, dynamic>>>? refrenses})
       : _refrenses = refrenses;
 
   @override
-  @JsonKey()
-  final DataStatus datastatus;
+  final DataStatus<dynamic> datastatus;
   @override
   final DailyPostsModel? dailyPostsModel;
   final List<QueryDocumentSnapshot<Map<String, dynamic>>>? _refrenses;
@@ -214,7 +217,7 @@ class _$InitialImpl implements _Initial {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function(
-            DataStatus datastatus,
+            DataStatus<dynamic> datastatus,
             DailyPostsModel? dailyPostsModel,
             List<QueryDocumentSnapshot<Map<String, dynamic>>>? refrenses)
         initial,
@@ -225,7 +228,9 @@ class _$InitialImpl implements _Initial {
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function(DataStatus datastatus, DailyPostsModel? dailyPostsModel,
+    TResult? Function(
+            DataStatus<dynamic> datastatus,
+            DailyPostsModel? dailyPostsModel,
             List<QueryDocumentSnapshot<Map<String, dynamic>>>? refrenses)?
         initial,
   }) {
@@ -235,7 +240,9 @@ class _$InitialImpl implements _Initial {
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function(DataStatus datastatus, DailyPostsModel? dailyPostsModel,
+    TResult Function(
+            DataStatus<dynamic> datastatus,
+            DailyPostsModel? dailyPostsModel,
             List<QueryDocumentSnapshot<Map<String, dynamic>>>? refrenses)?
         initial,
     required TResult orElse(),
@@ -277,13 +284,13 @@ class _$InitialImpl implements _Initial {
 
 abstract class _Initial implements PostsCRUDState {
   const factory _Initial(
-          {final DataStatus datastatus,
+          {required final DataStatus<dynamic> datastatus,
           final DailyPostsModel? dailyPostsModel,
           final List<QueryDocumentSnapshot<Map<String, dynamic>>>? refrenses}) =
       _$InitialImpl;
 
   @override
-  DataStatus get datastatus;
+  DataStatus<dynamic> get datastatus;
   @override
   DailyPostsModel? get dailyPostsModel;
   @override

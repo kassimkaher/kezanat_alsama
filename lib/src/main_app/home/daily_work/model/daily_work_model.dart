@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:ramadan/model/ramadan_dua.dart';
 import 'package:ramadan/src/core/enum/week_day.dart';
 import 'package:ramadan/src/core/enum/work_timing.dart';
@@ -43,6 +44,8 @@ class DailyWorkData {
   // isRequired = false=> meaan if there is an work not assoseated with any date or arabic month
   bool? isRequired;
   WorkTiming? workTiming;
+  DocumentReference<Map<String, dynamic>>? refrence;
+
   DailyWorkData(
       {this.url,
       this.day,
@@ -57,12 +60,16 @@ class DailyWorkData {
       this.hour,
       this.id,
       this.isRequired,
-      this.workTiming});
+      this.workTiming,
+      this.refrence});
 
   DailyWorkData.fromJson(
     dynamic json,
   ) {
     id = json['id'];
+    try {
+      refrence = json['reference'];
+    } catch (_) {}
     url = json['url'];
     day = json['day'];
     title = json['title'];

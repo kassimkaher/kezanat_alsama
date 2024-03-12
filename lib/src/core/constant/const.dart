@@ -25,7 +25,7 @@ const double pi = 3.1415926535897932;
 const apiKey = "AIzaSyCtNORVIkruxEFxKL6nWlKjf7xiEo5hJjw";
 const userKeyStorage = "jop_me_local_user";
 const addressKeyStorage = "jop_me_local_address";
-const dayName = [
+const dayName1 = [
   "السبت",
   "الاحد",
   "الاثنين",
@@ -136,4 +136,4 @@ final navigatorKey = GlobalKey<NavigatorState>();
 
 enum AppMode { admin, user }
 
-const appMode = AppMode.admin;
+var appMode = AppMode.admin;

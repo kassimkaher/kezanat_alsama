@@ -1,70 +1,81 @@
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:lottie/lottie.dart';
 import 'package:lucide_icons/lucide_icons.dart';
+import 'package:ramadan/src/admin/logic/calendar_cubit/calendar_cubit.dart';
 import 'package:ramadan/src/main_app/dua/work_display_view.dart';
 import 'package:ramadan/src/main_app/widgets/custom_card.dart';
 import 'package:ramadan/model/alqadr_model.dart';
 import 'package:ramadan/src/alqadr/salat_day.dart';
 import 'package:ramadan/src/alqadr/salat_page.dart';
 import 'package:ramadan/pages/read_sheet.dart';
-import 'package:ramadan/src/main_app/quran/quran_list_suar.dart';
+import 'package:ramadan/src/main_app/quran/pages/sura/quran_suar_view.dart';
 import 'package:ramadan/utils/utils.dart';
 
 class AlqadrCard extends StatelessWidget {
   const AlqadrCard({
     super.key,
-    required this.theme,
   });
-
-  final ThemeData theme;
 
   @override
   Widget build(BuildContext context) {
-    return InkWell(
-      onTap: () => Navigator.push(
-        context,
-        to(
-          const AlqaderPage(),
-        ),
-      ),
-      child: Container(
-        height: 62,
-        margin: const EdgeInsets.symmetric(horizontal: kDefaultPadding),
-        padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 8),
-        decoration: BoxDecoration(
-          color: theme.scaffoldBackgroundColor,
-          image: const DecorationImage(
-            image: AssetImage(
-              "assets/images/alqader.png",
-            ),
-            fit: BoxFit.fill,
-          ),
-        ),
-        child: Row(
-          children: [
-            Container(
-              height: 40,
-              width: 40,
-              padding: const EdgeInsets.all(7),
-              decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(20), color: alqadrColor),
-              child: SvgPicture.asset(
-                "assets/svg/quran3.svg",
-                height: 25,
-                color: Colors.white,
-              ),
-            ),
-            const SizedBox(
-              width: 10,
-            ),
-            Text(
-              " اعمال ليالي القدر",
-              style: theme.textTheme.titleMedium!.copyWith(color: Colors.white),
-            )
-          ],
-        ),
-      ),
-    );
+    final theme = Theme.of(context);
+    return BlocBuilder<CalendarCubit, CalendarState>(
+        builder: (context, state) => switch (state.calendarModel?.hijreeMonth) {
+              9
+                  when (state.today?.hijreeDay == 18 ||
+                      state.today?.hijreeDay == 20 ||
+                      state.today?.hijreeDay == 22) =>
+                InkWell(
+                  onTap: () => Navigator.push(
+                    context,
+                    to(
+                      const AlqaderPage(),
+                    ),
+                  ),
+                  child: Container(
+                    height: 62,
+                    margin: const EdgeInsets.symmetric(
+                        horizontal: kDefaultPadding, vertical: 12),
+                    padding:
+                        const EdgeInsets.symmetric(horizontal: 10, vertical: 8),
+                    decoration: BoxDecoration(
+                      color: theme.scaffoldBackgroundColor,
+                      image: const DecorationImage(
+                        image: AssetImage(
+                          "assets/images/alqader.png",
+                        ),
+                        fit: BoxFit.fill,
+                      ),
+                    ),
+                    child: Row(
+                      children: [
+                        Container(
+                          height: 40,
+                          width: 40,
+                          padding: const EdgeInsets.all(7),
+                          decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(20),
+                              color: alqadrColor),
+                          child: SvgPicture.asset(
+                            "assets/svg/quran3.svg",
+                            height: 25,
+                            color: Colors.white,
+                          ),
+                        ),
+                        const SizedBox(
+                          width: 10,
+                        ),
+                        Text(
+                          " اعمال ليالي القدر",
+                          style: theme.textTheme.titleMedium!
+                              .copyWith(color: Colors.white),
+                        )
+                      ],
+                    ),
+                  ),
+                ),
+              _ => const SizedBox()
+            });
   }
 }
 
@@ -109,16 +120,16 @@ class AlqaderPage extends StatelessWidget {
         height: query.size.height,
         decoration: BoxDecoration(
           color: theme.scaffoldBackgroundColor,
-          image: theme.brightness == Brightness.dark
-              ? null
-              : DecorationImage(
-                  image: AssetImage(
-                    theme.brightness == Brightness.dark
-                        ? "assets/images/bac_dark.jpg"
-                        : "assets/images/bak.png",
-                  ),
-                  fit: BoxFit.cover,
-                ),
+          // image: theme.brightness == Brightness.dark
+          //     ? null
+          //     : DecorationImage(
+          //         image: AssetImage(
+          //           theme.brightness == Brightness.dark
+          //               ? "assets/images/bac_dark.jpg"
+          //               : "assets/images/bak.png",
+          //         ),
+          //   fit: BoxFit.cover,
+          // ),
         ),
         child: BlocBuilder<AlqadrCubit, AlqadrState>(
           builder: (context, state) {
@@ -128,9 +139,9 @@ class AlqaderPage extends StatelessWidget {
             }
 
             return state is! AlqadrStateMain
-                ? Column(
+                ? const Column(
                     mainAxisAlignment: MainAxisAlignment.center,
-                    children: const [
+                    children: [
                       CircularProgressIndicator(),
                       SizedBox(height: kDefaultSpacing),
                       Text("جاري التحميل")

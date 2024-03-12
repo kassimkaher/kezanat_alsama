@@ -1,4 +1,6 @@
-import 'package:ramadan/services/local_db.dart';
+import 'dart:developer';
+
+import 'package:ramadan/src/core/resources/local_db.dart';
 import 'package:ramadan/src/core/entity/data_state.dart';
 import 'package:ramadan/src/core/entity/work_entity.dart';
 import 'package:ramadan/src/main_app/home/daily_work/model/calendar_model.dart';
@@ -9,11 +11,27 @@ import 'package:ramadan/utils/utils.dart';
 class FireStoreRemote {
   static final dailyPosts = FirebaseFirestore.instance.collection('/posts');
   static final workToday = FirebaseFirestore.instance.collection('/work_today');
-  static final claendar = FirebaseFirestore.instance.collection('/calendar');
+  static final calendar = FirebaseFirestore.instance.collection('/calendar');
 
-  static Future<DocumentReference<Map<String, dynamic>>> addWork(
-      DailyWorkData dailyWorkData) {
-    return workToday.add(dailyWorkData.toJson());
+  static Future<DataState<DocumentReference<Map<String, dynamic>>>> addWork(
+      DailyWorkData dailyWorkData) async {
+    try {
+      final result = await workToday.add(dailyWorkData.toJson());
+      return DataSuccess(result);
+    } catch (e) {
+      return DataFailed(ApiError(code: 400, msg: "error"));
+    }
+  }
+
+  static Future<DataState> updateWork(
+      {required DailyWorkData dailyWorkData}) async {
+    try {
+      await dailyWorkData.refrence!.set(dailyWorkData.toJson());
+      return const DataSuccess("");
+    } catch (e) {
+      kdp(name: "updateWork", msg: dailyWorkData.refrence, c: 'r');
+      return DataFailed(ApiError(code: 400, msg: "msg"));
+    }
   }
 
   static Future<DataState<DailyPostsModel>> getPostsApi() async {
@@ -46,13 +64,15 @@ class FireStoreRemote {
     }
   }
 
-  static Future<DataState<WorkEntity>> getWorkspi() async {
-    // final data = LocalDB.getDailyWorkFromLocal();
-    // if (appMode == AppMode.user &&
-    //     data != null &&
-    //     (data.dateTime?.difference(DateTime.now()).inDays ?? 1) == 0) {
-    //   return DataSuccess(WorkEntity(data, null));
-    // }
+  static Future<DataState<WorkEntity>> getWorkspi(
+      {bool fromLocal = false}) async {
+    final data = LocalDB.getDailyWorkFromLocal();
+    if (fromLocal ||
+        (appMode == AppMode.user &&
+            data != null &&
+            (data.dateTime?.difference(DateTime.now()).inDays ?? 1) == 0)) {
+      return DataSuccess(WorkEntity(data, null));
+    }
     try {
       final data = await workToday.get();
 
@@ -62,11 +82,12 @@ class FireStoreRemote {
           final data = element.data();
 
           data['id'] = element.id;
-          // kdp(name: "getWorkspi", msg: data['id'], c: 'gr');
+          data['reference'] = element.reference;
+
           list.add(DailyWorkData.fromJson(data));
         } catch (e) {}
       }
-      //  kdp(name: "getWorkspi", msg: list.length.toString(), c: 'gr');
+
       if (list.isEmpty) {
         return const DataNotSet();
       }
@@ -82,19 +103,19 @@ class FireStoreRemote {
   }
 
   static Future<DataState<CalendarModel>> getCalendarApi() async {
-    final data = LocalDB.getCalendar();
-    if (data != null &&
-        (data.dateTime?.difference(DateTime.now()).inDays ?? 1) == 0 &&
+    final datalocal = LocalDB.getCalendar();
+    if (datalocal != null &&
+        (datalocal.dateTime?.difference(DateTime.now()).inDays ?? 1) == 0 &&
         appMode == AppMode.user) {
-      return DataSuccess(data);
+      return DataSuccess(datalocal);
     }
     try {
-      final data = await claendar.get();
+      final data = await calendar.get();
 
       // data['id'] = data.docs.first.id;
 
       final cal = CalendarModel.fromJson(data.docs.first);
-
+      log(cal.hijreYear.toString());
       LocalDB.setCalendar(cal);
 
       return DataSuccess(cal);
@@ -115,8 +136,13 @@ class FireStoreRemote {
     }
   }
 
-  static deleteWork(String id) {
-    workToday.doc().delete();
+  static Future<DataState> deleteWork(String id) async {
+    try {
+      await workToday.doc().delete();
+      return const DataSuccess("");
+    } catch (e) {
+      return DataFailed(ApiError(code: 400, msg: ""));
+    }
   }
   // static final twitter = v2.TwitterApi(
   //   //! Authentication with OAuth2.0 is the default.

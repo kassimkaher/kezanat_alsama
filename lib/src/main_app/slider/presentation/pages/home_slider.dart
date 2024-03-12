@@ -1,9 +1,6 @@
-import 'package:animated_text_kit/animated_text_kit.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:ramadan/src/core/entity/data_status.dart';
-import 'package:ramadan/src/main_app/slider/presentation/cubit/slider_cubit.dart';
 import 'package:ramadan/src/main_app/slider/presentation/widgets/post_details.dart';
+import 'package:ramadan/utils/utils.dart';
 
 class HomeSliderView extends StatelessWidget {
   const HomeSliderView({super.key});
@@ -16,92 +13,86 @@ class HomeSliderView extends StatelessWidget {
 
     return BlocBuilder<SliderCubit, SliderState>(
       builder: (context, state) => switch (state.datastatus) {
-        DataStatus.success =>
+        SateSucess() => InkWell(
+            onTap: () => showAdaptiveDialog(
+              context: context,
+              builder: (c) => ClipRRect(
+                borderRadius: BorderRadius.circular(16),
+                child: PostDetails(
+                  theme: theme,
+                  post: state.postlist!.data![state.activeIndex.toInt()],
+                ),
+              ),
+            ),
+            child: Container(
+              margin: const EdgeInsets.symmetric(horizontal: 8),
+              height: 200,
+              decoration: BoxDecoration(
+                  color: theme.scaffoldBackgroundColor,
+                  borderRadius: BorderRadius.circular(16)),
+              alignment: Alignment.topCenter,
+              child: ClipRRect(
+                child: Stack(
+                  children: state.postlist!.data!
+                      .asMap()
+                      .map(
+                        (i, e) => MapEntry(
+                          i,
+                          AnimatedSlide(
+                            curve: Curves.easeInOutExpo,
+                            offset: i > state.activeIndex.toInt()
+                                ? const Offset(-1, 0)
+                                : const Offset(0, 0),
+                            duration: const Duration(milliseconds: 1000),
+                            onEnd: () =>
+                                sliderCubit.slidePost(state.activeIndex + 1),
+                            child: Container(
+                              height: 200,
+                              padding: const EdgeInsets.all(16),
+                              width: query.size.width - 24,
+                              child: AnimatedOpacity(
+                                curve: Curves.easeInCirc,
+                                opacity: i == state.activeIndex.toInt() ? 1 : 0,
 
-          // reverseDuration: const Duration(seconds: 4),
-          // transitionBuilder: (Widget child, Animation<double> animation) {
-          //   return FadeTransition(
-          //     opacity: Tween<double>(begin: 0, end: 1).animate(animation),
-
-          //     child: child,
-          //     // position: Tween<double>(
-          //     //         begin: Offset(0.0, -0.5),
-          //     //         end: Offset(0.0, 0.0))
-          //     //     .animate(animation),
-          //   );
-          // },
-          InkWell(
-              onTap: () => showBottomSheet(
-                    elevation: 10,
-                    shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(16)),
-                    constraints:
-                        BoxConstraints(maxHeight: query.size.height - 200),
-                    context: context,
-                    builder: (c) => ClipRRect(
-                      borderRadius: BorderRadius.circular(16),
-                      child: PostDetails(
-                        theme: theme,
-                        post: state.postlist!.data![state.activeIndex],
-                      ),
-                    ),
-                  ),
-              child: Container(
-                  margin: const EdgeInsets.symmetric(horizontal: 8),
-                  height: 200,
-                  padding: const EdgeInsets.symmetric(vertical: 12),
-                  decoration: BoxDecoration(
-                      color: theme.scaffoldBackgroundColor,
-                      borderRadius: BorderRadius.circular(16)),
-                  alignment: Alignment.topCenter,
-                  child: ListTile(
-                    title: AnimatedTextKit(
-                      animatedTexts: state.postlist!.data!
-                          .map(
-                            (e) => FadeAnimatedText(
-                              e.author ?? "",
-                              // maxLines: 5,
-                              //   overflow: TextOverflow.ellipsis,
-                              duration: const Duration(seconds: 6),
-                              fadeInEnd: 0.1,
-                              fadeOutBegin: 0.9,
-                              textStyle: theme.textTheme.bodyLarge!.copyWith(
-                                fontWeight: FontWeight.w600,
+                                duration: const Duration(milliseconds: 1000),
+                                child: Column(
+                                  mainAxisSize: MainAxisSize.max,
+                                  crossAxisAlignment:
+                                      CrossAxisAlignment.stretch,
+                                  children: [
+                                    Text(
+                                      state.postlist!.data![i].author ?? "",
+                                      style:
+                                          theme.textTheme.bodyLarge!.copyWith(
+                                        fontWeight: FontWeight.w600,
+                                      ),
+                                      textAlign: TextAlign.start,
+                                    ),
+                                    Text(
+                                      state.postlist!.data![i].description ??
+                                          "",
+                                      style:
+                                          theme.textTheme.bodyLarge!.copyWith(
+                                        fontWeight: FontWeight.w400,
+                                      ),
+                                      maxLines: 5,
+                                    ),
+                                  ],
+                                ),
+                                // onEnd: () => sliderCubit
+                                //     .slidePost(state.activeIndex + 1),
                               ),
                             ),
-                          )
-                          .toList(),
-                      pause: const Duration(milliseconds: 200),
-                    ),
-
-                    // Text(
-                    //   state.postlist?.data?[state.activeIndex].author ??
-                    //       "",
-                    //   style: theme.textTheme.bodyLarge!.copyWith(
-                    //     fontWeight: FontWeight.w600,
-                    //   ),
-                    // ),
-                    subtitle: SizedBox(
-                        child: AnimatedTextKit(
-                      animatedTexts: state.postlist!.data!
-                          .map((e) => FadeAnimatedText(
-                                e.description ?? "",
-                                // maxLines: 5,
-                                //   overflow: TextOverflow.ellipsis,
-                                textStyle: theme.textTheme.bodyLarge!.copyWith(
-                                  fontWeight: FontWeight.w400,
-                                ),
-
-                                duration: const Duration(seconds: 6),
-                                fadeInEnd: 0.1,
-                                fadeOutBegin: 0.9,
-                              ))
-                          .toList(),
-                      onNext: (p0, p1) => sliderCubit.changeActiveIndex(p0 + 1),
-                      pause: const Duration(milliseconds: 200),
-                    )),
-                  ))),
-        DataStatus.loading => AspectRatio(
+                          ),
+                        ),
+                      )
+                      .values
+                      .toList(),
+                ),
+              ),
+            ),
+          ),
+        const StateLoading() => AspectRatio(
             aspectRatio: 16 / 8,
             child: Container(
               margin: const EdgeInsets.symmetric(horizontal: 16),

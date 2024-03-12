@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:lucide_icons/lucide_icons.dart';
 import 'package:ramadan/model/quran_model.dart';
 import 'package:ramadan/sheet/alert_dialog.dart';
@@ -8,7 +10,6 @@ import 'package:ramadan/src/core/enum/work_timing.dart';
 import 'package:ramadan/src/core/enum/work_type.dart';
 import 'package:ramadan/src/core/resources/validation.dart';
 import 'package:ramadan/src/core/widget/jb_button_mix.dart';
-import 'package:ramadan/src/main_app/home/daily_work/logic/daily_work_logic/daily_work_cubit.dart';
 import 'package:ramadan/src/main_app/home/daily_work/model/daily_work_model.dart';
 import 'package:ramadan/src/main_app/widgets/custom_drop_down_input.dart';
 import 'package:ramadan/src/main_app/widgets/custom_drop_down_menu_string.dart';
@@ -16,10 +17,8 @@ import 'package:ramadan/src/main_app/widgets/custom_text_input.dart';
 import 'package:ramadan/utils/utils.dart';
 
 class AddWorkPage extends StatefulWidget {
-  const AddWorkPage({
-    super.key,
-  });
-
+  const AddWorkPage({super.key, this.dailyWorkData});
+  final DailyWorkData? dailyWorkData;
   @override
   State<AddWorkPage> createState() => _AddWorkPageState();
 }
@@ -45,7 +44,11 @@ class _AddWorkPageState extends State<AddWorkPage> {
   void initState() {
     super.initState();
 
-    workCrudCubit = WorkCrudCubit();
+    workCrudCubit = context.read<WorkCrudCubit>();
+
+    if (widget.dailyWorkData != null) {
+      fillData(widget.dailyWorkData);
+    }
   }
 
   @override
@@ -53,12 +56,12 @@ class _AddWorkPageState extends State<AddWorkPage> {
     final allSura =
         context.read<QuranCubit>().state.info.quranModel!.data!.surahs!;
     final document = context.read<DuaCubit>().state.info;
-    final workDataCubit = context.read<DailyWorkCubit>();
+
     final textTheme = Theme.of(context).textTheme;
     return BlocConsumer<WorkCrudCubit, WorkCrudState>(
       bloc: workCrudCubit,
       listener: (context, state) {
-        if (state.dataStatus == DataStatus.error) {
+        if (state.dataStatus == const StateError()) {
           showTMDialog(
             title: "fail".tr(),
             msg: "connection_error_confirm".tr(),
@@ -68,7 +71,7 @@ class _AddWorkPageState extends State<AddWorkPage> {
             ),
           );
         }
-        if (state.dataStatus == DataStatus.success) {
+        if (state.dataStatus == const DataSucessOperation()) {
           showTMDialog(
             title: "Sucess".tr(),
             msg: "Done Add Work".tr(),
@@ -77,7 +80,6 @@ class _AddWorkPageState extends State<AddWorkPage> {
               color: Colors.green,
             ),
           );
-          workDataCubit.add(state.dailyWorkData!);
         }
       },
       builder: (context, state) {
@@ -111,7 +113,7 @@ class _AddWorkPageState extends State<AddWorkPage> {
                 CustomDropDownInput(
                   array: WorkTiming.values,
                   selectValue: workTiming,
-                  hint: "نوع توقين العمل",
+                  hint: "نوع توقيت العمل",
                   onSelect: (s) {
                     workTiming = s as WorkTiming;
                     setState(() {});
@@ -213,15 +215,23 @@ class _AddWorkPageState extends State<AddWorkPage> {
           bottomNavigationBar: Padding(
             padding: const EdgeInsets.all(16),
             child: JBButtonMix(
-              isLoading: state.dataStatus == DataStatus.loading,
-              icon: const Icon(LucideIcons.plusCircle),
-              title: "Add Work",
+              isLoading: state.dataStatus == const StateLoading(),
+              icon: Icon(widget.dailyWorkData != null &&
+                      widget.dailyWorkData?.id != null
+                  ? LucideIcons.edit
+                  : LucideIcons.plusCircle),
+              title: widget.dailyWorkData != null &&
+                      widget.dailyWorkData?.id != null
+                  ? "تعديل"
+                  : "اضافة العمل ",
               onPressed: () {
                 setState(() {});
 
                 if (formKey.currentState!.validate()) {
-                  workCrudCubit.addWork(
+                  workCrudCubit.submitEvent(
                     DailyWorkData(
+                      id: widget.dailyWorkData?.id,
+                      refrence: widget.dailyWorkData?.refrence,
                       title: titleController.text,
                       description: descriptionController.text,
                       text: textController.text,
@@ -242,7 +252,7 @@ class _AddWorkPageState extends State<AddWorkPage> {
                       isRequired: true,
                       sura: allSura.indexWhere(
                           (element) => element.name == quransuraController),
-                      month: getMonth(),
+                      month: getMonthNumber(),
                       weekDay: weekDay,
                       hour:
                           hour != null ? arabic24HourNames.indexOf(hour!) : -1,
@@ -258,16 +268,17 @@ class _AddWorkPageState extends State<AddWorkPage> {
     );
   }
 
-  int getMonth() => monthController == null
+  int getMonthNumber() => monthController == null
       ? -1
       : hijreeMonthArray.indexOf(monthController!) + 1;
+  String? getMonthName(int number) =>
+      (number < 0 || number > 11) ? null : hijreeMonthArray[number];
 
   Column buildWorkDetailsFormView(DuaData document, List<Surahs> allSura) {
     return Column(
       children: [
         CustomTextInput(
           isRequired: ValidatorEnum.required,
-          validator: ValidatorEnum.textOnly,
           controller: titleController,
           label: "العنوان",
           rightPadding: 16,
@@ -283,7 +294,9 @@ class _AddWorkPageState extends State<AddWorkPage> {
         ),
         const SizedBox(height: 12),
         CustomDropDownInput(
-          array: WorkType.values,
+          array: WorkType.values
+              .where((element) => element != WorkType.relationship)
+              .toList(),
           selectValue: typeController,
           hint: "نوع العمل",
           onSelect: (s) {
@@ -292,47 +305,103 @@ class _AddWorkPageState extends State<AddWorkPage> {
           },
         ),
         const SizedBox(height: 12),
-        CustomTextInput(
-          controller: textController,
-          label: "نص العمل",
-          rightPadding: 16,
-          leftPadding: 16,
-          maxLine: 3,
-        ),
+        typeController == WorkType.tasbeeh
+            ? CustomTextInput(
+                validator: ValidatorEnum.number,
+                controller: textController,
+                label: " عدد التسبيح",
+                rightPadding: 16,
+                leftPadding: 16,
+              )
+            : CustomTextInput(
+                controller: textController,
+                label: "نص العمل",
+                rightPadding: 16,
+                leftPadding: 16,
+                maxLine: 3,
+              ),
         const SizedBox(height: 12),
-        CustomDropDownMenuString(
-          array: typeController == WorkType.dua
-              ? document.documentEntity!.dua!.map((e) => e.title!).toList()
-              : typeController == WorkType.zyara
-                  ? document.zyaratData!.zyaratList!
-                      .map((e) => e.title!)
-                      .toList()
-                  : typeController == WorkType.munajat
-                      ? document.zyaratData!.munajatList!
-                          .map((e) => e.title!)
-                          .toList()
-                      : [],
-          selectValue: pathController,
-          isNullable: textController.text.isNotEmpty ||
-              typeController == WorkType.quran,
-          hint: " مسار",
-          onSelect: (s) {
-            pathController = s;
-            setState(() {});
-          },
-        ),
+        (typeController != WorkType.quran && typeController != WorkType.tasbeeh)
+            ? CustomDropDownMenuString(
+                array: typeController == WorkType.dua
+                    ? document.documentEntity!.dua!
+                        .map((e) => e.title!)
+                        .toList()
+                    : typeController == WorkType.zyara
+                        ? document.zyaratData!.zyaratList!
+                            .map((e) => e.title!)
+                            .toList()
+                        : typeController == WorkType.munajat
+                            ? document.zyaratData!.munajatList!
+                                .map((e) => e.title!)
+                                .toList()
+                            : [],
+                selectValue: pathController,
+                isNullable: textController.text.isNotEmpty ||
+                    typeController == WorkType.quran,
+                hint: " مسار",
+                onSelect: (s) {
+                  pathController = s;
+                  setState(() {});
+                },
+              )
+            : const SizedBox(),
         const SizedBox(height: 12),
-        CustomDropDownMenuString(
-          isNullable: true,
-          array: allSura.map((e) => e.name!).toList(),
-          selectValue: quransuraController,
-          hint: " القرآن",
-          onSelect: (s) {
-            quransuraController =
-                allSura.where((element) => element.name == s).first.name;
-          },
-        ),
+        typeController == WorkType.quran
+            ? CustomDropDownMenuString(
+                isNullable: true,
+                array: allSura.map((e) => e.name!).toList(),
+                selectValue: quransuraController,
+                hint: " القرآن",
+                onSelect: (s) {
+                  quransuraController =
+                      allSura.where((element) => element.name == s).first.name;
+                },
+              )
+            : const SizedBox(),
       ],
     );
+  }
+
+  void fillData(DailyWorkData? dailyWorkData) {
+    final allSura =
+        context.read<QuranCubit>().state.info.quranModel!.data!.surahs!;
+
+    titleController.text = dailyWorkData?.title ?? "";
+    descriptionController.text = dailyWorkData?.description ?? "";
+    textController.text = dailyWorkData?.text ?? "";
+
+    try {
+      quransuraController = dailyWorkData!.sura != null
+          ? allSura[dailyWorkData.sura!].name
+          : null;
+    } catch (_) {}
+
+    dayController = dailyWorkData?.day.toString();
+
+    weekDay = dailyWorkData?.weekDay;
+
+    hour = dailyWorkData!.hour != null
+        ? arabic24HourNames[dailyWorkData.hour!]
+        : null;
+    log("dailyWorkData.month!=${dailyWorkData.month!}");
+    monthController = dailyWorkData.month != null
+        ? getMonthName(dailyWorkData.month! - 1)
+        : null;
+    typeController = dailyWorkData.type;
+    workTiming = dailyWorkData.workTiming;
+
+    switch (dailyWorkData.type) {
+      case WorkType.dua:
+        for (var element
+            in context.read<DuaCubit>().state.info.documentEntity!.dua!) {
+          if (element.path == dailyWorkData.path) {
+            pathController = element.title;
+          }
+        }
+
+        break;
+      default:
+    }
   }
 }

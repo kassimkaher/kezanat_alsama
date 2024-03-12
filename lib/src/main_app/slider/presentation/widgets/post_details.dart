@@ -12,52 +12,55 @@ class PostDetails extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child:
-            Column(crossAxisAlignment: CrossAxisAlignment.stretch, children: [
-          Row(
-            children: [
-              Text(
-                post.author ?? "",
-                style: theme.textTheme.bodyLarge!
-                    .copyWith(fontWeight: FontWeight.w600, color: fontTitle),
-              ),
-              const Spacer(),
-              JBIconButton(
-                  backgroundColor: theme.primaryColor.withOpacity(0.2),
-                  color: theme.primaryColor,
-                  onPressed: () {
-                    Navigator.pop(context);
-                  },
-                  icon: LucideIcons.x)
-            ],
-          ),
-          const Divider(),
-          Expanded(
-            child: SingleChildScrollView(
-              child: Text(
-                post.description ?? "",
-                style: theme.textTheme.bodyLarge!
-                    .copyWith(fontWeight: FontWeight.w400, color: fontTitle),
+      body: SafeArea(
+        child: Padding(
+          padding: const EdgeInsets.all(16.0),
+          child:
+              Column(crossAxisAlignment: CrossAxisAlignment.stretch, children: [
+            Row(
+              children: [
+                Text(
+                  post.author ?? "",
+                  style: theme.textTheme.titleMedium!.copyWith(
+                    fontWeight: FontWeight.w600,
+                  ),
+                ),
+                const Spacer(),
+                JBIconButton(
+                    backgroundColor: theme.primaryColor.withOpacity(0.2),
+                    color: theme.primaryColor,
+                    onPressed: () {
+                      Navigator.pop(context);
+                    },
+                    icon: LucideIcons.x)
+              ],
+            ),
+            const Divider(),
+            Expanded(
+              child: SingleChildScrollView(
+                child: Text(
+                  post.description ?? "",
+                  style: theme.textTheme.bodyLarge!
+                      .copyWith(fontWeight: FontWeight.w400),
+                ),
               ),
             ),
-          ),
-          const Divider(),
-          Row(
-            children: [
-              const Text("المصدر : "),
-              Text(
-                post.author ?? "",
-                style: theme.textTheme.bodyLarge!
-                    .copyWith(fontWeight: FontWeight.w600, color: fontTitle),
-              ),
-            ],
-          ),
-          SizedBox(
-            height: 12,
-          )
-        ]),
+            const Divider(),
+            Row(
+              children: [
+                const Text("المصدر : "),
+                Text(
+                  post.author ?? "",
+                  style: theme.textTheme.bodyLarge!
+                      .copyWith(fontWeight: FontWeight.w600, color: fontTitle),
+                ),
+              ],
+            ),
+            SizedBox(
+              height: 12,
+            )
+          ]),
+        ),
       ),
     );
   }

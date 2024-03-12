@@ -1,8 +1,6 @@
-import 'dart:ui';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:ramadan/bussines_logic/Setting/settings_cubit.dart';
+import 'package:ramadan/bussines_logic/Setting/cubit/setting_cubit.dart';
 import 'package:ramadan/utils/color.dart';
 import 'package:ramadan/utils/enums.dart';
 import 'package:ramadan/src/core/widget/blure_background.dart';

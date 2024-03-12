@@ -1,8 +1,4 @@
-import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:lucide_icons/lucide_icons.dart';
-import 'package:ramadan/bussines_logic/Setting/model/setting_model.dart';
-import 'package:ramadan/bussines_logic/prayer/prayer_cubit.dart';
 import 'package:ramadan/src/main_app/home/presentation/widgets/prayer_card.dart';
 
 import 'package:ramadan/utils/utils.dart';
@@ -27,6 +23,7 @@ class PrayerTimesView extends StatelessWidget {
                     return Container(
                       margin: const EdgeInsets.only(bottom: 30),
                       child: PrayerCard(
+                          onPressed: () {},
                           theme: theme,
                           data: state.currentDay,
                           city: city.nameAr ?? ""),

@@ -1,5 +1,10 @@
+import 'dart:ui';
+
+import 'package:flutter_hooks/flutter_hooks.dart';
+import 'package:ramadan/bussines_logic/Setting/cubit/setting_cubit.dart';
 import 'package:ramadan/services/tasbeeh/cubit/tasbeeh_cubit.dart';
 import 'package:ramadan/utils/utils.dart';
+import 'dart:math' as math;
 
 class TasbeehView extends StatelessWidget {
   const TasbeehView({
@@ -15,166 +20,111 @@ class TasbeehView extends StatelessWidget {
       builder: (context, state) {
         return Scaffold(
           appBar: AppBar(
-            title: Text(tasbeehCubit.tasbeehModel.tasbeehList.first.title),
+            elevation: 5,
+            title: Text(tasbeehCubit.tasbeehModel.tasbeehList.isNotEmpty
+                ? tasbeehCubit.tasbeehModel.tasbeehList.first.title
+                : "تسبيح مفتوح"),
             centerTitle: false,
           ),
           body: Container(
             decoration: BoxDecoration(
-              gradient: LinearGradient(
-                  colors: [theme.primaryColor, theme.scaffoldBackgroundColor],
-                  stops: [0, 0.8],
-                  begin: Alignment.topRight,
-                  end: Alignment.bottomLeft),
+              color: theme.canvasColor,
+              image: DecorationImage(
+                  image: AssetImage(context.read<SettingCubit>().isDarkMode()
+                      ? "assets/images/bk.png"
+                      : "assets/images/bk_light.png"),
+                  fit: BoxFit.cover),
             ),
             child: Stack(
+              alignment: Alignment.center,
               children: [
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Container(
-                        height: double.infinity,
-                        width: 10,
-                        decoration: const BoxDecoration(
-                          image: DecorationImage(
-                              image: AssetImage("assets/images/threads.jpg"),
-                              fit: BoxFit.fitHeight,
-                              colorFilter: ColorFilter.mode(
-                                  Colors.white, BlendMode.color)),
-                        )),
-                  ],
-                ),
-                Center(
-                  child: SizedBox(
-                      width: 70,
-                      child:
-                          //  true
-                          //     ?
-                          Stack(children: [
-                        AnimatedPositioned(
-                          duration: const Duration(milliseconds: 100),
-                          bottom: ((query.size.height / 60)) * 60 * 0.3 -
-                              (state.repetitionNumber * 60),
-                          left: 0,
-                          right: 0,
-                          child: Wrap(
-                              alignment: WrapAlignment.end,
-                              runAlignment: WrapAlignment.end,
-                              verticalDirection: VerticalDirection.up,
-                              children: [
-                                ...List.generate(
-                                        tasbeehCubit
-                                            .tasbeehModel.tasbeehList[0].number,
-                                        (index) => index)
-                                    .map(
-                                      (index) => BeadItem(
-                                          count: state.repetitionNumber,
-                                          index: index,
-                                          incrementCount: (a) =>
-                                              tasbeehCubit.incrementCount(a)),
-                                    )
-                                    .toList(),
-                                const ShahoolBead(),
-                                ...List.generate(
-                                        tasbeehCubit
-                                            .tasbeehModel.tasbeehList[1].number,
-                                        (index) => index)
-                                    .map(
-                                      (index) => BeadItem(
-                                          count: state.repetitionNumber,
-                                          index: index +
-                                              tasbeehCubit.tasbeehModel
-                                                  .tasbeehList[0].number,
-                                          incrementCount: (a) =>
-                                              tasbeehCubit.incrementCount(a)),
-                                    )
-                                    .toList(),
-                                const ShahoolBead(),
-                                ...List.generate(
-                                        tasbeehCubit
-                                            .tasbeehModel.tasbeehList[2].number,
-                                        (index) => index)
-                                    .map(
-                                      (index) => BeadItem(
-                                          count: state.repetitionNumber,
-                                          index: index +
-                                              tasbeehCubit.tasbeehModel
-                                                  .tasbeehList[1].number +
-                                              tasbeehCubit.tasbeehModel
-                                                  .tasbeehList[0].number,
-                                          incrementCount: (a) =>
-                                              tasbeehCubit.incrementCount(a)),
-                                    )
-                                    .toList(),
-                              ]),
-                        ),
-                      ]
-                              // List.generate(33, (index) => index)
-                              //     .map(
-                              //       (index) => AnimatedPositioned(
-                              //         duration: Duration(milliseconds: 200),
-                              //         bottom: (60 * index).toDouble() +
-                              //             (index + 1 > _count
-                              //                 ? 200
-                              //                 : (-60 * _count - index)),
-                              //         child: BeadItem(
-                              //           count: _count,
-                              //           index: index,
-                              //           incrementCount: (a) => _incrementCount(a),
-                              //         ),
-                              //       ),
-                              //     )
-                              //     .toList(),
-                              )
-                      // : true
-                      //     ? ListView.builder(
-                      //         controller: scontroller,
-                      //         padding:
-                      //             const EdgeInsets.only(bottom: 100, top: 100),
-                      //         physics: const NeverScrollableScrollPhysics(),
-                      //         scrollDirection: Axis.vertical,
-                      //         reverse: true,
-                      //         itemCount: 33,
-                      //         itemBuilder: (context, index) => BeadItem(
-                      //           count: _count,
-                      //           index: index,
-                      //           incrementCount: (a) => _incrementCount(a),
-                      //         ),
-                      //       )
-                      //     : PageView.builder(
-                      //         onPageChanged: (a) => _incrementCount(a),
-                      //         scrollDirection: Axis.vertical,
-                      //         reverse: true,
-                      //         controller: _pageController,
-                      //         itemCount: 33,
-                      //         //  padEnds: false,
-                      //         itemBuilder: (context, index) {
-                      //           return BeadItem(
-                      //             count: _count,
-                      //             index: index,
-                      //             incrementCount: (a) => _incrementCount(a),
-                      //           );
-                      //         },
-                      //       ),
-                      ),
+                ThreadWidget(
+                    count: state.repetitionNumber,
+                    incrementCount: (a) => tasbeehCubit.incrementCount(a)),
+                AnimatedPositioned(
+                  duration: const Duration(milliseconds: 100),
+                  bottom: ((query.size.height / 60)) * 60 * 0.3 -
+                      (state.repetitionNumber * 60),
+                  left: 0,
+                  right: 0,
+                  child: Wrap(
+                    // direction: Axis.vertical,
+                    runAlignment: WrapAlignment.center,
+                    verticalDirection: VerticalDirection.up,
+                    children: List.generate(
+                            tasbeehCubit.tasbeehModel.tasbeehList.isNotEmpty &&
+                                    tasbeehCubit.tasbeehModel
+                                            .tasbeehList[state.index].number >
+                                        101
+                                ? tasbeehCubit.tasbeehModel
+                                    .tasbeehList[state.index].number
+                                : 101,
+                            (index) => index + 1)
+                        .map(
+                          (index) => BeadItem(
+                              count: state.repetitionNumber,
+                              index: index,
+                              incrementCount: (a) =>
+                                  tasbeehCubit.incrementCount(a)),
+                        )
+                        .toList(),
+                  ),
                 ),
               ],
             ),
           ),
-          bottomNavigationBar: Container(
-            padding: const EdgeInsets.all(8),
-            margin: const EdgeInsets.all(24),
-            decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(16),
-                color: theme.textTheme.bodyLarge!.color),
-            child: Text(
-              tasbeehCubit.tasbeehModel.tasbeehList[state.index].speak,
-              style:
-                  theme.textTheme.titleLarge!.copyWith(color: Colors.white70),
-              textAlign: TextAlign.center,
-            ),
-          ),
+          bottomNavigationBar: tasbeehCubit.tasbeehModel.tasbeehList.isEmpty
+              ? const SizedBox()
+              : Container(
+                  padding: const EdgeInsets.all(8),
+                  margin: const EdgeInsets.all(24),
+                  decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(16),
+                      color: theme.textTheme.bodyLarge!.color),
+                  child: Text(
+                    tasbeehCubit.tasbeehModel.tasbeehList[state.index].speak,
+                    style: theme.textTheme.titleLarge!
+                        .copyWith(color: Colors.white70),
+                    textAlign: TextAlign.center,
+                  ),
+                ),
         );
       },
+    );
+  }
+}
+
+class ThreadWidget extends StatelessWidget {
+  final int count;
+
+  final Function(int index) incrementCount;
+  const ThreadWidget(
+      {super.key, required this.count, required this.incrementCount});
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        GestureDetector(
+          onVerticalDragEnd: (details) {
+            // log(details.velocity.pixelsPerSecond.distance.toString() ?? "kk");
+            if ((details.primaryVelocity ?? 0) > 0) {
+              incrementCount(count + 1);
+            }
+            if ((details.primaryVelocity ?? 0) < 0) {
+              incrementCount(count - 1);
+            }
+          },
+          child: Container(
+              height: double.infinity,
+              width: 100,
+              decoration: const BoxDecoration(
+                image: DecorationImage(
+                  image: AssetImage("assets/images/thread.png"),
+                ),
+              )),
+        ),
+      ],
     );
   }
 }
@@ -202,7 +152,24 @@ class ShahoolBead extends StatelessWidget {
   }
 }
 
-class BeadItem extends StatelessWidget {
+class ArcPainter extends CustomPainter {
+  @override
+  void paint(Canvas canvas, Size size) {
+    final Rect rect = Rect.fromLTWH(0, 0, size.width, size.height);
+    final Paint paint = Paint()
+      ..color = Colors.blue
+      ..style = PaintingStyle.fill;
+
+    canvas.drawArc(rect, 0, math.pi, true, paint);
+  }
+
+  @override
+  bool shouldRepaint(covariant CustomPainter oldDelegate) {
+    return false;
+  }
+}
+
+class BeadItem extends HookWidget {
   final int count;
   final int index;
   final Function(int index) incrementCount;
@@ -214,48 +181,108 @@ class BeadItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
-      onVerticalDragEnd: (details) {
-        if ((details.primaryVelocity ?? 0) > 0 && index == count) {
-          incrementCount(count + 1);
-        }
-      },
-      child: Opacity(
-        opacity: 0.9,
-        child: AnimatedContainer(
-          duration: const Duration(milliseconds: 100),
-          curve: Curves.ease,
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(50),
-            gradient: _calculateGradient(),
-            image: const DecorationImage(
-              image: AssetImage("assets/images/bead.png"),
-              fit: BoxFit.cover,
-            ),
-          ),
-          width: 70.0,
-          height: 60.0,
-          margin: EdgeInsets.symmetric(vertical: index >= count ? 5 : 0)
-              .copyWith(bottom: count == index ? 100 : 0),
-          child: Center(
-            child: Text(
-              index == count ? '${index + 1}' : '',
-              style: const TextStyle(
-                fontSize: 24.0,
-                fontWeight: FontWeight.bold,
-                color: Colors.white,
+    final plus = useState(0);
+    return SizedBox(
+      width: double.infinity,
+      child: GestureDetector(
+        onTap: () => index == count ? incrementCount(count + 1) : null,
+        onVerticalDragEnd: (details) {
+          // log(details.velocity.pixelsPerSecond.distance.toString() ?? "kk");
+          if ((details.primaryVelocity ?? 0) > 0 && index == count) {
+            incrementCount(count + 1);
+          }
+          if ((details.primaryVelocity ?? 0) < 0 && index == count) {
+            incrementCount(count - 1);
+          }
+        },
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            // Draggable(
+            //   affinity: Axis.vertical,
+            //   axis: Axis.vertical,
+            //   child:
+            Opacity(
+              opacity: 0.9,
+              child: AnimatedContainer(
+                duration: const Duration(milliseconds: 100),
+                curve: Curves.slowMiddle,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(50),
+                  gradient: _calculateGradient(),
+                  image: DecorationImage(
+                      image: const AssetImage("assets/images/bead.png"),
+                      fit: BoxFit.cover,
+                      colorFilter: (index == 34 || index == 68)
+                          ? const ColorFilter.srgbToLinearGamma()
+                          : null),
+                ),
+                width: 70.0,
+                height: (index == 34 || index == 68) ? 40 : 60.0,
+                margin: EdgeInsets.symmetric(vertical: index >= count ? 5 : 0)
+                    .copyWith(
+                        bottom: count == index ? 100 : 0,
+                        top: count == index ? plus.value.toDouble() : 0),
+                child: Center(
+                  child: Text(
+                    index == count ? '$index' : '',
+                    style: const TextStyle(
+                      fontSize: 24.0,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.white,
+                    ),
+                  ),
+                ),
               ),
             ),
-          ),
+            //   feedback: Opacity(
+            //     opacity: 0.9,
+            //     child: AnimatedContainer(
+            //       duration: const Duration(milliseconds: 100),
+            //       curve: Curves.ease,
+            //       decoration: BoxDecoration(
+            //         borderRadius: BorderRadius.circular(50),
+            //         gradient: _calculateGradient(),
+            //         image: DecorationImage(
+            //             image: const AssetImage("assets/images/bead.png"),
+            //             fit: BoxFit.cover,
+            //             colorFilter: (index == 34 || index == 68)
+            //                 ? const ColorFilter.srgbToLinearGamma()
+            //                 : null),
+            //       ),
+            //       width: 70.0,
+            //       height: (index == 34 || index == 68) ? 40 : 60.0,
+            //       margin: EdgeInsets.symmetric(vertical: index >= count ? 5 : 0)
+            //           .copyWith(
+            //               bottom: count == index ? 100 : 0,
+            //               top: count == index ? plus.value.toDouble() : 0),
+            //       child: Center(
+            //         child: Text(
+            //           index == count ? '$index' : '',
+            //           style: const TextStyle(
+            //             fontSize: 24.0,
+            //             fontWeight: FontWeight.bold,
+            //             color: Colors.white,
+            //           ),
+            //         ),
+            //       ),
+            //     ),
+            //   ),
+            //   onDragEnd: (details) {
+            //     log(details.velocity.pixelsPerSecond.dy.toString());
+
+            //     if (details.velocity.pixelsPerSecond.dy > 0 && index == count) {
+            //       incrementCount(count + 1);
+            //     }
+            //     if (details.velocity.pixelsPerSecond.dy < 0 && index == count) {
+            //       incrementCount(count - 1);
+            //     }
+            //   },
+            // ),
+          ],
         ),
       ),
     );
-    // AnimatedContainer(
-    //   duration: const Duration(milliseconds: 200),
-    //   curve: Curves.ease,
-    //   width: 200,
-    //   height: index == count ? 10.0 : 0,
-    // ),
   }
 
   _calculateGradient() {
@@ -263,9 +290,7 @@ class BeadItem extends StatelessWidget {
     return RadialGradient(
       // begin: Alignment.bottomCenter,
       // end: Alignment.topCenter,
-      colors: index == count
-          ? [Colors.white70, Colors.black]
-          : [Colors.brown.withOpacity(0.9), Colors.brown.shade900],
+      colors: [Colors.green.withOpacity(0.9), Colors.green.shade900],
     );
   }
 }

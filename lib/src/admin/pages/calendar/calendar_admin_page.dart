@@ -19,16 +19,20 @@ class _CalendarAdminViewState extends State<CalendarAdminView> {
     // TODO: implement initState
     super.initState();
     calendarCubit = CalendarCubit();
-    calendarCubit.getCalendar();
+    calendarCubit.getCalendarEvent();
   }
 
   @override
   Widget build(BuildContext context) {
     // final theme = Theme.of(context);
     return Scaffold(
+      appBar: AppBar(
+        title: const Text("التقويم"),
+      ),
       bottomNavigationBar: Padding(
-        padding: const EdgeInsets.all(8.0),
+        padding: const EdgeInsets.all(24.0),
         child: JBButtonMix(
+          padding: const EdgeInsets.symmetric(vertical: 4),
           icon: const Icon(LucideIcons.calendar),
           title: "تعديل",
           onPressed: () => showAdaptiveDialog(
@@ -38,16 +42,16 @@ class _CalendarAdminViewState extends State<CalendarAdminView> {
       body: BlocConsumer<CalendarCubit, CalendarState>(
           bloc: calendarCubit,
           listener: (context, state) {
-            // if (state.datastatus == DataStatus.error) {
+            // if (state.datastatus == const DataError()) {
             //   showDialog(context: context, builder: (c) => Text("error add"));
             // }
           },
           builder: (context, state) => switch (state.datastatus) {
-                DataStatus.loading || DataStatus.ideal => const Padding(
+                StateLoading() || DataIdeal() => const Padding(
                     padding: EdgeInsets.all(16),
                     child: CircularProgressIndicator(),
                   ),
-                DataStatus.success => ListView(
+                const SateSucess() => ListView(
                     padding: const EdgeInsets.all(16),
                     children: [
                       Container(

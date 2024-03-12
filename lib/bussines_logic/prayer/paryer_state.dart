@@ -3,7 +3,7 @@ part of 'prayer_cubit.dart';
 @freezed
 class PrayerState with _$PrayerState {
   const factory PrayerState.initial(
-      {@Default(DataStatus.ideal) DataStatus datastatus,
+      {required DataStatus datastatus,
       PrayersTimeModel? preyerTimes,
       PrayerTimesEntity? currentDay,
       PrayerTimesEntity? nextDay,

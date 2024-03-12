@@ -27,7 +27,7 @@ class QuranStateFiald extends QuranState {
 class QuranData {
   ContinuQuranModel? continuQuranModel;
   QuranModel? quranModel;
-  List<Surahs>? cachQuranModel;
+  List<Surahs>? cachQuranModelForSearch;
   var isScroll = false;
   var isSuraType = true;
   var currentPage = 0;

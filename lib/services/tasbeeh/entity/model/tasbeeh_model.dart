@@ -1,3 +1,27 @@
+class TasbeehLocalModel {
+  final TasbeehModel tasbeehModel;
+  final int repetitionNumber;
+
+  TasbeehLocalModel(
+      {required this.tasbeehModel, required this.repetitionNumber});
+
+  factory TasbeehLocalModel.fromJson(Map<dynamic, dynamic> json) {
+    return TasbeehLocalModel(
+        tasbeehModel: TasbeehModel(
+            tasbeehList: (json['data'] as List<dynamic>)
+                .map((e) => TasbeehData.fromJson(e))
+                .toList()),
+        repetitionNumber: json['repetition_number']);
+  }
+
+  Map<String, dynamic> toJson() {
+    return {
+      "data": tasbeehModel.toJson(),
+      'repetition_number': repetitionNumber
+    };
+  }
+}
+
 class TasbeehModel {
   final List<TasbeehData> tasbeehList;
 
@@ -11,8 +35,8 @@ class TasbeehModel {
             .map((e) => TasbeehData.fromJson(e))
             .toList());
   }
-  Map<String, dynamic> toJson() {
-    return {"data": tasbeehList.map((e) => e.toJson())};
+  List<Map<String, dynamic>> toJson() {
+    return tasbeehList.map((e) => e.toJson()).toList();
   }
 }
 
@@ -31,7 +55,7 @@ class TasbeehData {
     required this.speak,
   });
 
-  factory TasbeehData.fromJson(Map<String, dynamic> json) {
+  factory TasbeehData.fromJson(Map<dynamic, dynamic> json) {
     return TasbeehData(
       title: json['title'],
       description: json['description'],
@@ -48,5 +72,29 @@ class TasbeehData {
       'subtitle': subtitle,
       'speak': speak,
     };
+  }
+
+  bool isEqual(TasbeehData tasbeehList) {
+//     kdp(
+//         name: "is equal",
+//         msg: '''
+
+// title ||${tasbeehList.title.compareTo(title)}
+// subtitle ||${tasbeehList.subtitle.compareTo(subtitle)}
+// description ||${tasbeehList.description.compareTo(description)}
+// speak ||${tasbeehList.speak.compareTo(speak)}
+// number ||${tasbeehList.number.compareTo(number)}
+
+// ''',
+    // c: 'gr');
+    if (tasbeehList.title.compareTo(title) != 0 ||
+        tasbeehList.description.compareTo(description) != 0 ||
+        tasbeehList.number.compareTo(number) != 0 ||
+        tasbeehList.speak.compareTo(speak) != 0 ||
+        tasbeehList.subtitle.compareTo(subtitle) != 0) {
+      return false;
+    }
+
+    return true;
   }
 }

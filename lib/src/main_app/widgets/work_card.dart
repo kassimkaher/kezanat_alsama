@@ -8,14 +8,18 @@ import 'package:skeletonizer/skeletonizer.dart';
 
 class WorkCard extends StatelessWidget {
   const WorkCard(
-      {super.key, this.onTap, required this.dailyWorkData, this.ondelete});
+      {super.key,
+      this.onTap,
+      required this.dailyWorkData,
+      this.ondelete,
+      this.whenDeleting = false});
 
   final Function()? onTap;
 
   final DailyWorkData dailyWorkData;
 
   final Function()? ondelete;
-
+  final bool whenDeleting;
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
@@ -67,16 +71,18 @@ class WorkCard extends StatelessWidget {
                   overflow: TextOverflow.ellipsis,
                   style: theme.textTheme.titleSmall,
                 ),
-          trailing: ondelete != null
-              ? ActionChip(
-                  backgroundColor: Colors.red,
-                  onPressed: ondelete,
-                  label: Icon(
-                    LucideIcons.trash,
-                    color: Colors.white,
-                  ),
-                )
-              : null,
+          trailing: whenDeleting
+              ? const CircularProgressIndicator()
+              : ondelete != null
+                  ? ActionChip(
+                      backgroundColor: Colors.red,
+                      onPressed: ondelete,
+                      label: const Icon(
+                        LucideIcons.trash,
+                        color: Colors.white,
+                      ),
+                    )
+                  : null,
         ),
       ),
     );

@@ -1,11 +1,8 @@
-import 'package:flutter/cupertino.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:lucide_icons/lucide_icons.dart';
-import 'package:ramadan/bussines_logic/prayer/prayer_cubit.dart';
 import 'package:ramadan/bussines_logic/prayer/model/prayer_model.dart';
 import 'package:ramadan/src/core/entity/data_status.dart';
+import 'package:ramadan/src/main_app/widgets/adaptive_dialog_appbar.dart';
 import 'package:ramadan/utils/utils.dart';
 
 class PrayerTimesTodayDialog extends HookWidget {
@@ -17,67 +14,90 @@ class PrayerTimesTodayDialog extends HookWidget {
   Widget build(BuildContext context) {
     final select = useState<PrayerTimesEntity?>(null);
     final theme = Theme.of(context);
-    return BlocBuilder<PrayerCubit, PrayerState>(
-      builder: (context, state) {
-        return state.datastatus == DataStatus.success
-            ? SingleChildScrollView(
-                padding: const EdgeInsets.all(kDefaultPadding),
-                child: Column(
-                  children: state.preyerTimes!.days!
-                      .map(
-                        (data) => Card(
-                          margin: const EdgeInsets.symmetric(vertical: 3),
-                          child: AnimatedContainer(
-                            duration: const Duration(milliseconds: 150),
-                            height: select.value == data ? 350 : 50,
-                            child: ListView(
-                              padding: EdgeInsets.zero,
-                              physics: const NeverScrollableScrollPhysics(),
-                              children: [
-                                SizedBox(
-                                  height: 50,
-                                  child: Row(
-                                    children: [
-                                      const SizedBox(width: kDefaultSpacing),
-                                      const Icon(
-                                        LucideIcons.calendar,
-                                        size: 20,
-                                        color: jbSecondary,
+    return Scaffold(
+      body: BlocBuilder<PrayerCubit, PrayerState>(
+        builder: (context, state) {
+          return state.datastatus == const SateSucess()
+              ? SafeArea(
+                  child: Column(
+                    children: [
+                      const AdaptivAppBar(title: "اوقات الصلاة"),
+                      Expanded(
+                        child: SingleChildScrollView(
+                          padding: const EdgeInsets.all(kDefaultPadding),
+                          child: Column(
+                            children: state.preyerTimes!.days!
+                                .map(
+                                  (data) => Card(
+                                    margin:
+                                        const EdgeInsets.symmetric(vertical: 3),
+                                    child: AnimatedContainer(
+                                      duration:
+                                          const Duration(milliseconds: 150),
+                                      height: select.value == data ? 350 : 50,
+                                      child: ListView(
+                                        padding: EdgeInsets.zero,
+                                        physics:
+                                            const NeverScrollableScrollPhysics(),
+                                        children: [
+                                          SizedBox(
+                                            height: 50,
+                                            child: Row(
+                                              children: [
+                                                const SizedBox(
+                                                    width: kDefaultSpacing),
+                                                const Icon(
+                                                  LucideIcons.calendar,
+                                                  size: 20,
+                                                  color: jbSecondary,
+                                                ),
+                                                const SizedBox(width: 5),
+                                                Text(
+                                                  "${data.dayname!}  ",
+                                                  style: theme
+                                                      .textTheme.titleSmall,
+                                                ),
+                                                const Spacer(),
+                                                Text(
+                                                  "${data.day}/ ${data.month}",
+                                                  style: theme
+                                                      .textTheme.displaySmall,
+                                                ),
+                                                IconButton(
+                                                    padding: EdgeInsets.zero,
+                                                    onPressed: () =>
+                                                        select.value == data
+                                                            ? select.value =
+                                                                null
+                                                            : select.value =
+                                                                data,
+                                                    icon: Icon(select.value ==
+                                                            data
+                                                        ? LucideIcons.chevronUp
+                                                        : LucideIcons
+                                                            .chevronDown))
+                                              ],
+                                            ),
+                                          ),
+                                          SizedBox(
+                                              height: 300,
+                                              child: TimesCard(
+                                                  theme: theme, data: data))
+                                        ],
                                       ),
-                                      const SizedBox(width: 5),
-                                      Text(
-                                        "${dayName[data.dayname! - 1]}  ",
-                                        style: theme.textTheme.titleSmall,
-                                      ),
-                                      const Spacer(),
-                                      Text(
-                                        "${data.day}/ ${data.month}",
-                                        style: theme.textTheme.displaySmall,
-                                      ),
-                                      IconButton(
-                                          padding: EdgeInsets.zero,
-                                          onPressed: () => select.value == data
-                                              ? select.value = null
-                                              : select.value = data,
-                                          icon: Icon(select.value == data
-                                              ? LucideIcons.chevronUp
-                                              : LucideIcons.chevronDown))
-                                    ],
+                                    ),
                                   ),
-                                ),
-                                SizedBox(
-                                    height: 300,
-                                    child: TimesCard(theme: theme, data: data))
-                              ],
-                            ),
+                                )
+                                .toList(),
                           ),
                         ),
-                      )
-                      .toList(),
-                ),
-              )
-            : const SizedBox();
-      },
+                      ),
+                    ],
+                  ),
+                )
+              : const SizedBox();
+        },
+      ),
     );
   }
 }

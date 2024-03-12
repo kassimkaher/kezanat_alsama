@@ -1,6 +1,8 @@
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:ramadan/utils/utils.dart';
 import 'package:timezone/timezone.dart' as tz;
+import 'package:flutter_local_notifications/src/platform_specifics/android/enums.dart'
+    as p;
 
 final _flutterLocalNotificationsPlugin = FlutterLocalNotificationsPlugin();
 
@@ -22,7 +24,7 @@ Future<void> setupFlutterNotifications() async {
 void showFlutterNotificationAthan(
     {required String title, required String subtitle}) {
   const androidNotificationDetail = AndroidNotificationDetails(
-      'ramadan_10_id', 'ramadan_kezana_alsama',
+      'ramadan_2024_3_13_id', 'ramadan_kezana_alsama',
       importance: Importance.max,
       sound: RawResourceAndroidNotificationSound('res_athan'));
   const iosNotificatonDetail =
@@ -39,7 +41,7 @@ void showFlutterNotificationAthan(
 void showFlutterNotificationEmsak(
     {required String title, required String subtitle}) {
   const androidNotificationDetail = AndroidNotificationDetails(
-      'ramadan_10_id', 'ramadan_kezana_alsama_emsak',
+      'ramadan_2024_3_13_id', 'ramadan_kezana_alsama_emsak',
       importance: Importance.max,
       sound: RawResourceAndroidNotificationSound('res_emsak'));
   const iosNotificatonDetail =
@@ -65,7 +67,7 @@ Future<void> showSchedualNotificationEmsak(
       c: 'cy');
 
   const androidNotificationDetail = AndroidNotificationDetails(
-      'ramadan_10_id_emsak', 'ramadan_kezana_alsama_emsak',
+      'ramadan_2024_3_13_id', 'ramadan_kezana_alsama_emsak',
       importance: Importance.max,
       playSound: true,
       sound: RawResourceAndroidNotificationSound('res_emsak'));
@@ -92,18 +94,13 @@ Future<void> showSchedualNotificationEmsak(
 Future<void> showSchedualNotificationAthan(
     {required String title,
     required String subtitle,
-    required DateTime dateTime,
+    required tz.TZDateTime dateTime,
     required int id}) async {
-  final date = tz.TZDateTime.from(dateTime, tz.local);
-  kdp(
-      name: "notification athan",
-      msg: "date ${dateTime.toString()} --id=$id",
-      c: 'm');
-
   const androidNotificationDetail = AndroidNotificationDetails(
-      'ramadan_10_id_athan', 'ramadan_kezana_alsama_athan',
+      'ramadan_2024_3_13_id', 'ramadan_kezana_alsama_athan',
       importance: Importance.max,
       autoCancel: false,
+      priority: p.Priority.max,
       sound: RawResourceAndroidNotificationSound('res_athan'),
       playSound: true);
   const iosNotificatonDetail =
@@ -115,16 +112,29 @@ Future<void> showSchedualNotificationAthan(
   );
 
   await _flutterLocalNotificationsPlugin.zonedSchedule(
-    id, title, subtitle,
-    date,
+      id, title, subtitle, dateTime, notificationDetails,
+      uiLocalNotificationDateInterpretation:
+          UILocalNotificationDateInterpretation.absoluteTime,
+      androidScheduleMode: AndroidScheduleMode
+          .exact //To show notification even when the app is closed
+      );
 
-    notificationDetails,
+  final d = tz.TZDateTime.now(tz.local);
+  final d1 = DateTime.now();
+  final d2 = tz.TZDateTime.from(d1, tz.local);
 
-    uiLocalNotificationDateInterpretation:
-        UILocalNotificationDateInterpretation.absoluteTime,
-    androidAllowWhileIdle:
-        true, //To show notification even when the app is closed
-  );
+  kdp(
+      name: "notification athan",
+      msg: '''
+subtitle =$subtitle
+id= $id
+notification date = $dateTime
+tz.TZDateTime.now=$d
+DateTime.now()=$d1
+convert =$d2
+
+''',
+      c: 'gr');
 }
 
 cancelAllNotification() {

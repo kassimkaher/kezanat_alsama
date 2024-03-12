@@ -1,5 +1,3 @@
-import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:ramadan/utils/utils.dart';
 
 getTheme(String fontfamily, bool isDarkMode) {
@@ -15,7 +13,7 @@ getTheme(String fontfamily, bool isDarkMode) {
   final theme = ThemeData(
     useMaterial3: false,
     primarySwatch:
-        createMaterialColor(isDarkMode ? jbPrimaryColorD : jbPrimaryColor),
+        createMaterialColor(isDarkMode ? jbPrimaryColor : jbPrimaryColor),
     fontFamily: fontfamily,
   );
 
@@ -25,17 +23,21 @@ getTheme(String fontfamily, bool isDarkMode) {
           cardTheme: CardTheme(
               shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(kDefaultBorderRadius),
-                  side: BorderSide(color: jbSecondary)),
+                  side: const BorderSide(color: alqadrAccesntColor)),
               color: scaffoldColorD,
               elevation: 0),
           scaffoldBackgroundColor: scaffoldColorD,
+          primaryColorDark: Colors.white70,
           brightness: Brightness.dark,
           disabledColor: jbUnselectColorD,
+          canvasColor: cardColorD,
           colorScheme: const ColorScheme.dark(
               secondary: jbSecondaryD,
               primary: jbPrimaryColorD,
               outline: jbBorderColorD,
-              tertiary: Colors.red,
+              tertiary: Color(0xff4f6d7a),
+              tertiaryContainer: alqadrAccesntColor,
+              onTertiary: alqadrColor,
               onSecondary: jbAccentSecondary,
               onPrimary: jbAccesntPrimaryColorD),
           appBarTheme: const AppBarTheme(
@@ -89,17 +91,21 @@ getTheme(String fontfamily, bool isDarkMode) {
       : theme.copyWith(
           cardTheme: CardTheme(
               shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(kDefaultBorderRadius),
-                  side: BorderSide(color: jbSecondary)),
+                borderRadius: BorderRadius.circular(kDefaultBorderRadius),
+                side: BorderSide(color: Colors.grey.shade400),
+              ),
               color: scaffoldColor,
               elevation: 0),
           scaffoldBackgroundColor: scaffoldColor,
+          primaryColorDark: jbAccesntPrimaryColor,
           brightness: Brightness.light,
           colorScheme: const ColorScheme.dark(
               secondary: jbSecondary,
               primary: jbPrimaryColor,
               outline: jbGary2,
-              tertiary: Colors.red,
+              tertiary: Color(0xff4f6d7a),
+              tertiaryContainer: jbPrimaryColor,
+              onTertiary: Color(0xff0C7E82),
               onSecondary: jbAccentSecondary,
               onPrimary: jbAccesntPrimaryColor),
           appBarTheme: const AppBarTheme(
@@ -113,6 +119,7 @@ getTheme(String fontfamily, bool isDarkMode) {
           ),
           disabledColor: jbUnselectColor,
           cardColor: cardColor,
+          canvasColor: Colors.white,
           dialogTheme: DialogTheme(
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(kDefaultBorderRadius),

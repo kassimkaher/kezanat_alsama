@@ -77,7 +77,7 @@ extension TextValidate on ValidatorEnum {
   }
 
   bool isNumebr(String value) {
-    value = getEnglishNumber(value);
+    // value = getEnglishNumber(value);
     String patttern = r'^[0-9]+$';
     RegExp regExp = RegExp(patttern);
     return regExp.hasMatch(value.replaceAll(",", ""));

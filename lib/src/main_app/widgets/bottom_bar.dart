@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:ramadan/bussines_logic/Setting/settings_cubit.dart';
+import 'package:ramadan/bussines_logic/Setting/cubit/setting_cubit.dart';
 import 'package:ramadan/utils/color.dart';
 import 'package:ramadan/utils/enums.dart';
 
@@ -22,6 +22,7 @@ class BottomBar extends StatelessWidget {
       type: BottomNavigationBarType.fixed,
       selectedFontSize: 12,
       unselectedFontSize: 12,
+      unselectedItemColor: theme.disabledColor,
       onTap: (a) => controller.changePage(NavPages.values[0], a),
       items: [
         customBottomAppbar(

@@ -1,4 +1,3 @@
-import 'package:lucide_icons/lucide_icons.dart';
 import 'package:ramadan/model/quran_juzu_model.dart';
 import 'package:ramadan/src/main_app/quran/juzu/cubit/quran_juzu_cubit.dart';
 import 'package:ramadan/src/main_app/quran/juzu/widgets/aya_player_view.dart';
@@ -31,7 +30,8 @@ class AyaJuzuWidget extends StatelessWidget {
               builder: (context, quranSoundState) {
                 return InkWell(
                   onTap: () => quranSoundCubit.toogleSoundWidget(aya),
-                  child: Container(
+                  child: AnimatedContainer(
+                    duration: const Duration(milliseconds: 300),
                     decoration: BoxDecoration(
                         color: quranSoundState.ayaShow == aya
                             ? theme.canvasColor
@@ -50,15 +50,12 @@ class AyaJuzuWidget extends StatelessWidget {
                                           vertical: 10, horizontal: 80),
                                       padding: const EdgeInsets.symmetric(
                                           vertical: 1),
-                                      decoration: BoxDecoration(
-                                        image:
-                                            theme.brightness == Brightness.dark
-                                                ? null
-                                                : const DecorationImage(
-                                                    image: AssetImage(
-                                                        "assets/images/sura_title.png"),
-                                                    fit: BoxFit.fill,
-                                                  ),
+                                      decoration: const BoxDecoration(
+                                        image: DecorationImage(
+                                          image: AssetImage(
+                                              "assets/images/sura_title.png"),
+                                          fit: BoxFit.fill,
+                                        ),
                                       ),
                                       child: (aya.surah?.name ?? "").toGradiant(
                                           style: theme.textTheme.displayLarge!
@@ -69,17 +66,20 @@ class AyaJuzuWidget extends StatelessWidget {
                                             theme.primaryColor,
                                             theme.disabledColor
                                           ])),
-                                  const SizedBox(height: kDefaultPadding),
+                                  // const SizedBox(height: kDefaultPadding),
                                   aya.numberInSurah == 1 &&
                                           aya.surah?.englishName !=
                                               "Al-Faatiha" &&
                                           aya.surah?.englishName != "At-Tawba"
-                                      ? Text(
-                                          "بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ",
+                                      ? "﷽".toGradiant(
                                           style: theme.textTheme.displayLarge!
                                               .copyWith(
+                                                  fontSize: 40,
                                                   fontWeight: FontWeight.w500),
-                                        )
+                                          colors: [
+                                              theme.primaryColor,
+                                              theme.disabledColor
+                                            ])
                                       : const SizedBox()
                                 ],
                               )
@@ -158,7 +158,7 @@ class AyaJuzuWidget extends StatelessWidget {
                                                               .ayaNumber ==
                                                           aya.number
                                                   ? const Icon(
-                                                      LucideIcons.bookmark,
+                                                      Icons.bookmark_rounded,
                                                       color: Colors.green,
                                                     )
                                                   : const SizedBox(),
@@ -171,9 +171,12 @@ class AyaJuzuWidget extends StatelessWidget {
                                 )),
                           ),
                         ),
-                        Visibility(
-                          visible: quranSoundState.ayaShow == aya,
-                          child: AyahPlayerView(aya: aya, theme: theme),
+                        AnimatedContainer(
+                          height: quranSoundState.ayaShow == aya ? 80 : 0,
+                          duration: const Duration(milliseconds: 300),
+                          child: quranSoundState.ayaShow == aya
+                              ? AyahPlayerView(aya: aya, theme: theme)
+                              : const SizedBox(),
                         )
                       ],
                     ),

@@ -1,10 +1,7 @@
 import 'package:audioplayers/audioplayers.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:lucide_icons/lucide_icons.dart';
 import 'package:ramadan/model/quran_juzu_model.dart';
 import 'package:ramadan/src/core/entity/data_status.dart';
-import 'package:ramadan/src/core/widget/jb_button.dart';
 import 'package:ramadan/src/main_app/quran/juzu/cubit/quran_juzu_cubit.dart';
 import 'package:ramadan/src/main_app/quran/quran_sound/quran_sound_cubit.dart';
 
@@ -31,17 +28,31 @@ class AyahPlayerView extends StatelessWidget {
           padding: const EdgeInsets.symmetric(
             horizontal: 12,
           ).copyWith(bottom: 16),
+          decoration: BoxDecoration(
+              border: Border(
+                top: BorderSide(
+                    color:
+                        theme.textTheme.displayLarge!.color!.withOpacity(0.4)),
+              ),
+              borderRadius: BorderRadius.circular(20)),
           child: Row(
             children: [
-              IconButton(
-                  onPressed: () => quranSoundCubit.toogleSoundWidget(null),
-                  icon: const Icon(LucideIcons.x)),
-              const SizedBox(width: 4),
-              Text(
-                "القارئ عبد الباسط عبد الصمد",
-                style: theme.textTheme.titleMedium,
+              Expanded(
+                child: ListTile(
+                  horizontalTitleGap: 0,
+                  leading: IconButton(
+                      onPressed: () => quranSoundCubit.toogleSoundWidget(null),
+                      icon: const Icon(LucideIcons.x)),
+                  contentPadding: EdgeInsets.zero,
+                  title: Text(
+                    "القارئ",
+                    style: theme.textTheme.bodySmall,
+                  ),
+                  subtitle: const Text(
+                    " عبد الباسط عبد الصمد",
+                  ),
+                ),
               ),
-              const Spacer(),
               switch (state.dataStatus) {
                 StateLoading() => const SizedBox(
                     width: 25, height: 25, child: CircularProgressIndicator()),
@@ -72,17 +83,32 @@ class AyahPlayerView extends StatelessWidget {
                     icon: const Icon(LucideIcons.refreshCcw, color: Colors.red))
               },
               const SizedBox(width: 4),
-              JBButton(
-                title: "حفظ",
-                backgroundColor: Colors.green,
-                onPressed: () {
-                  quranJuzuCubit.setContinu(
-                    juzuIndex: aya.juz! - 1,
-                    page: aya.page!,
-                    ayahsJuzu: aya,
+              IconButton(onPressed: () {
+                quranJuzuCubit.setContinu(
+                    juzuIndex: aya.juz! - 1, page: aya.page!, ayahsJuzu: aya);
+              }, icon: BlocBuilder<QuranJuzuCubit, QuranJuzuState>(
+                builder: (context, state) {
+                  return Icon(
+                    LucideIcons.bookmarkPlus,
+                    color: state.continuQuranModel != null &&
+                            state.continuQuranModel!.ayaNumber == aya.number
+                        ? Colors.green
+                        : null,
+                    size: 30,
                   );
                 },
-              ),
+              )),
+              // JBButton(
+              //   title: "حفظ",
+              //   backgroundColor: Colors.green,
+              //   onPressed: () {
+              //     quranJuzuCubit.setContinu(
+              //       juzuIndex: aya.juz! - 1,
+              //       page: aya.page!,
+              //       ayahsJuzu: aya,
+              //     );
+              //   },
+              // ),
             ],
           ),
         );

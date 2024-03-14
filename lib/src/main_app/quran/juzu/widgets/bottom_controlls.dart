@@ -79,10 +79,15 @@ class BottomControllers extends StatelessWidget {
                         ? 1
                         : 0,
                 child: InkWell(
-                  onTap: () {
-                    quranJuzuCubit.nextJuzu(
-                        state.currentQuranJuzu!.data!.ayahs!.first.juz!);
-                  },
+                  onTap: (state.currentQuranJuzu?.data?.juzuPages.length ?? 0) -
+                                  1 ==
+                              state.currentPage &&
+                          state.currentQuranJuzu!.data!.ayahs!.first.juz! < 30
+                      ? () {
+                          quranJuzuCubit.nextJuzu(
+                              state.currentQuranJuzu!.data!.ayahs!.first.juz!);
+                        }
+                      : null,
                   child: Container(
                     padding:
                         const EdgeInsets.symmetric(horizontal: 12, vertical: 5),

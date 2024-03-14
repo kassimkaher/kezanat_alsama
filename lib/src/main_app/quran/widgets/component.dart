@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:ramadan/utils/extention.dart';
+import 'package:ramadan/utils/utils.dart';
 
 class QuranCircular extends StatelessWidget {
   const QuranCircular({super.key, required this.progress});
@@ -59,12 +60,12 @@ class NumberWidget extends StatelessWidget {
             height: size,
             color: theme.primaryColor,
           ),
-          Center(
+          Align(
+            alignment: Alignment.center,
             child: Text(
               number.toString().arabicNumber,
               style: theme.textTheme.titleSmall!.copyWith(
-                  fontWeight: FontWeight.w400,
-                  height: 1.2,
+                  fontWeight: FontWeight.w600,
                   fontSize: number.length > 2 ? 10 : 12),
               textAlign: TextAlign.center,
             ),

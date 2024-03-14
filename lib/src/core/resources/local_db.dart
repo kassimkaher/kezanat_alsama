@@ -1,6 +1,7 @@
 import 'package:hive/hive.dart';
 import 'package:ramadan/bussines_logic/Setting/model/setting_model.dart';
 import 'package:ramadan/bussines_logic/prayer/model/arabic_date_model.dart';
+import 'package:ramadan/model/quran_juzu_model.dart';
 import 'package:ramadan/model/quran_model.dart';
 import 'package:ramadan/services/tasbeeh/entity/model/tasbeeh_model.dart';
 import 'package:ramadan/src/main_app/home/daily_work/model/calendar_model.dart';
@@ -190,5 +191,28 @@ class LocalDB {
     }
 
     db!.put("tasbeeh_data_storage", value.toJson());
+  }
+
+  static List<QuranJuzuModel>? getQuranJuzu() {
+    final data =
+        Hive.box('kezana_alsama_local_data').get("local_key_quran_juzu");
+    List<QuranJuzuModel> quranjuzu = [];
+
+    if (data == null) {
+      return null;
+    }
+    for (var i = 0; i < 30; i++) {
+      quranjuzu.add(QuranJuzuModel.fromJson(
+          (data["juzu_$i"] as Map<dynamic, dynamic>).cast()));
+    }
+    return quranjuzu;
+  }
+
+  static saveQuranJuzu(List<QuranJuzuModel> value) {
+    Map<String, dynamic> data = {};
+    for (var i = 0; i < value.length; i++) {
+      data["juzu_$i"] = value[i].toJson();
+    }
+    Hive.box('kezana_alsama_local_data').put("local_key_quran_juzu", data);
   }
 }

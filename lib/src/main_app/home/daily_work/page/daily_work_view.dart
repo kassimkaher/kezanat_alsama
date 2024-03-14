@@ -6,7 +6,8 @@ import 'package:ramadan/src/main_app/dua/work_display_view.dart';
 import 'package:ramadan/src/main_app/home/daily_work/logic/daily_work_logic/daily_work_cubit.dart';
 import 'package:ramadan/src/main_app/home/daily_work/model/daily_work_model.dart';
 import 'package:ramadan/src/main_app/home/daily_work/widgets/tabs_view.dart';
-import 'package:ramadan/src/main_app/quran/pages/sura/quran_suar_view.dart';
+import 'package:ramadan/src/main_app/quran/sura/cubit/quran_sura_cubit.dart';
+import 'package:ramadan/src/main_app/quran/sura/pages/quran_suar_view.dart';
 import 'package:ramadan/src/main_app/widgets/relationship_card.dart';
 import 'package:ramadan/src/main_app/widgets/work_card.dart';
 import 'package:ramadan/utils/utils.dart';
@@ -165,12 +166,9 @@ class DailyWorkView extends StatelessWidget {
           to(
             SuraViewForSuar(
               data: navigatorKey.currentContext!
-                  .read<QuranCubit>()
+                  .read<QuranSuraCubit>()
                   .state
-                  .info
-                  .quranModel!
-                  .data!
-                  .surahs![dailyWorkData.sura!],
+                  .quranModel![dailyWorkData.sura!],
               index: dailyWorkData.sura!,
             ),
           ),

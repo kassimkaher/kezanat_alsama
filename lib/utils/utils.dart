@@ -21,7 +21,6 @@ export 'package:ramadan/bussines_logic/prayer/model/arabic_date_model.dart';
 export 'package:ramadan/services/notification_service.dart';
 export 'package:ramadan/bussines_logic/prayer/prayer_cubit.dart';
 export 'package:ramadan/src/main_app/dua/bussines_logic/dua_cubit.dart';
-export 'package:ramadan/src/main_app/quran/bussines_logic/quran_cubit.dart';
 export 'package:ramadan/firebase_options.dart';
 export 'package:ramadan/pages/splash_page.dart';
 export 'package:ramadan/src/alqadr/cubit/alqadr_cubit.dart';

@@ -133,7 +133,7 @@ class SettingCubit extends Cubit<SettingState> {
             title: "امساك",
             subtitle: "حان الان موعد  الامساك اي الامتناع عن الاكل و والشرب",
             dateTime: tz.TZDateTime(tz.local, date.year, day.month!, day.day!,
-                day.fajer!.hour!, day.fajer!.minut! - 10),
+                day.emsak!.hour!, day.emsak!.minut! - 10),
             id: 400 + day.day!);
       } catch (e) {
         kdp(
@@ -242,7 +242,26 @@ class SettingCubit extends Cubit<SettingState> {
     } catch (e) {
       kdp(name: "schedual notification fajer", msg: e, c: 'r');
     }
-
+    try {
+      if (day.emsak != null &&
+          (date.month == day.month &&
+              date.day == day.day &&
+              date.hour >= day.emsak!.hour!)) {
+      } else {
+        pushIosNotification(
+            title: "امساك",
+            body: "حان وقت الامساك   ",
+            sound: "emsak_ios.caf",
+            year: date.year,
+            month: day.month!,
+            day: day.day!,
+            hour: (day.emsak!.hour!),
+            minuts: day.emsak!.minut!,
+            second: 0);
+      }
+    } catch (e) {
+      kdp(name: "schedual notification fajer", msg: e, c: 'r');
+    }
     if ((data.days!.length - 1) > index) {
       seIostNotification(data, index + 1, number + 1);
     }

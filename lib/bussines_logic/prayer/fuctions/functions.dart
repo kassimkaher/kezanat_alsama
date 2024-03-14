@@ -163,7 +163,8 @@ PrayersTimeModel? getPrayersTimeOfMonth(
           day: date.day,
           dayname: DateFormat('EEEE', "ar").format(date),
           emsak: calendarModel.hijreeMonth == 9
-              ? PrayerTimeData.fill(fajrTime)
+              ? PrayerTimeData.fill(fajrTime,
+                  extraDuration: const Duration(minutes: -10))
               : null,
           fajer: PrayerTimeData.fill(fajrTime),
           duhur: PrayerTimeData.fill(duhurPrayer),

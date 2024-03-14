@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:ramadan/model/quran_juzu_model.dart';
 
 class QuranModel {
   int? code;
@@ -25,16 +26,16 @@ class QuranModel {
 }
 
 class QuranData {
-  List<Surahs>? surahs;
+  List<SuraOldMode>? surahs;
   Edition? edition;
 
   QuranData({this.surahs, this.edition});
 
   QuranData.fromJson(Map<String, dynamic> json) {
     if (json['surahs'] != null) {
-      surahs = <Surahs>[];
+      surahs = <SuraOldMode>[];
       json['surahs'].forEach((v) {
-        surahs!.add(Surahs.fromJson(v));
+        surahs!.add(SuraOldMode.fromJson(v));
       });
     }
     edition =
@@ -53,7 +54,7 @@ class QuranData {
   }
 }
 
-class Surahs {
+class SuraOldMode {
   int? number;
   String? name;
   String? englishName;
@@ -61,7 +62,7 @@ class Surahs {
   String? revelationType;
   List<Ayahs>? ayahs;
 
-  Surahs(
+  SuraOldMode(
       {this.number,
       this.name,
       this.englishName,
@@ -69,7 +70,7 @@ class Surahs {
       this.revelationType,
       this.ayahs});
 
-  Surahs.fromJson(Map<String, dynamic> json) {
+  SuraOldMode.fromJson(Map<String, dynamic> json) {
     number = json['number'];
     name = json['name'];
 
@@ -188,33 +189,53 @@ class Edition {
 }
 
 class ContinuQuranModel {
-  int? pageNumber;
+  int? page;
   int? ayaNumber;
   String? nameSura;
-  int? number;
+
   int? juzuNumber;
 
   ContinuQuranModel(
-      {this.pageNumber,
-      this.ayaNumber,
-      this.nameSura,
-      this.number,
-      this.juzuNumber});
+      {this.page, this.ayaNumber, this.nameSura, this.juzuNumber});
 
   ContinuQuranModel.fromJson(Map<dynamic, dynamic> json) {
-    pageNumber = json['pageNumber'];
+    page = json['pageNumber'];
     ayaNumber = json['ayaNumber'];
     nameSura = json['name_sura'];
-    number = json['number'];
+
     juzuNumber = json['juzuNumber'];
+  }
+
+  int pageIndex(List<QuranPages> juzuPages) {
+    final indexOfPage =
+        juzuPages.indexWhere((element) => element.realPageNumber == page);
+
+    return indexOfPage;
+  }
+
+  int ayaIndex(List<QuranPages> juzuPages) {
+    final indexOfPage =
+        juzuPages.indexWhere((element) => element.realPageNumber == page);
+
+    final indexOfAya = juzuPages[indexOfPage]
+        .ayahs!
+        .indexWhere((element) => element.number == ayaNumber);
+    return indexOfAya == -1 ? 0 : indexOfAya;
+  }
+
+  double pageNumber(List<QuranPages> juzuPages) {
+    final indexOfPage =
+        juzuPages.indexWhere((element) => element.realPageNumber == page);
+
+    return indexOfPage / juzuPages.length;
   }
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = {};
-    data['pageNumber'] = pageNumber;
+    data['pageNumber'] = page;
     data['ayaNumber'] = ayaNumber;
     data['name_sura'] = nameSura;
-    data['number'] = number;
+
     data['juzuNumber'] = juzuNumber;
 
     return data;

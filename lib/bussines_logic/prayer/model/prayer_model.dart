@@ -37,9 +37,11 @@ class PrayerTimesEntity {
 class PrayerTimeData {
   int? hour;
   int? minut;
-  PrayerTimeData.fill(double time) {
-    hour = time.toDuration().inHours;
-    minut = time.toDuration().inMinutes % 60;
+  PrayerTimeData.fill(double time, {Duration extraDuration = Duration.zero}) {
+    Duration duration = time.toDuration() + extraDuration;
+
+    hour = duration.inHours;
+    minut = duration.inMinutes % 60;
   }
   PrayerTimeData({this.hour, this.minut});
   addMinuts(minuts) =>

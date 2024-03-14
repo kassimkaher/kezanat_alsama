@@ -16,12 +16,13 @@ class SettingModelAdapter extends TypeAdapter<SettingModel> {
     final fields = <int, dynamic>{
       for (int i = 0; i < numOfFields; i++) reader.readByte(): reader.read(),
     };
-    return SettingModel()
-      ..isDarkMode = fields[0] as int
-      ..city = fields[1] as int?
-      ..enableNotification = fields[2] as bool
-      ..isSetNotification = fields[3] as int
-      ..selectCity = fields[4] as CityDetails?;
+    return SettingModel(
+      isDarkMode: fields[0] as int,
+      city: fields[1] as int?,
+      enableNotification: fields[2] as bool,
+      isSetNotification: fields[3] as int,
+      selectCity: fields[4] as CityDetails?,
+    );
   }
 
   @override

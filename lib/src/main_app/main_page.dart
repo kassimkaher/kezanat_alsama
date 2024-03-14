@@ -6,8 +6,9 @@ import 'package:ramadan/src/main_app/dua/dua_page.dart';
 import 'package:ramadan/pages/munajat_page.dart';
 import 'package:ramadan/src/main_app/home/daily_work/logic/daily_work_logic/daily_work_cubit.dart';
 import 'package:ramadan/src/main_app/home/presentation/page/home.dart';
+import 'package:ramadan/src/main_app/quran/juzu/cubit/quran_juzu_cubit.dart';
 import 'package:ramadan/src/main_app/zyarat/zyarat_page.dart';
-import 'package:ramadan/src/main_app/quran/pages/quran_page.dart';
+import 'package:ramadan/src/main_app/quran/quran_page.dart';
 import 'package:ramadan/src/main_app/widgets/bottom_bar.dart';
 import 'package:ramadan/utils/utils.dart';
 
@@ -28,7 +29,8 @@ class _MainPage extends State<MainPage> {
     context
         .read<DailyWorkCubit>()
         .getTodayWorkFromRemote(context.read<CalendarCubit>().state.today);
-    context.read<QuranCubit>().getQuranEvent();
+
+    context.read<QuranJuzuCubit>().getQuranJuzuData();
   }
 
   @override

@@ -2,6 +2,9 @@ import 'package:flutter_timezone/flutter_timezone.dart';
 import 'package:ramadan/bussines_logic/Setting/cubit/setting_cubit.dart';
 import 'package:ramadan/src/admin/logic/calendar_cubit/calendar_cubit.dart';
 import 'package:ramadan/src/main_app/home/daily_work/logic/daily_work_logic/daily_work_cubit.dart';
+import 'package:ramadan/src/main_app/quran/cubit/quran_search_cubit.dart';
+import 'package:ramadan/src/main_app/quran/juzu/cubit/quran_juzu_cubit.dart';
+import 'package:ramadan/src/main_app/quran/sura/cubit/quran_sura_cubit.dart';
 import 'package:ramadan/utils/injector.dart';
 import 'package:ramadan/utils/utils.dart';
 import 'package:timezone/timezone.dart' as tz;
@@ -71,8 +74,14 @@ class App extends StatelessWidget {
         BlocProvider<SettingCubit>(
           create: (BuildContext context) => SettingCubit(),
         ),
-        BlocProvider<QuranCubit>(
-          create: (BuildContext context) => QuranCubit(),
+        BlocProvider<QuranSearchCubit>(
+          create: (BuildContext context) => QuranSearchCubit(),
+        ),
+        BlocProvider<QuranSuraCubit>(
+          create: (BuildContext context) => QuranSuraCubit(),
+        ),
+        BlocProvider<QuranJuzuCubit>(
+          create: (BuildContext context) => QuranJuzuCubit(),
         ),
         BlocProvider<PrayerCubit>(
           create: (BuildContext context) => PrayerCubit(),

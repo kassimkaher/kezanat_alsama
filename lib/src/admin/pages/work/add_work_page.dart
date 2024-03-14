@@ -1,7 +1,7 @@
 import 'dart:developer';
 
 import 'package:lucide_icons/lucide_icons.dart';
-import 'package:ramadan/model/quran_model.dart';
+import 'package:ramadan/model/sura/sura_model.dart';
 import 'package:ramadan/sheet/alert_dialog.dart';
 import 'package:ramadan/src/admin/logic/work_cubit/work_crud_cubit.dart';
 import 'package:ramadan/src/core/entity/data_status.dart';
@@ -11,6 +11,7 @@ import 'package:ramadan/src/core/enum/work_type.dart';
 import 'package:ramadan/src/core/resources/validation.dart';
 import 'package:ramadan/src/core/widget/jb_button_mix.dart';
 import 'package:ramadan/src/main_app/home/daily_work/model/daily_work_model.dart';
+import 'package:ramadan/src/main_app/quran/sura/cubit/quran_sura_cubit.dart';
 import 'package:ramadan/src/main_app/widgets/custom_drop_down_input.dart';
 import 'package:ramadan/src/main_app/widgets/custom_drop_down_menu_string.dart';
 import 'package:ramadan/src/main_app/widgets/custom_text_input.dart';
@@ -53,8 +54,7 @@ class _AddWorkPageState extends State<AddWorkPage> {
 
   @override
   Widget build(BuildContext context) {
-    final allSura =
-        context.read<QuranCubit>().state.info.quranModel!.data!.surahs!;
+    final allSura = context.read<QuranSuraCubit>().state.quranModel!;
     final document = context.read<DuaCubit>().state.info;
 
     final textTheme = Theme.of(context).textTheme;
@@ -250,8 +250,8 @@ class _AddWorkPageState extends State<AddWorkPage> {
                       type: typeController!,
                       workTiming: workTiming,
                       isRequired: true,
-                      sura: allSura.indexWhere(
-                          (element) => element.name == quransuraController),
+                      sura: allSura.indexWhere((element) =>
+                          element.surahInfo.name == quransuraController),
                       month: getMonthNumber(),
                       weekDay: weekDay,
                       hour:
@@ -274,7 +274,7 @@ class _AddWorkPageState extends State<AddWorkPage> {
   String? getMonthName(int number) =>
       (number < 0 || number > 11) ? null : hijreeMonthArray[number];
 
-  Column buildWorkDetailsFormView(DuaData document, List<Surahs> allSura) {
+  Column buildWorkDetailsFormView(DuaData document, List<SuraModel> allSura) {
     return Column(
       children: [
         CustomTextInput(
@@ -350,12 +350,15 @@ class _AddWorkPageState extends State<AddWorkPage> {
         typeController == WorkType.quran
             ? CustomDropDownMenuString(
                 isNullable: true,
-                array: allSura.map((e) => e.name!).toList(),
+                array: allSura.map((e) => e.surahInfo.name!).toList(),
                 selectValue: quransuraController,
                 hint: " القرآن",
                 onSelect: (s) {
-                  quransuraController =
-                      allSura.where((element) => element.name == s).first.name;
+                  quransuraController = allSura
+                      .where((element) => element.surahInfo.name == s)
+                      .first
+                      .surahInfo
+                      .name;
                 },
               )
             : const SizedBox(),
@@ -364,8 +367,7 @@ class _AddWorkPageState extends State<AddWorkPage> {
   }
 
   void fillData(DailyWorkData? dailyWorkData) {
-    final allSura =
-        context.read<QuranCubit>().state.info.quranModel!.data!.surahs!;
+    final allSura = context.read<QuranSuraCubit>().state.quranModel!;
 
     titleController.text = dailyWorkData?.title ?? "";
     descriptionController.text = dailyWorkData?.description ?? "";
@@ -373,7 +375,7 @@ class _AddWorkPageState extends State<AddWorkPage> {
 
     try {
       quransuraController = dailyWorkData!.sura != null
-          ? allSura[dailyWorkData.sura!].name
+          ? allSura[dailyWorkData.sura!].surahInfo.name
           : null;
     } catch (_) {}
 

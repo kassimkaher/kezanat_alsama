@@ -3,12 +3,13 @@ import 'package:lottie/lottie.dart';
 import 'package:lucide_icons/lucide_icons.dart';
 import 'package:ramadan/src/admin/logic/calendar_cubit/calendar_cubit.dart';
 import 'package:ramadan/src/main_app/dua/work_display_view.dart';
+import 'package:ramadan/src/main_app/quran/sura/cubit/quran_sura_cubit.dart';
 import 'package:ramadan/src/main_app/widgets/custom_card.dart';
 import 'package:ramadan/model/alqadr_model.dart';
 import 'package:ramadan/src/alqadr/salat_day.dart';
 import 'package:ramadan/src/alqadr/salat_page.dart';
 import 'package:ramadan/pages/read_sheet.dart';
-import 'package:ramadan/src/main_app/quran/pages/sura/quran_suar_view.dart';
+import 'package:ramadan/src/main_app/quran/sura/pages/quran_suar_view.dart';
 import 'package:ramadan/utils/utils.dart';
 
 class AlqadrCard extends StatelessWidget {
@@ -87,7 +88,7 @@ class AlqaderPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final zyaratCubit = context.read<DuaCubit>();
-    final quranCubit = context.read<QuranCubit>();
+    final quranCubit = context.read<QuranSuraCubit>();
     final alqadrCubit = context.read<AlqadrCubit>();
     final theme = Theme.of(context);
     final query = MediaQuery.of(context);
@@ -610,10 +611,7 @@ class AlqaderPage extends StatelessWidget {
                                                                     SuraViewForSuar(
                                                                       data: quranCubit
                                                                           .state
-                                                                          .info
-                                                                          .quranModel!
-                                                                          .data!
-                                                                          .surahs![e.index!],
+                                                                          .quranModel![e.index!],
                                                                       index: e
                                                                           .index!,
                                                                     ),

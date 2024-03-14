@@ -94,7 +94,7 @@ getTheme(String fontfamily, bool isDarkMode) {
                 borderRadius: BorderRadius.circular(kDefaultBorderRadius),
                 side: BorderSide(color: Colors.grey.shade400),
               ),
-              color: scaffoldColor,
+              color: Colors.red,
               elevation: 0),
           scaffoldBackgroundColor: scaffoldColor,
           primaryColorDark: jbAccesntPrimaryColor,

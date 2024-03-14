@@ -1,7 +1,7 @@
-import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:lucide_icons/lucide_icons.dart';
-import 'package:ramadan/src/main_app/quran/bussines_logic/quran_cubit.dart';
+import 'package:ramadan/src/main_app/quran/cubit/quran_search_cubit.dart';
+import 'package:ramadan/src/main_app/quran/juzu/cubit/quran_juzu_cubit.dart';
+import 'package:ramadan/src/main_app/quran/sura/cubit/quran_sura_cubit.dart';
 import 'package:ramadan/utils/utils.dart';
 import 'package:ramadan/src/core/widget/mu_text_input.dart';
 
@@ -10,45 +10,43 @@ class TopBarView extends StatelessWidget {
     super.key,
     required this.size,
     required this.theme,
-    required this.isSearch,
     required this.focusNode,
     required this.quranController,
   });
 
   final MediaQueryData size;
   final ThemeData theme;
-  final ValueNotifier<bool> isSearch;
+
   final FocusNode focusNode;
-  final QuranCubit quranController;
+  final QuranSuraCubit quranController;
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      // height: 100,
-      padding: EdgeInsets.only(
-          top: size.viewPadding.top,
-          left: kDefaultPadding,
-          right: kDefaultPadding,
-          bottom: kDefaultPadding),
-      decoration: BoxDecoration(
-        color: theme.cardColor,
-        border: Border(
-          bottom: BorderSide(color: theme.colorScheme.outline),
-        ),
-      ),
-      child: AnimatedSwitcher(
-        duration: const Duration(milliseconds: 300),
-        child: isSearch.value
-            ? SearchTextView(
-                focusNode: focusNode,
-                quranController: quranController,
-                isSearch: isSearch)
-            : QuranTopBarPage(
-                isSearch: isSearch,
-                focusNode: focusNode,
-                theme: theme,
-                quranController: quranController),
-      ),
+    return BlocBuilder<QuranSearchCubit, QuranSearchState>(
+      builder: (context, state) {
+        return Container(
+          padding: EdgeInsets.only(
+              top: size.viewPadding.top,
+              left: kDefaultPadding,
+              right: kDefaultPadding,
+              bottom: kDefaultPadding),
+          decoration: BoxDecoration(
+            color: theme.cardColor,
+            border: Border(
+              bottom: BorderSide(color: theme.colorScheme.outline),
+            ),
+          ),
+          child: AnimatedSwitcher(
+            duration: const Duration(milliseconds: 300),
+            child: state.isSearch
+                ? SearchTextView(focusNode: focusNode, isSearch: state.isSearch)
+                : QuranTopBarPage(
+                    focusNode: focusNode,
+                    theme: theme,
+                  ),
+          ),
+        );
+      },
     );
   }
 }
@@ -56,30 +54,27 @@ class TopBarView extends StatelessWidget {
 class QuranTopBarPage extends StatelessWidget {
   const QuranTopBarPage({
     super.key,
-    required this.isSearch,
     required this.focusNode,
     required this.theme,
-    required this.quranController,
   });
 
-  final ValueNotifier<bool> isSearch;
   final FocusNode focusNode;
   final ThemeData theme;
-  final QuranCubit quranController;
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<QuranCubit, QuranState>(
+    final quranSearchCubit = context.read<QuranSearchCubit>();
+    return BlocBuilder<QuranSearchCubit, QuranSearchState>(
       builder: (context, state) {
         return Row(
           children: [
             IconButton(
               padding: EdgeInsets.zero,
               onPressed: () {
-                isSearch.value = true;
+                quranSearchCubit.changeIsSearch(true);
 
-                Future.delayed(Duration(seconds: 1)).then(
-                    (value) => FocusScope.of(context).requestFocus(focusNode));
+                // Future.delayed(const Duration(seconds: 1)).then(
+                //     (value) => FocusScope.of(context).requestFocus(focusNode));
               },
               icon: const Icon(
                 LucideIcons.search,
@@ -102,45 +97,48 @@ class QuranTopBarPage extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
                   InkWell(
-                    onTap: () => quranController.changeDisplayType(true),
+                    onTap: () =>
+                        quranSearchCubit.changeDisplayType(SearchType.sura),
                     child: AnimatedContainer(
                       padding: const EdgeInsets.symmetric(horizontal: 12),
                       duration: const Duration(milliseconds: 300),
                       decoration: BoxDecoration(
                           borderRadius:
                               BorderRadius.circular(kDefaultBorderRadius),
-                          color: !state.info.isSuraType
+                          color: state.searchType != SearchType.sura
                               ? Colors.transparent
                               : theme.primaryColor),
                       child: Text(
                         "سور",
                         style: theme.textTheme.titleMedium!.copyWith(
-                            color: state.info.isSuraType
+                            color: state.searchType == SearchType.sura
                                 ? Colors.white
                                 : jbUnselectColor,
-                            fontSize: state.info.isSuraType ? 18 : 14),
+                            fontSize:
+                                state.searchType == SearchType.sura ? 18 : 14),
                       ),
                     ),
                   ),
                   InkWell(
-                    onTap: () => quranController
-                        .changeDisplayType(!state.info.isSuraType),
+                    onTap: () =>
+                        quranSearchCubit.changeDisplayType(SearchType.juzu),
                     child: AnimatedContainer(
                       padding: const EdgeInsets.symmetric(horizontal: 12),
                       duration: const Duration(milliseconds: 300),
                       decoration: BoxDecoration(
                           borderRadius:
                               BorderRadius.circular(kDefaultBorderRadius),
-                          color: state.info.isSuraType
+                          color: state.searchType != SearchType.juzu
                               ? Colors.transparent
                               : theme.primaryColor),
                       child: Text(
                         "اجزاء",
                         style: theme.textTheme.titleMedium!.copyWith(
-                            color: !state.info.isSuraType
+                            color: state.searchType == SearchType.juzu
                                 ? Colors.white
                                 : jbUnselectColor,
-                            fontSize: !state.info.isSuraType ? 18 : 14),
+                            fontSize:
+                                state.searchType == SearchType.juzu ? 18 : 14),
                       ),
                     ),
                   ),
@@ -158,36 +156,54 @@ class SearchTextView extends StatelessWidget {
   const SearchTextView({
     super.key,
     required this.focusNode,
-    required this.quranController,
     required this.isSearch,
   });
 
   final FocusNode focusNode;
-  final QuranCubit quranController;
-  final ValueNotifier<bool> isSearch;
+
+  final bool isSearch;
 
   @override
   Widget build(BuildContext context) {
-    return Row(
-      children: [
-        Expanded(
-          child: FDTextInput(
-            focusNode: focusNode,
-            label: "ابحث عن سورة",
-            onSubmit: (a) {
-              quranController.search(a);
-              FocusScope.of(context).unfocus();
-            },
-            onType: (value) => quranController.search(value),
-          ),
-        ),
-        TextButton(
-            onPressed: () {
-              isSearch.value = false;
-              quranController.resetQuran();
-            },
-            child: const Text("إلغاء"))
-      ],
+    final quranSearchCubit = context.read<QuranSearchCubit>();
+    final quranJuzuCubit = context.read<QuranJuzuCubit>();
+    final quranSuraCubit = context.read<QuranSuraCubit>();
+    return BlocBuilder<QuranSearchCubit, QuranSearchState>(
+      builder: (context, state) {
+        return Row(
+          children: [
+            Expanded(
+              child: FDTextInput(
+                focusNode: focusNode,
+                label: "ابحث عن سورة",
+                onSubmit: (a) {
+                  if (state.searchType == SearchType.juzu) {
+                    quranJuzuCubit.searchInJuzu(a);
+                  } else {
+                    quranSuraCubit.searchInSura(a);
+                  }
+
+                  FocusScope.of(context).unfocus();
+                },
+                onType: (a) {
+                  if (state.searchType == SearchType.juzu) {
+                    quranJuzuCubit.searchInJuzu(a);
+                  } else {
+                    quranSuraCubit.searchInSura(a);
+                  }
+                },
+              ),
+            ),
+            TextButton(
+                onPressed: () {
+                  quranSearchCubit.changeIsSearch(false);
+                  quranSuraCubit.fillCache();
+                  quranJuzuCubit.fillCache();
+                },
+                child: const Text("إلغاء"))
+          ],
+        );
+      },
     );
   }
 }

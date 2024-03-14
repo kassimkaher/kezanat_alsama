@@ -30,7 +30,7 @@ const jbAccesntPrimaryColorD = Colors.white;
 const scaffoldColorD = Color(0xff13181e);
 const jbSecondaryD = Color(0xFFF19801);
 const cardColorD = Color(0xff1e2327);
-const jbFontColorD = Color(0xffF4F4F7);
+const jbFontColorD = Color.fromARGB(255, 197, 197, 198);
 const jbFontColor2D = Color(0xffb1b1b1);
 const jbBorderColorD = Color(0xFF222222);
 

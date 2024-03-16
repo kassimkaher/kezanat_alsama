@@ -97,7 +97,8 @@ class _SuraViewForJuzuState extends State<SuraViewForJuzu> {
                           title:
                               "الجزء ${juzuArray[(state.currentQuranJuzu?.data?.ayahs?.first.juz ?? 1) - 1]}"
                                   .toGradiant(
-                            style: theme.textTheme.displayLarge!,
+                            style: theme.textTheme.displayLarge!.copyWith(
+                                fontSize: 20, fontWeight: FontWeight.w500),
                             colors: [
                               theme.primaryColor,
                               theme.textTheme.titleLarge!.color!

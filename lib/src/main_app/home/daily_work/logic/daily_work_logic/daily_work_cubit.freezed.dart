@@ -23,6 +23,8 @@ mixin _$DailyWorkState {
   DailyWorkModel? get todayWorkModel => throw _privateConstructorUsedError;
   DailyWorkModel? get monthWorkModel => throw _privateConstructorUsedError;
   DailyWorkModel? get relationShipData => throw _privateConstructorUsedError;
+  DailyWorkModel? get nightWorks => throw _privateConstructorUsedError;
+  DailyWorkModel? get afterNightWorks => throw _privateConstructorUsedError;
   List<QueryDocumentSnapshot<Map<String, dynamic>>>? get refrenses =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -34,6 +36,8 @@ mixin _$DailyWorkState {
             DailyWorkModel? todayWorkModel,
             DailyWorkModel? monthWorkModel,
             DailyWorkModel? relationShipData,
+            DailyWorkModel? nightWorks,
+            DailyWorkModel? afterNightWorks,
             List<QueryDocumentSnapshot<Map<String, dynamic>>>? refrenses)
         initial,
   }) =>
@@ -47,6 +51,8 @@ mixin _$DailyWorkState {
             DailyWorkModel? todayWorkModel,
             DailyWorkModel? monthWorkModel,
             DailyWorkModel? relationShipData,
+            DailyWorkModel? nightWorks,
+            DailyWorkModel? afterNightWorks,
             List<QueryDocumentSnapshot<Map<String, dynamic>>>? refrenses)?
         initial,
   }) =>
@@ -60,6 +66,8 @@ mixin _$DailyWorkState {
             DailyWorkModel? todayWorkModel,
             DailyWorkModel? monthWorkModel,
             DailyWorkModel? relationShipData,
+            DailyWorkModel? nightWorks,
+            DailyWorkModel? afterNightWorks,
             List<QueryDocumentSnapshot<Map<String, dynamic>>>? refrenses)?
         initial,
     required TResult orElse(),
@@ -100,6 +108,8 @@ abstract class $DailyWorkStateCopyWith<$Res> {
       DailyWorkModel? todayWorkModel,
       DailyWorkModel? monthWorkModel,
       DailyWorkModel? relationShipData,
+      DailyWorkModel? nightWorks,
+      DailyWorkModel? afterNightWorks,
       List<QueryDocumentSnapshot<Map<String, dynamic>>>? refrenses});
 }
 
@@ -122,6 +132,8 @@ class _$DailyWorkStateCopyWithImpl<$Res, $Val extends DailyWorkState>
     Object? todayWorkModel = freezed,
     Object? monthWorkModel = freezed,
     Object? relationShipData = freezed,
+    Object? nightWorks = freezed,
+    Object? afterNightWorks = freezed,
     Object? refrenses = freezed,
   }) {
     return _then(_value.copyWith(
@@ -149,6 +161,14 @@ class _$DailyWorkStateCopyWithImpl<$Res, $Val extends DailyWorkState>
           ? _value.relationShipData
           : relationShipData // ignore: cast_nullable_to_non_nullable
               as DailyWorkModel?,
+      nightWorks: freezed == nightWorks
+          ? _value.nightWorks
+          : nightWorks // ignore: cast_nullable_to_non_nullable
+              as DailyWorkModel?,
+      afterNightWorks: freezed == afterNightWorks
+          ? _value.afterNightWorks
+          : afterNightWorks // ignore: cast_nullable_to_non_nullable
+              as DailyWorkModel?,
       refrenses: freezed == refrenses
           ? _value.refrenses
           : refrenses // ignore: cast_nullable_to_non_nullable
@@ -172,6 +192,8 @@ abstract class _$$InitialImplCopyWith<$Res>
       DailyWorkModel? todayWorkModel,
       DailyWorkModel? monthWorkModel,
       DailyWorkModel? relationShipData,
+      DailyWorkModel? nightWorks,
+      DailyWorkModel? afterNightWorks,
       List<QueryDocumentSnapshot<Map<String, dynamic>>>? refrenses});
 }
 
@@ -192,6 +214,8 @@ class __$$InitialImplCopyWithImpl<$Res>
     Object? todayWorkModel = freezed,
     Object? monthWorkModel = freezed,
     Object? relationShipData = freezed,
+    Object? nightWorks = freezed,
+    Object? afterNightWorks = freezed,
     Object? refrenses = freezed,
   }) {
     return _then(_$InitialImpl(
@@ -219,6 +243,14 @@ class __$$InitialImplCopyWithImpl<$Res>
           ? _value.relationShipData
           : relationShipData // ignore: cast_nullable_to_non_nullable
               as DailyWorkModel?,
+      nightWorks: freezed == nightWorks
+          ? _value.nightWorks
+          : nightWorks // ignore: cast_nullable_to_non_nullable
+              as DailyWorkModel?,
+      afterNightWorks: freezed == afterNightWorks
+          ? _value.afterNightWorks
+          : afterNightWorks // ignore: cast_nullable_to_non_nullable
+              as DailyWorkModel?,
       refrenses: freezed == refrenses
           ? _value._refrenses
           : refrenses // ignore: cast_nullable_to_non_nullable
@@ -237,6 +269,8 @@ class _$InitialImpl implements _Initial {
       this.todayWorkModel,
       this.monthWorkModel,
       this.relationShipData,
+      this.nightWorks,
+      this.afterNightWorks,
       final List<QueryDocumentSnapshot<Map<String, dynamic>>>? refrenses})
       : _refrenses = refrenses;
 
@@ -252,6 +286,10 @@ class _$InitialImpl implements _Initial {
   final DailyWorkModel? monthWorkModel;
   @override
   final DailyWorkModel? relationShipData;
+  @override
+  final DailyWorkModel? nightWorks;
+  @override
+  final DailyWorkModel? afterNightWorks;
   final List<QueryDocumentSnapshot<Map<String, dynamic>>>? _refrenses;
   @override
   List<QueryDocumentSnapshot<Map<String, dynamic>>>? get refrenses {
@@ -264,7 +302,7 @@ class _$InitialImpl implements _Initial {
 
   @override
   String toString() {
-    return 'DailyWorkState.initial(datastatus: $datastatus, allDailyWorkModel: $allDailyWorkModel, allRelationShipModel: $allRelationShipModel, todayWorkModel: $todayWorkModel, monthWorkModel: $monthWorkModel, relationShipData: $relationShipData, refrenses: $refrenses)';
+    return 'DailyWorkState.initial(datastatus: $datastatus, allDailyWorkModel: $allDailyWorkModel, allRelationShipModel: $allRelationShipModel, todayWorkModel: $todayWorkModel, monthWorkModel: $monthWorkModel, relationShipData: $relationShipData, nightWorks: $nightWorks, afterNightWorks: $afterNightWorks, refrenses: $refrenses)';
   }
 
   @override
@@ -284,6 +322,10 @@ class _$InitialImpl implements _Initial {
                 other.monthWorkModel == monthWorkModel) &&
             (identical(other.relationShipData, relationShipData) ||
                 other.relationShipData == relationShipData) &&
+            (identical(other.nightWorks, nightWorks) ||
+                other.nightWorks == nightWorks) &&
+            (identical(other.afterNightWorks, afterNightWorks) ||
+                other.afterNightWorks == afterNightWorks) &&
             const DeepCollectionEquality()
                 .equals(other._refrenses, _refrenses));
   }
@@ -297,6 +339,8 @@ class _$InitialImpl implements _Initial {
       todayWorkModel,
       monthWorkModel,
       relationShipData,
+      nightWorks,
+      afterNightWorks,
       const DeepCollectionEquality().hash(_refrenses));
 
   @JsonKey(ignore: true)
@@ -315,11 +359,21 @@ class _$InitialImpl implements _Initial {
             DailyWorkModel? todayWorkModel,
             DailyWorkModel? monthWorkModel,
             DailyWorkModel? relationShipData,
+            DailyWorkModel? nightWorks,
+            DailyWorkModel? afterNightWorks,
             List<QueryDocumentSnapshot<Map<String, dynamic>>>? refrenses)
         initial,
   }) {
-    return initial(datastatus, allDailyWorkModel, allRelationShipModel,
-        todayWorkModel, monthWorkModel, relationShipData, refrenses);
+    return initial(
+        datastatus,
+        allDailyWorkModel,
+        allRelationShipModel,
+        todayWorkModel,
+        monthWorkModel,
+        relationShipData,
+        nightWorks,
+        afterNightWorks,
+        refrenses);
   }
 
   @override
@@ -332,11 +386,21 @@ class _$InitialImpl implements _Initial {
             DailyWorkModel? todayWorkModel,
             DailyWorkModel? monthWorkModel,
             DailyWorkModel? relationShipData,
+            DailyWorkModel? nightWorks,
+            DailyWorkModel? afterNightWorks,
             List<QueryDocumentSnapshot<Map<String, dynamic>>>? refrenses)?
         initial,
   }) {
-    return initial?.call(datastatus, allDailyWorkModel, allRelationShipModel,
-        todayWorkModel, monthWorkModel, relationShipData, refrenses);
+    return initial?.call(
+        datastatus,
+        allDailyWorkModel,
+        allRelationShipModel,
+        todayWorkModel,
+        monthWorkModel,
+        relationShipData,
+        nightWorks,
+        afterNightWorks,
+        refrenses);
   }
 
   @override
@@ -349,13 +413,23 @@ class _$InitialImpl implements _Initial {
             DailyWorkModel? todayWorkModel,
             DailyWorkModel? monthWorkModel,
             DailyWorkModel? relationShipData,
+            DailyWorkModel? nightWorks,
+            DailyWorkModel? afterNightWorks,
             List<QueryDocumentSnapshot<Map<String, dynamic>>>? refrenses)?
         initial,
     required TResult orElse(),
   }) {
     if (initial != null) {
-      return initial(datastatus, allDailyWorkModel, allRelationShipModel,
-          todayWorkModel, monthWorkModel, relationShipData, refrenses);
+      return initial(
+          datastatus,
+          allDailyWorkModel,
+          allRelationShipModel,
+          todayWorkModel,
+          monthWorkModel,
+          relationShipData,
+          nightWorks,
+          afterNightWorks,
+          refrenses);
     }
     return orElse();
   }
@@ -397,6 +471,8 @@ abstract class _Initial implements DailyWorkState {
           final DailyWorkModel? todayWorkModel,
           final DailyWorkModel? monthWorkModel,
           final DailyWorkModel? relationShipData,
+          final DailyWorkModel? nightWorks,
+          final DailyWorkModel? afterNightWorks,
           final List<QueryDocumentSnapshot<Map<String, dynamic>>>? refrenses}) =
       _$InitialImpl;
 
@@ -412,6 +488,10 @@ abstract class _Initial implements DailyWorkState {
   DailyWorkModel? get monthWorkModel;
   @override
   DailyWorkModel? get relationShipData;
+  @override
+  DailyWorkModel? get nightWorks;
+  @override
+  DailyWorkModel? get afterNightWorks;
   @override
   List<QueryDocumentSnapshot<Map<String, dynamic>>>? get refrenses;
   @override

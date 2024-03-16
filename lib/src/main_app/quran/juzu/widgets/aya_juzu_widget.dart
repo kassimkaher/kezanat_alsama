@@ -1,3 +1,5 @@
+import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:ramadan/model/quran_juzu_model.dart';
 import 'package:ramadan/src/main_app/quran/juzu/cubit/quran_juzu_cubit.dart';
 import 'package:ramadan/src/main_app/quran/juzu/widgets/aya_player_view.dart';
@@ -30,6 +32,8 @@ class AyaJuzuWidget extends StatelessWidget {
               builder: (context, quranSoundState) {
                 return InkWell(
                   onTap: () => quranSoundCubit.toogleSoundWidget(aya),
+                  onDoubleTap: () => quranJuzuCubit.setContinu(
+                      juzuIndex: aya.juz! - 1, page: aya.page!, ayahsJuzu: aya),
                   child: AnimatedContainer(
                     duration: const Duration(milliseconds: 300),
                     decoration: BoxDecoration(
@@ -115,64 +119,84 @@ class AyaJuzuWidget extends StatelessWidget {
                                   )
                                 : null,
                             subtitle: Container(
-                                alignment: Alignment.centerRight,
-                                child: RichText(
-                                  textAlign: TextAlign.start,
-                                  text: TextSpan(
-                                    children: [
-                                      TextSpan(
-                                        text: index == 0
-                                            ? aya.text
-                                            : aya.text!.replaceFirst(
-                                                "بسم اللَّه الرحمن الرحيم", ""),
-                                        style: theme.textTheme.displayLarge!
-                                            .copyWith(
-                                                height: 2,
-                                                backgroundColor:
-                                                    searchedAya == aya.text
-                                                        ? theme.primaryColor
-                                                            .withOpacity(0.2)
-                                                        : null),
-                                      ),
-                                      WidgetSpan(
-                                        alignment: PlaceholderAlignment.middle,
-                                        child: Container(
-                                          margin: const EdgeInsets.symmetric(
-                                              horizontal: 5),
-                                          child: Wrap(
-                                            crossAxisAlignment:
-                                                WrapCrossAlignment.center,
-                                            children: [
-                                              NumberWidget(
-                                                theme: theme,
-                                                size: 30,
-                                                number: aya.numberInSurah
-                                                    .toString(),
+                              alignment: Alignment.centerRight,
+                              child: Wrap(
+                                crossAxisAlignment: WrapCrossAlignment.center,
+                                children: [
+                                  // RichText(
+                                  //   text: TextSpan(
+                                  //     children: [
+                                  //       // TextSpan(
+                                  //       //   text: index == 0
+                                  //       //       ? aya.text
+                                  //       //       : aya.text!.replaceFirst(
+                                  //       //           "بسم اللَّه الرحمن الرحيم", ""),
+                                  //       //   style: theme.textTheme.displayLarge!
+                                  //       //       .copyWith(
+                                  //       //           height: 2,
+                                  //       //           backgroundColor:
+                                  //       //               searchedAya == aya.text
+                                  //       //                   ? theme.primaryColor
+                                  //       //                       .withOpacity(0.2)
+                                  //       //                   : null),
+                                  //       // ),
+
+                                  //     ],
+                                  //   ),
+                                  // ),
+                                  ...aya.text!
+                                      .split(" ")
+                                      .asMap()
+                                      .map((i, e) => MapEntry(
+                                            i,
+                                            InkWell(
+                                              onTap: quranSoundState.ayaShow ==
+                                                      aya
+                                                  ? () => quranSoundCubit
+                                                      .readWord(aya.text!, i)
+                                                  : null,
+                                              child: Container(
+                                                decoration: BoxDecoration(
+                                                  color: searchedAya == aya.text
+                                                      ? theme.primaryColor
+                                                          .withOpacity(0.2)
+                                                      : null,
+                                                  borderRadius:
+                                                      BorderRadius.circular(16),
+                                                ),
+                                                child: Text(
+                                                  " $e",
+                                                  style: theme
+                                                      .textTheme.displayLarge!
+                                                      .copyWith(
+                                                    height: 2,
+                                                  ),
+                                                  textAlign: TextAlign.right,
+                                                ),
                                               ),
-                                              const SizedBox(
-                                                height: 10,
-                                                width: 5,
-                                              ),
-                                              state.continuQuranModel != null &&
-                                                      state.continuQuranModel!
-                                                              .ayaNumber ==
-                                                          aya.number
-                                                  ? const Icon(
-                                                      Icons.bookmark_rounded,
-                                                      color: Colors.green,
-                                                    )
-                                                  : const SizedBox(),
-                                            ],
-                                          ),
-                                        ),
-                                      ),
-                                    ],
+                                            ),
+                                          ))
+                                      .values,
+                                  NumberWidget(
+                                    theme: theme,
+                                    size: 30,
+                                    number: aya.numberInSurah.toString(),
                                   ),
-                                )),
+                                  state.continuQuranModel != null &&
+                                          state.continuQuranModel!.ayaNumber ==
+                                              aya.number
+                                      ? const Icon(
+                                          Icons.bookmark_rounded,
+                                          color: Colors.green,
+                                        )
+                                      : const SizedBox(),
+                                ],
+                              ),
+                            ),
                           ),
                         ),
                         AnimatedContainer(
-                          height: quranSoundState.ayaShow == aya ? 80 : 0,
+                          height: quranSoundState.ayaShow == aya ? 130 : 0,
                           duration: const Duration(milliseconds: 300),
                           child: quranSoundState.ayaShow == aya
                               ? AyahPlayerView(aya: aya, theme: theme)

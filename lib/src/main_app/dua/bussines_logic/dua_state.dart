@@ -25,7 +25,7 @@ class DuaStateFiald extends DuaState {
 }
 
 class DuaData {
-  RamadanDuaModel? documentEntity;
+  MufatehAljynanModel? documentEntity;
   DuaData();
 
   var documentExpanded = false;

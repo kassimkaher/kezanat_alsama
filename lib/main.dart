@@ -2,12 +2,12 @@ import 'package:flutter_timezone/flutter_timezone.dart';
 import 'package:ramadan/bussines_logic/Setting/cubit/setting_cubit.dart';
 import 'package:ramadan/src/admin/logic/calendar_cubit/calendar_cubit.dart';
 import 'package:ramadan/src/main_app/home/daily_work/logic/daily_work_logic/daily_work_cubit.dart';
+import 'package:ramadan/src/main_app/home/daily_work/logic/navigator_cubit/navigator_cubit.dart';
 import 'package:ramadan/src/main_app/quran/cubit/quran_search_cubit.dart';
 import 'package:ramadan/src/main_app/quran/juzu/cubit/quran_juzu_cubit.dart';
 import 'package:ramadan/src/main_app/quran/sura/cubit/quran_sura_cubit.dart';
 import 'package:ramadan/utils/injector.dart';
 import 'package:ramadan/utils/utils.dart';
-
 import 'package:timezone/timezone.dart' as tz;
 
 class CustomImageCache extends WidgetsFlutterBinding {
@@ -36,7 +36,7 @@ void main() async {
     initializeTimeZones();
     tz.setLocalLocation(
         tz.getLocation(await FlutterTimezone.getLocalTimezone()));
-    appMode = AppMode.user;
+    appMode = AppMode.admin;
     await Permission.notification.isDenied.then((value) {
       if (value) {
         Permission.notification.request();
@@ -101,6 +101,9 @@ class App extends StatelessWidget {
         ),
         BlocProvider<CalendarCubit>(
           create: (BuildContext context) => CalendarCubit(),
+        ),
+        BlocProvider<NavigatorCubit>(
+          create: (BuildContext context) => NavigatorCubit(),
         ),
       ],
       child: BlocBuilder<SettingCubit, SettingState>(

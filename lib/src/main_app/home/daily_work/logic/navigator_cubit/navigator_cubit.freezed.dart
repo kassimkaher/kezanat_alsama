@@ -15,7 +15,7 @@ final _privateConstructorUsedError = UnsupportedError(
     'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#custom-getters-and-methods');
 
 /// @nodoc
-mixin _$NavigatorState {
+mixin _$NavigatorCubitState {
   int get selected => throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
@@ -51,23 +51,23 @@ mixin _$NavigatorState {
       throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
-  $NavigatorStateCopyWith<NavigatorState> get copyWith =>
+  $NavigatorCubitStateCopyWith<NavigatorCubitState> get copyWith =>
       throw _privateConstructorUsedError;
 }
 
 /// @nodoc
-abstract class $NavigatorStateCopyWith<$Res> {
-  factory $NavigatorStateCopyWith(
-          NavigatorState value, $Res Function(NavigatorState) then) =
-      _$NavigatorStateCopyWithImpl<$Res, NavigatorState>;
+abstract class $NavigatorCubitStateCopyWith<$Res> {
+  factory $NavigatorCubitStateCopyWith(
+          NavigatorCubitState value, $Res Function(NavigatorCubitState) then) =
+      _$NavigatorCubitStateCopyWithImpl<$Res, NavigatorCubitState>;
   @useResult
   $Res call({int selected});
 }
 
 /// @nodoc
-class _$NavigatorStateCopyWithImpl<$Res, $Val extends NavigatorState>
-    implements $NavigatorStateCopyWith<$Res> {
-  _$NavigatorStateCopyWithImpl(this._value, this._then);
+class _$NavigatorCubitStateCopyWithImpl<$Res, $Val extends NavigatorCubitState>
+    implements $NavigatorCubitStateCopyWith<$Res> {
+  _$NavigatorCubitStateCopyWithImpl(this._value, this._then);
 
   // ignore: unused_field
   final $Val _value;
@@ -90,7 +90,7 @@ class _$NavigatorStateCopyWithImpl<$Res, $Val extends NavigatorState>
 
 /// @nodoc
 abstract class _$$InitialImplCopyWith<$Res>
-    implements $NavigatorStateCopyWith<$Res> {
+    implements $NavigatorCubitStateCopyWith<$Res> {
   factory _$$InitialImplCopyWith(
           _$InitialImpl value, $Res Function(_$InitialImpl) then) =
       __$$InitialImplCopyWithImpl<$Res>;
@@ -101,7 +101,7 @@ abstract class _$$InitialImplCopyWith<$Res>
 
 /// @nodoc
 class __$$InitialImplCopyWithImpl<$Res>
-    extends _$NavigatorStateCopyWithImpl<$Res, _$InitialImpl>
+    extends _$NavigatorCubitStateCopyWithImpl<$Res, _$InitialImpl>
     implements _$$InitialImplCopyWith<$Res> {
   __$$InitialImplCopyWithImpl(
       _$InitialImpl _value, $Res Function(_$InitialImpl) _then)
@@ -132,7 +132,7 @@ class _$InitialImpl implements _Initial {
 
   @override
   String toString() {
-    return 'NavigatorState.initial(selected: $selected)';
+    return 'NavigatorCubitState.initial(selected: $selected)';
   }
 
   @override
@@ -210,7 +210,7 @@ class _$InitialImpl implements _Initial {
   }
 }
 
-abstract class _Initial implements NavigatorState {
+abstract class _Initial implements NavigatorCubitState {
   const factory _Initial({final int selected}) = _$InitialImpl;
 
   @override

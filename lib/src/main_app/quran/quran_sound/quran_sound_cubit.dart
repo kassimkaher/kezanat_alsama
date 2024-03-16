@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:audioplayers/audioplayers.dart';
 import 'package:bloc/bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
@@ -27,7 +29,11 @@ class QuranSoundCubit extends Cubit<QuranSoundState> {
           playerState: PlayerState.playing,
           duration: (await state.player!.getDuration())?.inSeconds ?? 0));
       state.player!.onPositionChanged.listen(
-        (p) => emit(state.copyWith(currentPossition: p.inSeconds)),
+        (p) {
+          if (!state.isChangingCurrentPossition) {
+            emit(state.copyWith(currentPossition: p.inSeconds));
+          }
+        },
       );
 
       state.player!.onPlayerStateChanged.listen(
@@ -60,7 +66,10 @@ class QuranSoundCubit extends Cubit<QuranSoundState> {
     if (seconds < 0 && seconds > state.duration) {
       return;
     }
-    state.player!.seek(Duration(seconds: seconds));
+    emit(state.copyWith(isChangingCurrentPossition: false));
+    state.player!.seek(
+      Duration(seconds: seconds),
+    );
   }
 
   release() async {
@@ -76,10 +85,10 @@ class QuranSoundCubit extends Cubit<QuranSoundState> {
 
   Future<File?> loadAudio(int ayah) async {
     final url =
-        'https://cdn.islamic.network/quran/audio/64/ar.abdulsamad/$ayah.mp3';
+        'https://cdn.islamic.network/quran/audio/64/ar.abdulbasitmurattal/$ayah.mp3';
 
     String dir = (await getApplicationDocumentsDirectory()).path;
-    File file = File('$dir/quran_aufio_$ayah.mp3');
+    File file = File('$dir/quran_ar_abdulbasitmurattal_$ayah.mp3');
 
     if (await file.exists()) {
       kdp(name: "get file", msg: "from local", c: "gr");
@@ -111,5 +120,32 @@ class QuranSoundCubit extends Cubit<QuranSoundState> {
       return;
     }
     emit(state.copyWith(ayahSelected: value));
+  }
+
+  void changeCurrentPossition(double v) {
+    emit(state.copyWith(
+        currentPossition: v.toInt(), isChangingCurrentPossition: true));
+  }
+
+  beginSlide() {
+    emit(state.copyWith(isChangingCurrentPossition: true));
+  }
+
+  readWord(String text, int index) {
+    final durationall = state.duration;
+    if (durationall < 1) {
+      return;
+    }
+    final letterDuration = durationall / text.length;
+    var letterCount = 0;
+    final wordList = text.split(" ");
+    for (var i = 0; i < wordList.length; i++) {
+      if (i >= index) {
+        continue;
+      }
+      letterCount += wordList[i].length;
+    }
+    play();
+    seek((letterCount * letterDuration).toInt());
   }
 }

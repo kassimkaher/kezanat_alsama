@@ -1,9 +1,9 @@
-class RamadanDuaModel {
+class MufatehAljynanModel {
   List<DuaEntity>? dua;
 
-  RamadanDuaModel({this.dua});
+  MufatehAljynanModel({this.dua});
 
-  RamadanDuaModel.fromJson(Map<String, dynamic> json) {
+  MufatehAljynanModel.fromJson(Map<String, dynamic> json) {
     if (json['dua'] != null) {
       dua = <DuaEntity>[];
       json['dua'].forEach((v) {

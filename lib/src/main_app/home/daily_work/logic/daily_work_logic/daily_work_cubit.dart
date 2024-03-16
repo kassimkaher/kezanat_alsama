@@ -1,5 +1,4 @@
 import 'dart:async';
-
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:ramadan/src/core/data_source/remote.dart';
 import 'package:ramadan/src/core/entity/data_state.dart';
@@ -27,6 +26,7 @@ class DailyWorkCubit extends Cubit<DailyWorkState> {
           DailyWorkModel(dateTime: DateTime.now());
 
       DailyWorkModel monthlyWork = DailyWorkModel(dateTime: DateTime.now());
+
       DailyWorkModel relationShipData =
           DailyWorkModel(dateTime: DateTime.now());
 
@@ -52,13 +52,20 @@ class DailyWorkCubit extends Cubit<DailyWorkState> {
               element.day == calendarModel.hijreeDay &&
               element.type == WorkType.relationship)
           .toList();
+      final todayWork =
+          filterTodayWork(calendarModel, data.data!.dailyWorkModel!.data);
+      final nightWork =
+          filterNightWork(calendarModel, data.data!.dailyWorkModel!.data);
+      final afterNightWork =
+          filterAfterNightWork(calendarModel, data.data!.dailyWorkModel!.data);
 
       emit(state.copyWith(
           datastatus: const SateSucess(),
-          todayWorkModel:
-              filterTodayWork(calendarModel, data.data!.dailyWorkModel!.data),
+          todayWorkModel: todayWork,
           allDailyWorkModel: data.data!.dailyWorkModel,
           monthWorkModel: monthlyWork,
+          nightWorks: nightWork,
+          afterNightWorks: afterNightWork,
           //مناسبات
           allRelationShipModel: allRelationShipModel,
           relationShipData: relationShipData,
@@ -105,10 +112,18 @@ class DailyWorkCubit extends Cubit<DailyWorkState> {
               element.type == WorkType.relationship)
           .toList();
 
+      final todayWork =
+          filterTodayWork(calendarModel, data.data!.dailyWorkModel!.data);
+      final nightWork =
+          filterNightWork(calendarModel, data.data!.dailyWorkModel!.data);
+      final afterNightWork =
+          filterAfterNightWork(calendarModel, data.data!.dailyWorkModel!.data);
+
       emit(state.copyWith(
           datastatus: const SateSucess(),
-          todayWorkModel:
-              filterTodayWork(calendarModel, data.data!.dailyWorkModel!.data),
+          todayWorkModel: todayWork,
+          nightWorks: nightWork,
+          afterNightWorks: afterNightWork,
           allDailyWorkModel: data.data!.dailyWorkModel,
           monthWorkModel: monthlyWork,
           //مناسبات
@@ -129,7 +144,8 @@ class DailyWorkCubit extends Cubit<DailyWorkState> {
     if (calendarModel != null && data != null && data.isNotEmpty) {
       for (var element in data) {
         if (element.type == WorkType.relationship ||
-            DateTime.now().hour < element.hour!) {
+            element.hour == 0 ||
+            element.hour == 17) {
           continue;
         }
 
@@ -163,6 +179,87 @@ class DailyWorkCubit extends Cubit<DailyWorkState> {
                   element.weekDay!.index + 1 == DateTime.now().weekday):
             todaWork.data!.add(element);
             break;
+          default:
+        }
+      }
+
+      return todaWork;
+    } else {
+      return null;
+    }
+  }
+
+  DailyWorkModel? filterNightWork(
+      CalendarModel? calendarModel, List<DailyWorkData>? data) {
+    DailyWorkModel todaWork =
+        DailyWorkModel(dateTime: DateTime.now(), data: []);
+
+    if (calendarModel != null && data != null && data.isNotEmpty) {
+      for (var element in data) {
+        if (element.type == WorkType.relationship ||
+            (DateTime.now().hour < element.hour! &&
+                element.day == calendarModel.hijreeDay) ||
+            element.hour != 17) {
+          continue;
+        }
+
+        switch (element.workTiming) {
+          case WorkTiming.daily:
+            todaWork.data!.add(element);
+
+            break;
+
+          case WorkTiming.dailyInMonth
+              when element.month == calendarModel.hijreeMonth:
+            todaWork.data!.add(element);
+            break;
+          case WorkTiming.dayInmonth
+              when (element.month == calendarModel.hijreeMonth &&
+                  (element.day == calendarModel.hijreeDay ||
+                      element.day == (calendarModel.hijreeDay! - 1))):
+            todaWork.data!.add(element);
+            break;
+
+          default:
+        }
+      }
+
+      return todaWork;
+    } else {
+      return null;
+    }
+  }
+
+  DailyWorkModel? filterAfterNightWork(
+      CalendarModel? calendarModel, List<DailyWorkData>? data) {
+    DailyWorkModel todaWork =
+        DailyWorkModel(dateTime: DateTime.now(), data: []);
+
+    if (calendarModel != null && data != null && data.isNotEmpty) {
+      for (var element in data) {
+        if (element.type == WorkType.relationship) {
+          continue;
+        }
+
+        switch (element.workTiming) {
+          case WorkTiming.daily when element.hour == 0:
+            todaWork.data!.add(element);
+
+            break;
+
+          case WorkTiming.dailyInMonth
+              when element.month == calendarModel.hijreeMonth &&
+                  element.hour == 0:
+            todaWork.data!.add(element);
+            break;
+          case WorkTiming.dayInmonth
+              when (element.month == calendarModel.hijreeMonth &&
+                      (element.day == calendarModel.hijreeDay ||
+                          element.day == (calendarModel.hijreeDay! - 1))) &&
+                  element.hour == 0:
+            todaWork.data!.add(element);
+            break;
+
           default:
         }
       }

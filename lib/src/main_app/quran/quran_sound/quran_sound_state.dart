@@ -9,5 +9,6 @@ class QuranSoundState with _$QuranSoundState {
       @Default(0) int currentPossition,
       @Default(PlayerState.disposed) PlayerState playerState,
       AyahsJuzu? ayaShow,
+      @Default(false) bool isChangingCurrentPossition,
       @Default(0) int ayahSelected}) = _Initial;
 }

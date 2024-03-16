@@ -4,6 +4,7 @@ import 'package:ramadan/src/core/entity/data_status.dart';
 import 'package:ramadan/src/core/enum/work_type.dart';
 import 'package:ramadan/src/main_app/dua/work_display_view.dart';
 import 'package:ramadan/src/main_app/home/daily_work/logic/daily_work_logic/daily_work_cubit.dart';
+import 'package:ramadan/src/main_app/home/daily_work/logic/navigator_cubit/navigator_cubit.dart';
 import 'package:ramadan/src/main_app/home/daily_work/model/daily_work_model.dart';
 import 'package:ramadan/src/main_app/home/daily_work/widgets/tabs_view.dart';
 import 'package:ramadan/src/main_app/quran/sura/cubit/quran_sura_cubit.dart';
@@ -34,57 +35,46 @@ class DailyWorkView extends StatelessWidget {
                           .map((e) => const WorkCardPlaceHolder())
                           .toList(),
                     ),
-                  const SateSucess() => Column(children: [
-                      _getDailyWorkListView(state, theme, keyArray[0]),
-                      _getTRelationOfTodayDayListView(
-                          state, theme, keyArray[1]),
-                      _getThisMonthWorksListView(state, theme, keyArray[2]),
-                    ]),
+                  const SateSucess() =>
+                    BlocBuilder<NavigatorCubit, NavigatorCubitState>(
+                      builder: (context, navigatorstate) {
+                        return AnimatedSwitcher(
+                          duration: const Duration(milliseconds: 300),
+                          child: switch (navigatorstate.selected) {
+                            0 => _getDailyWorkListView(
+                                state.todayWorkModel, theme, keyArray[0]),
+                            1 => Column(
+                                children: [
+                                  _getWorksNightListView(
+                                      state.nightWorks, theme),
+                                  _getWorksAfterNightListView(
+                                      state.afterNightWorks, theme)
+                                ],
+                              ),
+                            _ => _getTRelationOfTodayDayListView(
+                                state, theme, keyArray[1]),
+                          },
+                        );
+                      },
+                    ),
+
+                  // Column(children: [
+
+                  //     _getTRelationOfTodayDayListView(
+                  //         state, theme, keyArray[1]),
+                  //     _getThisMonthWorksListView(state, theme, keyArray[2]),
+                  //   ]),
                   _ => const Text("error")
                 }),
       ],
     );
   }
 
-  Widget _getThisMonthWorksListView(
-      DailyWorkState state, ThemeData theme, Key key) {
+  Widget _getDailyWorkListView(
+      DailyWorkModel? todayWorkModel, ThemeData theme, Key key) {
     return VisibilityDetector(
         key: key,
-        child: state.monthWorkModel == null ||
-                state.monthWorkModel!.data!.isEmpty
-            ? const SizedBox()
-            : Column(
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                children: [
-                  Padding(
-                    padding:
-                        const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-                    child: Text(
-                      "اعمال هذا الشهر",
-                      style: theme.textTheme.bodyLarge!,
-                    ),
-                  ),
-                  ListView.separated(
-                    padding: const EdgeInsets.symmetric(horizontal: 16),
-                    shrinkWrap: true,
-                    physics: const NeverScrollableScrollPhysics(),
-                    separatorBuilder: (c, i) => const SizedBox(height: 0),
-                    itemCount: state.monthWorkModel?.data?.length ?? 0,
-                    itemBuilder: (c, i) => WorkCard(
-                      dailyWorkData: state.monthWorkModel!.data![i],
-                      onTap: () => onTapWork(state.monthWorkModel!.data![i]),
-                    ),
-                  ),
-                ],
-              ),
-        onVisibilityChanged: (a) {});
-  }
-
-  Widget _getDailyWorkListView(DailyWorkState state, ThemeData theme, Key key) {
-    return VisibilityDetector(
-        key: key,
-        child: state.todayWorkModel == null ||
-                state.todayWorkModel!.data!.isEmpty
+        child: todayWorkModel == null || todayWorkModel.data!.isEmpty
             ? const SizedBox()
             : Column(
                 crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -103,15 +93,76 @@ class DailyWorkView extends StatelessWidget {
                     shrinkWrap: true,
                     physics: const NeverScrollableScrollPhysics(),
                     separatorBuilder: (c, i) => const SizedBox(height: 0),
-                    itemCount: state.todayWorkModel?.data?.length ?? 0,
+                    itemCount: todayWorkModel.data?.length ?? 0,
                     itemBuilder: (c, i) => WorkCard(
-                      dailyWorkData: state.todayWorkModel!.data![i],
-                      onTap: () => onTapWork(state.todayWorkModel!.data![i]),
+                      dailyWorkData: todayWorkModel.data![i],
+                      onTap: () => onTapWork(todayWorkModel.data![i]),
                     ),
                   ),
                 ],
               ),
         onVisibilityChanged: (_) {});
+  }
+
+  Widget _getWorksNightListView(
+    DailyWorkModel? nightWorks,
+    ThemeData theme,
+  ) {
+    return nightWorks == null || nightWorks.data!.isEmpty
+        ? const SizedBox()
+        : Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              Padding(
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                child: Text(
+                  "اعمال الليلة",
+                  style: theme.textTheme.bodyLarge!,
+                ),
+              ),
+              ListView.separated(
+                padding: const EdgeInsets.symmetric(horizontal: 16),
+                shrinkWrap: true,
+                physics: const NeverScrollableScrollPhysics(),
+                separatorBuilder: (c, i) => const SizedBox(height: 0),
+                itemCount: nightWorks.data?.length ?? 0,
+                itemBuilder: (c, i) => WorkCard(
+                  dailyWorkData: nightWorks.data![i],
+                  onTap: () => onTapWork(nightWorks.data![i]),
+                ),
+              ),
+            ],
+          );
+  }
+
+  Widget _getWorksAfterNightListView(DailyWorkModel? work, ThemeData theme) {
+    return work == null || work.data!.isEmpty
+        ? const SizedBox()
+        : Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              Padding(
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                child: Text(
+                  "اعمال السحر",
+                  style: theme.textTheme.bodyLarge!,
+                ),
+              ),
+              ListView.separated(
+                padding: const EdgeInsets.symmetric(horizontal: 16),
+                shrinkWrap: true,
+                physics: const NeverScrollableScrollPhysics(),
+                separatorBuilder: (c, i) => const SizedBox(height: 0),
+                itemCount: work.data?.length ?? 0,
+                itemBuilder: (c, i) => WorkCard(
+                  dailyWorkData: work.data![i],
+                  onTap: () => onTapWork(work.data![i]),
+                ),
+              ),
+            ],
+          );
   }
 
   Widget _getTRelationOfTodayDayListView(
@@ -146,54 +197,54 @@ class DailyWorkView extends StatelessWidget {
               ),
         onVisibilityChanged: (a) {});
   }
+}
 
-  onTapWork(DailyWorkData dailyWorkData) {
-    switch (dailyWorkData.type) {
-      case WorkType.dua:
-      case WorkType.salat:
-      case WorkType.zyara:
-        navigatorKey.currentState!.push(
-          to(
-            WorkDisplayText(
-              data: dailyWorkData.toDuaEntity(),
+onTapWork(DailyWorkData dailyWorkData) {
+  switch (dailyWorkData.type) {
+    case WorkType.dua:
+    case WorkType.salat:
+    case WorkType.zyara:
+      navigatorKey.currentState!.push(
+        to(
+          WorkDisplayText(
+            data: dailyWorkData.toDuaEntity(),
+          ),
+        ),
+      );
+
+      break;
+    case WorkType.quran:
+      navigatorKey.currentState!.push(
+        to(
+          SuraViewForSuar(
+            data: navigatorKey.currentContext!
+                .read<QuranSuraCubit>()
+                .state
+                .quranModel![dailyWorkData.sura!],
+            index: dailyWorkData.sura!,
+          ),
+        ),
+      );
+      break;
+    case WorkType.tasbeeh:
+      navigatorKey.currentState!.push(
+        to(
+          TasbeehPage(
+            tasbeehModel: TasbeehModel(
+              tasbeehList: [
+                TasbeehData(
+                    title: dailyWorkData.title ?? "",
+                    description: dailyWorkData.description ?? "",
+                    subtitle: dailyWorkData.description ?? "",
+                    number: int.tryParse(dailyWorkData.text ?? "0") ?? 0,
+                    speak: dailyWorkData.description ?? "")
+              ],
             ),
           ),
-        );
+        ),
+      );
 
-        break;
-      case WorkType.quran:
-        navigatorKey.currentState!.push(
-          to(
-            SuraViewForSuar(
-              data: navigatorKey.currentContext!
-                  .read<QuranSuraCubit>()
-                  .state
-                  .quranModel![dailyWorkData.sura!],
-              index: dailyWorkData.sura!,
-            ),
-          ),
-        );
-        break;
-      case WorkType.tasbeeh:
-        navigatorKey.currentState!.push(
-          to(
-            TasbeehPage(
-              tasbeehModel: TasbeehModel(
-                tasbeehList: [
-                  TasbeehData(
-                      title: dailyWorkData.title ?? "",
-                      description: dailyWorkData.description ?? "",
-                      subtitle: dailyWorkData.description ?? "",
-                      number: int.tryParse(dailyWorkData.text ?? "0") ?? 0,
-                      speak: dailyWorkData.description ?? "")
-                ],
-              ),
-            ),
-          ),
-        );
-
-        break;
-      default:
-    }
+      break;
+    default:
   }
 }

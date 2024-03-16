@@ -133,13 +133,13 @@ class SettingCubit extends Cubit<SettingState> {
             title: "امساك",
             subtitle: "حان الان موعد  الامساك اي الامتناع عن الاكل و والشرب",
             dateTime: tz.TZDateTime(tz.local, date.year, day.month!, day.day!,
-                day.emsak!.hour!, day.emsak!.minut! - 10),
+                day.emsak!.hour!, day.emsak!.minut!),
             id: 400 + day.day!);
       } catch (e) {
         kdp(
             name: "schedual notification emsak",
             msg:
-                "$e${tz.TZDateTime(tz.local, date.year, date.month, date.day, day.fajer!.hour!, day.fajer!.minut! - 10)}",
+                "$e${tz.TZDateTime(tz.local, date.year, date.month, date.day, day.fajer!.hour!, day.fajer!.minut!)}=====${tz.TZDateTime.now(tz.local)}",
             c: 'r');
       }
     }

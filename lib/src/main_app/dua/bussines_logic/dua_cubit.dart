@@ -17,7 +17,7 @@ class DuaCubit extends Cubit<DuaState> {
       final String response =
           await rootBundle.loadString('assets/docs/dua.json');
       final jsondata = await json.decode(response);
-      state.info.documentEntity = RamadanDuaModel.fromJson(jsondata);
+      state.info.documentEntity = MufatehAljynanModel.fromJson(jsondata);
 
       emit(DuaStateLoaded(state.info));
     } catch (e) {

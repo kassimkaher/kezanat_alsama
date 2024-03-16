@@ -9,5 +9,7 @@ class DailyWorkState with _$DailyWorkState {
       DailyWorkModel? todayWorkModel,
       DailyWorkModel? monthWorkModel,
       DailyWorkModel? relationShipData,
+      DailyWorkModel? nightWorks,
+      DailyWorkModel? afterNightWorks,
       List<QueryDocumentSnapshot<Map<String, dynamic>>>? refrenses}) = _Initial;
 }

@@ -4,7 +4,7 @@ description: for find jobs
 # The following line prevents the package from being accidentally published to
 # pub.dev using `flutter pub publish`. This is preferred for private packages.
 publish_to: 'none' # Remove this line if you wish to publish to pub.dev
-version: 2.1.0+11
+version: 2.2.1+14
 
 environment:
   sdk: ">=3.0.0 <=3.3.0"
@@ -101,24 +101,6 @@ flutter:
   # list giving the asset and other descriptors for the font. For
   # example:
   fonts:
-    - family: Poppins
-      fonts:
-        - asset: assets/fonts/Poppins/Poppins-Black.ttf
-          weight: 900
-        - asset: assets/fonts/Poppins/Poppins-Bold.ttf
-          weight: 700
-        - asset: assets/fonts/Poppins/Poppins-SemiBold.ttf
-          weight: 600
-        - asset: assets/fonts/Poppins/Poppins-Medium.ttf
-          weight: 500
-        - asset: assets/fonts/Poppins/Poppins-Regular.ttf
-          weight: 400
-        - asset: assets/fonts/Poppins/Poppins-Light.ttf
-          weight: 300
-        - asset: assets/fonts/Poppins/Poppins-ExtraLight.ttf
-          weight: 200
-        - asset: assets/fonts/Poppins/Poppins-Thin.ttf
-          weight: 100
     - family: Somar
       fonts:
        

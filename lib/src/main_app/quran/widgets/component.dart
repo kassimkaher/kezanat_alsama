@@ -50,7 +50,8 @@ class NumberWidget extends StatelessWidget {
   final double size;
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
+    return Container(
+      margin: const EdgeInsets.symmetric(horizontal: 5),
       width: size,
       height: size,
       child: Stack(

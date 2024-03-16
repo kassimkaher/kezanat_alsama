@@ -20,13 +20,16 @@ mixin _$WorkCrudState {
   DailyWorkData? get dailyWorkData => throw _privateConstructorUsedError;
   WorkEntity? get worksData => throw _privateConstructorUsedError;
   DailyWorkModel? get workListModel => throw _privateConstructorUsedError;
+  MufatehAljynanModel? get mufatehAljynanModel =>
+      throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function(
             DataStatus<dynamic> dataStatus,
             DailyWorkData? dailyWorkData,
             WorkEntity? worksData,
-            DailyWorkModel? workListModel)
+            DailyWorkModel? workListModel,
+            MufatehAljynanModel? mufatehAljynanModel)
         initial,
   }) =>
       throw _privateConstructorUsedError;
@@ -36,7 +39,8 @@ mixin _$WorkCrudState {
             DataStatus<dynamic> dataStatus,
             DailyWorkData? dailyWorkData,
             WorkEntity? worksData,
-            DailyWorkModel? workListModel)?
+            DailyWorkModel? workListModel,
+            MufatehAljynanModel? mufatehAljynanModel)?
         initial,
   }) =>
       throw _privateConstructorUsedError;
@@ -46,7 +50,8 @@ mixin _$WorkCrudState {
             DataStatus<dynamic> dataStatus,
             DailyWorkData? dailyWorkData,
             WorkEntity? worksData,
-            DailyWorkModel? workListModel)?
+            DailyWorkModel? workListModel,
+            MufatehAljynanModel? mufatehAljynanModel)?
         initial,
     required TResult orElse(),
   }) =>
@@ -83,7 +88,8 @@ abstract class $WorkCrudStateCopyWith<$Res> {
       {DataStatus<dynamic> dataStatus,
       DailyWorkData? dailyWorkData,
       WorkEntity? worksData,
-      DailyWorkModel? workListModel});
+      DailyWorkModel? workListModel,
+      MufatehAljynanModel? mufatehAljynanModel});
 }
 
 /// @nodoc
@@ -103,6 +109,7 @@ class _$WorkCrudStateCopyWithImpl<$Res, $Val extends WorkCrudState>
     Object? dailyWorkData = freezed,
     Object? worksData = freezed,
     Object? workListModel = freezed,
+    Object? mufatehAljynanModel = freezed,
   }) {
     return _then(_value.copyWith(
       dataStatus: null == dataStatus
@@ -121,6 +128,10 @@ class _$WorkCrudStateCopyWithImpl<$Res, $Val extends WorkCrudState>
           ? _value.workListModel
           : workListModel // ignore: cast_nullable_to_non_nullable
               as DailyWorkModel?,
+      mufatehAljynanModel: freezed == mufatehAljynanModel
+          ? _value.mufatehAljynanModel
+          : mufatehAljynanModel // ignore: cast_nullable_to_non_nullable
+              as MufatehAljynanModel?,
     ) as $Val);
   }
 }
@@ -137,7 +148,8 @@ abstract class _$$InitialImplCopyWith<$Res>
       {DataStatus<dynamic> dataStatus,
       DailyWorkData? dailyWorkData,
       WorkEntity? worksData,
-      DailyWorkModel? workListModel});
+      DailyWorkModel? workListModel,
+      MufatehAljynanModel? mufatehAljynanModel});
 }
 
 /// @nodoc
@@ -155,6 +167,7 @@ class __$$InitialImplCopyWithImpl<$Res>
     Object? dailyWorkData = freezed,
     Object? worksData = freezed,
     Object? workListModel = freezed,
+    Object? mufatehAljynanModel = freezed,
   }) {
     return _then(_$InitialImpl(
       dataStatus: null == dataStatus
@@ -173,6 +186,10 @@ class __$$InitialImplCopyWithImpl<$Res>
           ? _value.workListModel
           : workListModel // ignore: cast_nullable_to_non_nullable
               as DailyWorkModel?,
+      mufatehAljynanModel: freezed == mufatehAljynanModel
+          ? _value.mufatehAljynanModel
+          : mufatehAljynanModel // ignore: cast_nullable_to_non_nullable
+              as MufatehAljynanModel?,
     ));
   }
 }
@@ -184,7 +201,8 @@ class _$InitialImpl implements _Initial {
       {required this.dataStatus,
       this.dailyWorkData,
       this.worksData,
-      this.workListModel});
+      this.workListModel,
+      this.mufatehAljynanModel});
 
   @override
   final DataStatus<dynamic> dataStatus;
@@ -194,10 +212,12 @@ class _$InitialImpl implements _Initial {
   final WorkEntity? worksData;
   @override
   final DailyWorkModel? workListModel;
+  @override
+  final MufatehAljynanModel? mufatehAljynanModel;
 
   @override
   String toString() {
-    return 'WorkCrudState.initial(dataStatus: $dataStatus, dailyWorkData: $dailyWorkData, worksData: $worksData, workListModel: $workListModel)';
+    return 'WorkCrudState.initial(dataStatus: $dataStatus, dailyWorkData: $dailyWorkData, worksData: $worksData, workListModel: $workListModel, mufatehAljynanModel: $mufatehAljynanModel)';
   }
 
   @override
@@ -212,12 +232,14 @@ class _$InitialImpl implements _Initial {
             (identical(other.worksData, worksData) ||
                 other.worksData == worksData) &&
             (identical(other.workListModel, workListModel) ||
-                other.workListModel == workListModel));
+                other.workListModel == workListModel) &&
+            (identical(other.mufatehAljynanModel, mufatehAljynanModel) ||
+                other.mufatehAljynanModel == mufatehAljynanModel));
   }
 
   @override
-  int get hashCode => Object.hash(
-      runtimeType, dataStatus, dailyWorkData, worksData, workListModel);
+  int get hashCode => Object.hash(runtimeType, dataStatus, dailyWorkData,
+      worksData, workListModel, mufatehAljynanModel);
 
   @JsonKey(ignore: true)
   @override
@@ -232,10 +254,12 @@ class _$InitialImpl implements _Initial {
             DataStatus<dynamic> dataStatus,
             DailyWorkData? dailyWorkData,
             WorkEntity? worksData,
-            DailyWorkModel? workListModel)
+            DailyWorkModel? workListModel,
+            MufatehAljynanModel? mufatehAljynanModel)
         initial,
   }) {
-    return initial(dataStatus, dailyWorkData, worksData, workListModel);
+    return initial(dataStatus, dailyWorkData, worksData, workListModel,
+        mufatehAljynanModel);
   }
 
   @override
@@ -245,10 +269,12 @@ class _$InitialImpl implements _Initial {
             DataStatus<dynamic> dataStatus,
             DailyWorkData? dailyWorkData,
             WorkEntity? worksData,
-            DailyWorkModel? workListModel)?
+            DailyWorkModel? workListModel,
+            MufatehAljynanModel? mufatehAljynanModel)?
         initial,
   }) {
-    return initial?.call(dataStatus, dailyWorkData, worksData, workListModel);
+    return initial?.call(dataStatus, dailyWorkData, worksData, workListModel,
+        mufatehAljynanModel);
   }
 
   @override
@@ -258,12 +284,14 @@ class _$InitialImpl implements _Initial {
             DataStatus<dynamic> dataStatus,
             DailyWorkData? dailyWorkData,
             WorkEntity? worksData,
-            DailyWorkModel? workListModel)?
+            DailyWorkModel? workListModel,
+            MufatehAljynanModel? mufatehAljynanModel)?
         initial,
     required TResult orElse(),
   }) {
     if (initial != null) {
-      return initial(dataStatus, dailyWorkData, worksData, workListModel);
+      return initial(dataStatus, dailyWorkData, worksData, workListModel,
+          mufatehAljynanModel);
     }
     return orElse();
   }
@@ -302,7 +330,8 @@ abstract class _Initial implements WorkCrudState {
       {required final DataStatus<dynamic> dataStatus,
       final DailyWorkData? dailyWorkData,
       final WorkEntity? worksData,
-      final DailyWorkModel? workListModel}) = _$InitialImpl;
+      final DailyWorkModel? workListModel,
+      final MufatehAljynanModel? mufatehAljynanModel}) = _$InitialImpl;
 
   @override
   DataStatus<dynamic> get dataStatus;
@@ -312,6 +341,8 @@ abstract class _Initial implements WorkCrudState {
   WorkEntity? get worksData;
   @override
   DailyWorkModel? get workListModel;
+  @override
+  MufatehAljynanModel? get mufatehAljynanModel;
   @override
   @JsonKey(ignore: true)
   _$$InitialImplCopyWith<_$InitialImpl> get copyWith =>

@@ -2,6 +2,7 @@ import 'package:flutter_timezone/flutter_timezone.dart';
 import 'package:ramadan/bussines_logic/Setting/cubit/setting_cubit.dart';
 import 'package:ramadan/src/admin/logic/calendar_cubit/calendar_cubit.dart';
 import 'package:ramadan/src/main_app/home/daily_work/logic/daily_work_logic/daily_work_cubit.dart';
+import 'package:ramadan/src/main_app/home/daily_work/logic/navigator_cubit/navigator_cubit.dart';
 import 'package:ramadan/src/main_app/quran/cubit/quran_search_cubit.dart';
 import 'package:ramadan/src/main_app/quran/juzu/cubit/quran_juzu_cubit.dart';
 import 'package:ramadan/src/main_app/quran/sura/cubit/quran_sura_cubit.dart';
@@ -100,6 +101,9 @@ class App extends StatelessWidget {
         ),
         BlocProvider<CalendarCubit>(
           create: (BuildContext context) => CalendarCubit(),
+        ),
+        BlocProvider<NavigatorCubit>(
+          create: (BuildContext context) => NavigatorCubit(),
         ),
       ],
       child: BlocBuilder<SettingCubit, SettingState>(

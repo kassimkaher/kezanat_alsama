@@ -22,6 +22,7 @@ mixin _$QuranSoundState {
   int get currentPossition => throw _privateConstructorUsedError;
   PlayerState get playerState => throw _privateConstructorUsedError;
   AyahsJuzu? get ayaShow => throw _privateConstructorUsedError;
+  bool get isChangingCurrentPossition => throw _privateConstructorUsedError;
   int get ayahSelected => throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
@@ -32,6 +33,7 @@ mixin _$QuranSoundState {
             int currentPossition,
             PlayerState playerState,
             AyahsJuzu? ayaShow,
+            bool isChangingCurrentPossition,
             int ayahSelected)
         initial,
   }) =>
@@ -45,6 +47,7 @@ mixin _$QuranSoundState {
             int currentPossition,
             PlayerState playerState,
             AyahsJuzu? ayaShow,
+            bool isChangingCurrentPossition,
             int ayahSelected)?
         initial,
   }) =>
@@ -58,6 +61,7 @@ mixin _$QuranSoundState {
             int currentPossition,
             PlayerState playerState,
             AyahsJuzu? ayaShow,
+            bool isChangingCurrentPossition,
             int ayahSelected)?
         initial,
     required TResult orElse(),
@@ -98,6 +102,7 @@ abstract class $QuranSoundStateCopyWith<$Res> {
       int currentPossition,
       PlayerState playerState,
       AyahsJuzu? ayaShow,
+      bool isChangingCurrentPossition,
       int ayahSelected});
 }
 
@@ -120,6 +125,7 @@ class _$QuranSoundStateCopyWithImpl<$Res, $Val extends QuranSoundState>
     Object? currentPossition = null,
     Object? playerState = null,
     Object? ayaShow = freezed,
+    Object? isChangingCurrentPossition = null,
     Object? ayahSelected = null,
   }) {
     return _then(_value.copyWith(
@@ -147,6 +153,10 @@ class _$QuranSoundStateCopyWithImpl<$Res, $Val extends QuranSoundState>
           ? _value.ayaShow
           : ayaShow // ignore: cast_nullable_to_non_nullable
               as AyahsJuzu?,
+      isChangingCurrentPossition: null == isChangingCurrentPossition
+          ? _value.isChangingCurrentPossition
+          : isChangingCurrentPossition // ignore: cast_nullable_to_non_nullable
+              as bool,
       ayahSelected: null == ayahSelected
           ? _value.ayahSelected
           : ayahSelected // ignore: cast_nullable_to_non_nullable
@@ -170,6 +180,7 @@ abstract class _$$InitialImplCopyWith<$Res>
       int currentPossition,
       PlayerState playerState,
       AyahsJuzu? ayaShow,
+      bool isChangingCurrentPossition,
       int ayahSelected});
 }
 
@@ -190,6 +201,7 @@ class __$$InitialImplCopyWithImpl<$Res>
     Object? currentPossition = null,
     Object? playerState = null,
     Object? ayaShow = freezed,
+    Object? isChangingCurrentPossition = null,
     Object? ayahSelected = null,
   }) {
     return _then(_$InitialImpl(
@@ -217,6 +229,10 @@ class __$$InitialImplCopyWithImpl<$Res>
           ? _value.ayaShow
           : ayaShow // ignore: cast_nullable_to_non_nullable
               as AyahsJuzu?,
+      isChangingCurrentPossition: null == isChangingCurrentPossition
+          ? _value.isChangingCurrentPossition
+          : isChangingCurrentPossition // ignore: cast_nullable_to_non_nullable
+              as bool,
       ayahSelected: null == ayahSelected
           ? _value.ayahSelected
           : ayahSelected // ignore: cast_nullable_to_non_nullable
@@ -235,6 +251,7 @@ class _$InitialImpl implements _Initial {
       this.currentPossition = 0,
       this.playerState = PlayerState.disposed,
       this.ayaShow,
+      this.isChangingCurrentPossition = false,
       this.ayahSelected = 0});
 
   @override
@@ -255,11 +272,14 @@ class _$InitialImpl implements _Initial {
   final AyahsJuzu? ayaShow;
   @override
   @JsonKey()
+  final bool isChangingCurrentPossition;
+  @override
+  @JsonKey()
   final int ayahSelected;
 
   @override
   String toString() {
-    return 'QuranSoundState.initial(dataStatus: $dataStatus, player: $player, duration: $duration, currentPossition: $currentPossition, playerState: $playerState, ayaShow: $ayaShow, ayahSelected: $ayahSelected)';
+    return 'QuranSoundState.initial(dataStatus: $dataStatus, player: $player, duration: $duration, currentPossition: $currentPossition, playerState: $playerState, ayaShow: $ayaShow, isChangingCurrentPossition: $isChangingCurrentPossition, ayahSelected: $ayahSelected)';
   }
 
   @override
@@ -276,7 +296,11 @@ class _$InitialImpl implements _Initial {
                 other.currentPossition == currentPossition) &&
             (identical(other.playerState, playerState) ||
                 other.playerState == playerState) &&
-            const DeepCollectionEquality().equals(other.ayaShow, ayaShow) &&
+            (identical(other.ayaShow, ayaShow) || other.ayaShow == ayaShow) &&
+            (identical(other.isChangingCurrentPossition,
+                    isChangingCurrentPossition) ||
+                other.isChangingCurrentPossition ==
+                    isChangingCurrentPossition) &&
             (identical(other.ayahSelected, ayahSelected) ||
                 other.ayahSelected == ayahSelected));
   }
@@ -289,7 +313,8 @@ class _$InitialImpl implements _Initial {
       duration,
       currentPossition,
       playerState,
-      const DeepCollectionEquality().hash(ayaShow),
+      ayaShow,
+      isChangingCurrentPossition,
       ayahSelected);
 
   @JsonKey(ignore: true)
@@ -308,11 +333,12 @@ class _$InitialImpl implements _Initial {
             int currentPossition,
             PlayerState playerState,
             AyahsJuzu? ayaShow,
+            bool isChangingCurrentPossition,
             int ayahSelected)
         initial,
   }) {
     return initial(dataStatus, player, duration, currentPossition, playerState,
-        ayaShow, ayahSelected);
+        ayaShow, isChangingCurrentPossition, ayahSelected);
   }
 
   @override
@@ -325,11 +351,12 @@ class _$InitialImpl implements _Initial {
             int currentPossition,
             PlayerState playerState,
             AyahsJuzu? ayaShow,
+            bool isChangingCurrentPossition,
             int ayahSelected)?
         initial,
   }) {
     return initial?.call(dataStatus, player, duration, currentPossition,
-        playerState, ayaShow, ayahSelected);
+        playerState, ayaShow, isChangingCurrentPossition, ayahSelected);
   }
 
   @override
@@ -342,13 +369,14 @@ class _$InitialImpl implements _Initial {
             int currentPossition,
             PlayerState playerState,
             AyahsJuzu? ayaShow,
+            bool isChangingCurrentPossition,
             int ayahSelected)?
         initial,
     required TResult orElse(),
   }) {
     if (initial != null) {
       return initial(dataStatus, player, duration, currentPossition,
-          playerState, ayaShow, ayahSelected);
+          playerState, ayaShow, isChangingCurrentPossition, ayahSelected);
     }
     return orElse();
   }
@@ -390,6 +418,7 @@ abstract class _Initial implements QuranSoundState {
       final int currentPossition,
       final PlayerState playerState,
       final AyahsJuzu? ayaShow,
+      final bool isChangingCurrentPossition,
       final int ayahSelected}) = _$InitialImpl;
 
   @override
@@ -404,6 +433,8 @@ abstract class _Initial implements QuranSoundState {
   PlayerState get playerState;
   @override
   AyahsJuzu? get ayaShow;
+  @override
+  bool get isChangingCurrentPossition;
   @override
   int get ayahSelected;
   @override

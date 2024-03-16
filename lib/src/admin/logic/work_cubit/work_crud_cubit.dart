@@ -1,12 +1,17 @@
+import 'dart:convert';
+import 'dart:developer';
+
 import 'package:bloc/bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:injectable/injectable.dart';
+import 'package:ramadan/model/ramadan_dua.dart';
 import 'package:ramadan/src/core/data_source/remote.dart';
 import 'package:ramadan/src/core/entity/data_state.dart';
 import 'package:ramadan/src/core/entity/data_status.dart';
 import 'package:ramadan/src/core/entity/work_entity.dart';
 import 'package:ramadan/src/core/enum/work_timing.dart';
 import 'package:ramadan/src/main_app/home/daily_work/model/daily_work_model.dart';
+import 'package:ramadan/utils/utils.dart';
 
 part 'work_crud_state.dart';
 part 'work_crud_cubit.freezed.dart';
@@ -14,6 +19,25 @@ part 'work_crud_cubit.freezed.dart';
 @Singleton()
 class WorkCrudCubit extends Cubit<WorkCrudState> {
   WorkCrudCubit() : super(const WorkCrudState.initial(dataStatus: DataIdeal()));
+  getMufatehALgynan() async {
+    emit(state.copyWith(dataStatus: const StateLoading()));
+    try {
+      final String response =
+          await rootBundle.loadString('assets/docs/dua.json');
+      final jsondata = await json.decode(response);
+      final mufatehAljynanModel = MufatehAljynanModel.fromJson(jsondata);
+
+      emit(
+        state.copyWith(
+            dataStatus: const DataIdeal(),
+            mufatehAljynanModel: mufatehAljynanModel),
+      );
+    } catch (e) {
+      log(e.toString());
+      emit(state.copyWith(dataStatus: const StateError()));
+    }
+  }
+
   submitEvent(DailyWorkData dailyWorkData) async {
     if (dailyWorkData.id != null && dailyWorkData.refrence != null) {
       updateWork(dailyWorkData);

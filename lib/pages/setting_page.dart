@@ -3,7 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:lucide_icons/lucide_icons.dart';
 import 'package:ramadan/bussines_logic/Setting/cubit/setting_cubit.dart';
-import 'package:ramadan/services/notification_service.dart';
+import 'package:ramadan/services/notification/notification_service.dart';
 import 'package:ramadan/bussines_logic/prayer/prayer_cubit.dart';
 import 'package:ramadan/services/tasbeeh/entity/model/tasbeeh_model.dart';
 import 'package:ramadan/services/tasbeeh/presentation/tasbeeh_page.dart';
@@ -236,8 +236,9 @@ class SettingPage extends StatelessWidget {
                               title: "اختبار ",
                               subtitle: "حان موعد اذان test",
                               dateTime: tz.TZDateTime.now(tz.local)
-                                  .add(const Duration(seconds: 5)),
-                              id: 6000011 + DateTime.now().millisecond);
+                                  .add(const Duration(seconds: 10)),
+                              id: 6000011 + DateTime.now().millisecond,
+                              type: NotificationType.duhur);
                         }
                       },
                     ),

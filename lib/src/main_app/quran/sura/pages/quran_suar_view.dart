@@ -1,12 +1,12 @@
 import 'package:lucide_icons/lucide_icons.dart';
-import 'package:ramadan/model/sura/sura_model.dart';
-import 'package:ramadan/src/main_app/quran/cubit/quran_search_cubit.dart';
+import 'package:ramadan/src/main_app/quran/data/model/sura/sura_model.dart';
 import 'package:ramadan/src/main_app/quran/juzu/cubit/quran_juzu_cubit.dart';
-import 'package:ramadan/src/main_app/quran/juzu/widgets/aya_juzu_widget.dart';
+import 'package:ramadan/src/main_app/quran/widgets/aya_juzu_widget.dart';
 import 'package:ramadan/src/main_app/quran/quran_sound/quran_sound_cubit.dart';
 import 'package:ramadan/src/main_app/quran/sura/cubit/quran_sura_cubit.dart';
 import 'package:ramadan/utils/injector.dart';
 import 'package:ramadan/utils/utils.dart';
+import 'package:sizer/sizer.dart';
 
 class SuraViewForSuar extends StatefulWidget {
   const SuraViewForSuar(
@@ -51,8 +51,6 @@ class _SuraViewForSuarState extends State<SuraViewForSuar> {
     final theme = Theme.of(context);
     final query = MediaQuery.of(context);
 
-    final quranSearchCubit = context.read<QuranSearchCubit>();
-
     return BlocBuilder<QuranSuraCubit, QuranSuraState>(
       builder: (context, state) {
         return Scaffold(
@@ -83,7 +81,6 @@ class _SuraViewForSuarState extends State<SuraViewForSuar> {
                     //     icon: const Icon(LucideIcons.speaker)),
                     IconButton(
                         onPressed: () {
-                          quranSearchCubit.changeIsSearch(false);
                           Navigator.pop(context);
                         },
                         icon: const Icon(LucideIcons.x))
@@ -93,8 +90,9 @@ class _SuraViewForSuarState extends State<SuraViewForSuar> {
               Expanded(
                 child: SingleChildScrollView(
                   controller: scrollController,
-                  padding:
-                      const EdgeInsets.only(bottom: 30, top: kDefaultSpacing),
+                  padding: SizerUtil.deviceType == DeviceType.tablet
+                      ? const EdgeInsets.all(34)
+                      : const EdgeInsets.only(bottom: 30, top: kDefaultSpacing),
                   child: Column(children: [
                     // widget.index != 0
                     //     ? Text(
@@ -107,7 +105,7 @@ class _SuraViewForSuarState extends State<SuraViewForSuar> {
                         .asMap()
                         .map((i, aya) => MapEntry(
                                   i,
-                                  AyaJuzuWidget(
+                               AyaJuzuWidget(
                                     quranSoundCubit: quranSoundCubit,
                                     aya: aya,
                                     index: i,

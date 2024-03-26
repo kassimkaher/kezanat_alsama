@@ -1,4 +1,10 @@
+import 'dart:convert';
+
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+import 'package:ramadan/services/notification/model/model.dart';
+import 'package:ramadan/services/notification/notification_viewer.dart';
+
+import 'package:ramadan/src/core/resources/local_db.dart';
 import 'package:ramadan/utils/utils.dart';
 import 'package:timezone/timezone.dart' as tz;
 import 'package:flutter_local_notifications/src/platform_specifics/android/enums.dart'
@@ -18,7 +24,20 @@ Future<void> setupFlutterNotifications() async {
   const initSettings = InitializationSettings(
       android: androidInitializationSetting, iOS: iosInitializationSetting);
 
-  await _flutterLocalNotificationsPlugin.initialize(initSettings);
+  await _flutterLocalNotificationsPlugin.initialize(initSettings,
+      onDidReceiveBackgroundNotificationResponse: notificationTapBackground,
+      onDidReceiveNotificationResponse: notificationTapBackground);
+}
+
+@pragma('vm:entry-point')
+void notificationTapBackground(NotificationResponse notificationResponse) {
+  Hive.initFlutter().then((value) {
+    LocalDB.saveComeNotefication(notificationResponse.payload ?? "");
+    navigatorKey.currentState?.push(to(NotificationViewer(
+        notificationModel: NotificationModel.fromJson(json.decode(
+            notificationResponse.payload ??
+                '{"type":"${NotificationType.other}","data":{}}')))));
+  });
 }
 
 void showFlutterNotificationAthan(
@@ -83,31 +102,29 @@ Future<void> showSchedualNotificationEmsak(
       uiLocalNotificationDateInterpretation:
           UILocalNotificationDateInterpretation.absoluteTime,
       androidScheduleMode: AndroidScheduleMode
-          .exact //To show notification even when the app is closed
-      );
+          .exact, //To show notification even when the app is closed
+      payload: '{"type":"${NotificationType.emsak}","data":{}}');
 
-  final d = tz.TZDateTime.now(tz.local);
-  final d1 = DateTime.now();
-  final d2 = tz.TZDateTime.from(d1, tz.local);
-  kdp(
-      name: "notification athan",
-      msg: '''
-subtitle =$subtitle
-id= $id
-notification date = $dateTime
-tz.TZDateTime.now=$d
-DateTime.now()=$d1
-convert =$d2
+//   kdp(
+//       name: "notification athan",
+//       msg: '''
+// subtitle =$subtitle
+// id= $id
+// notification date = $dateTime
+// tz.TZDateTime.now=$d
+// DateTime.now()=$d1
+// convert =$d2
 
-''',
-      c: 'm');
+// ''',
+//       c: 'm');
 }
 
 Future<void> showSchedualNotificationAthan(
     {required String title,
     required String subtitle,
     required tz.TZDateTime dateTime,
-    required int id}) async {
+    required int id,
+    required NotificationType type}) async {
   const androidNotificationDetail = AndroidNotificationDetails(
       'ramadan_2024_3_16_id', 'ramadan_kezana_alsama_athan',
       importance: Importance.max,
@@ -129,8 +146,8 @@ Future<void> showSchedualNotificationAthan(
       uiLocalNotificationDateInterpretation:
           UILocalNotificationDateInterpretation.absoluteTime,
       androidScheduleMode: AndroidScheduleMode
-          .exact //To show notification even when the app is closed
-      );
+          .exact, //To show notification even when the app is closed,
+      payload: '{"type":"${type.name}","data":{}}');
 
   final d = tz.TZDateTime.now(tz.local);
   final d1 = DateTime.now();
@@ -160,6 +177,7 @@ cancelAllNotification() {
   } catch (e) {}
 }
 
+enum NotificationType { emsak, fajer, duhur, mugrib, work, other }
 // Future<void> showSchedualIOSNotificationAthan(
 //     {required String title,
 //     required String subtitle,

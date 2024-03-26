@@ -1,4 +1,4 @@
-import 'package:ramadan/src/alqadr/alqader_page.dart';
+import 'package:ramadan/src/main_app/alqadr/alqader_page.dart';
 import 'package:ramadan/src/main_app/home/daily_work/page/daily_work_view.dart';
 import 'package:ramadan/src/main_app/home/presentation/widgets/app_bar.dart';
 import 'package:ramadan/src/main_app/home/presentation/widgets/prayer_time_view.dart';

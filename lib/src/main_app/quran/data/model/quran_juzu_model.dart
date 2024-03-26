@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
-import 'package:ramadan/model/quran_model.dart';
+import 'package:flutter/material.dart';
+import 'package:ramadan/src/main_app/quran/data/model/quran_model.dart';
 import 'package:ramadan/utils/extention.dart';
 
 class QuranJuzuModel {
@@ -113,6 +114,7 @@ class AyahsJuzu {
   int? hizbQuarter;
   SajdaModel? sajda;
   bool isNew = false;
+  Widget? book ;
   final key = GlobalKey();
 
   AyahsJuzu(
@@ -139,8 +141,10 @@ class AyahsJuzu {
     ruku = json['ruku'];
     hizbQuarter = json['hizbQuarter'];
     try {
-      sajda = SajdaModel.fromJson(json['sajda']);
-    } catch (_) {}
+      sajda = json['sajda'] == null ? null : SajdaModel.fromJson(json['sajda']);
+    } catch (e) {
+      kdp(name: "sajda", msg: e, c: 'r');
+    }
   }
 
   Map<String, dynamic> toJson() {

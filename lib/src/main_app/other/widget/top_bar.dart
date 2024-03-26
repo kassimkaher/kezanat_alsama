@@ -1,7 +1,9 @@
+import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:lucide_icons/lucide_icons.dart';
-import 'package:ramadan/src/main_app/quran/cubit/quran_search_cubit.dart';
-import 'package:ramadan/src/main_app/quran/juzu/cubit/quran_juzu_cubit.dart';
+import 'package:ramadan/src/core/enum/work_type.dart';
+import 'package:ramadan/src/main_app/other/cubit/document_cubit.dart';
 import 'package:ramadan/src/main_app/quran/sura/cubit/quran_sura_cubit.dart';
 import 'package:ramadan/utils/utils.dart';
 import 'package:ramadan/src/core/widget/mu_text_input.dart';
@@ -25,28 +27,29 @@ class TopBarView extends HookWidget {
   @override
   Widget build(BuildContext context) {
     final isSearch = useState(false);
-    return BlocBuilder<QuranSearchCubit, QuranSearchState>(
+    return BlocBuilder<DocumentCubit, DocumentState>(
       builder: (context, state) {
         return SafeArea(
-            child: Container(
-          padding: const EdgeInsets.symmetric(vertical: 8),
-          decoration: BoxDecoration(
-            color: theme.cardColor,
-            border: Border(
-              bottom: BorderSide(color: theme.colorScheme.outline),
+          child: Container(
+            padding: const EdgeInsets.symmetric(vertical: 8),
+            decoration: BoxDecoration(
+              color: theme.cardColor,
+              border: Border(
+                bottom: BorderSide(color: theme.colorScheme.outline),
+              ),
+            ),
+            child: AnimatedSwitcher(
+              duration: const Duration(milliseconds: 300),
+              child: isSearch.value
+                  ? SearchTextView(focusNode: focusNode, isSearch: isSearch)
+                  : OtherWorkTopBarPage(
+                      focusNode: focusNode,
+                      theme: theme,
+                      isSearch: isSearch,
+                    ),
             ),
           ),
-          child: AnimatedSwitcher(
-            duration: const Duration(milliseconds: 200),
-            child: isSearch.value
-                ? SearchTextView(focusNode: focusNode, isSearch: isSearch)
-                : OtherWorkTopBarPage(
-                    focusNode: focusNode,
-                    theme: theme,
-                    isSearch: isSearch,
-                  ),
-          ),
-        ));
+        );
       },
     );
   }
@@ -65,17 +68,16 @@ class OtherWorkTopBarPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final quranSearchCubit = context.read<QuranSearchCubit>();
-    return BlocBuilder<QuranSearchCubit, QuranSearchState>(
+    final documentCubit = context.read<DocumentCubit>();
+    return BlocBuilder<DocumentCubit, DocumentState>(
       builder: (context, state) {
         return Row(
+          crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             IconButton(
               padding: EdgeInsets.zero,
               onPressed: () {
                 isSearch.value = true;
-                // Future.delayed(const Duration(seconds: 1)).then(
-                //     (value) => FocusScope.of(context).requestFocus(focusNode));
               },
               icon: const Icon(
                 LucideIcons.search,
@@ -83,11 +85,14 @@ class OtherWorkTopBarPage extends StatelessWidget {
               ),
             ),
             // Text(
-            //   "القرآن الكريم",
+            //   state.workType.name.tr(),
             //   style: theme.textTheme.titleLarge,
             // ),
             const Spacer(),
             Container(
+              // margin: SizerUtil.deviceType == DeviceType.tablet
+              //     ? const EdgeInsets.symmetric(horizontal: 24)
+              //     : const EdgeInsets.symmetric(horizontal: 24),
               decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(20),
                   color: theme.scaffoldBackgroundColor),
@@ -96,8 +101,7 @@ class OtherWorkTopBarPage extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
                   InkWell(
-                    onTap: () =>
-                        quranSearchCubit.changeDisplayType(SearchType.sura),
+                    onTap: () => documentCubit.changeWorkType(WorkType.zyara),
                     child: AnimatedContainer(
                       padding: SizerUtil.deviceType == DeviceType.tablet
                           ? const EdgeInsets.symmetric(
@@ -108,23 +112,22 @@ class OtherWorkTopBarPage extends StatelessWidget {
                       decoration: BoxDecoration(
                           borderRadius:
                               BorderRadius.circular(kDefaultBorderRadius),
-                          color: state.searchType != SearchType.sura
+                          color: state.workType != WorkType.zyara
                               ? Colors.transparent
                               : theme.primaryColor),
                       child: Text(
-                        "السور",
+                        WorkType.zyara.name.tr(),
                         style: theme.textTheme.titleMedium!.copyWith(
-                            color: state.searchType == SearchType.sura
+                            color: state.workType == WorkType.zyara
                                 ? Colors.white
                                 : jbUnselectColor,
                             fontSize:
-                                state.searchType == SearchType.sura ? 18 : 14),
+                                state.workType == WorkType.zyara ? 18 : 14),
                       ),
                     ),
                   ),
                   InkWell(
-                    onTap: () =>
-                        quranSearchCubit.changeDisplayType(SearchType.juzu),
+                    onTap: () => documentCubit.changeWorkType(WorkType.munajat),
                     child: AnimatedContainer(
                       padding: SizerUtil.deviceType == DeviceType.tablet
                           ? const EdgeInsets.symmetric(
@@ -135,17 +138,17 @@ class OtherWorkTopBarPage extends StatelessWidget {
                       decoration: BoxDecoration(
                           borderRadius:
                               BorderRadius.circular(kDefaultBorderRadius),
-                          color: state.searchType != SearchType.juzu
+                          color: state.workType != WorkType.munajat
                               ? Colors.transparent
                               : theme.primaryColor),
                       child: Text(
-                        "الاجزاء",
+                        WorkType.munajat.name.tr(),
                         style: theme.textTheme.titleMedium!.copyWith(
-                            color: state.searchType == SearchType.juzu
+                            color: state.workType == WorkType.munajat
                                 ? Colors.white
                                 : jbUnselectColor,
                             fontSize:
-                                state.searchType == SearchType.juzu ? 18 : 14),
+                                state.workType == WorkType.munajat ? 18 : 14),
                       ),
                     ),
                   ),
@@ -181,30 +184,29 @@ class SearchTextView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final quranJuzuCubit = context.read<QuranJuzuCubit>();
-    final quranSuraCubit = context.read<QuranSuraCubit>();
-    return BlocBuilder<QuranSearchCubit, QuranSearchState>(
+    final documentCubit = context.read<DocumentCubit>();
+    return BlocBuilder<DocumentCubit, DocumentState>(
       builder: (context, state) {
         return Row(
           children: [
             Expanded(
               child: FDTextInput(
                 focusNode: focusNode,
-                label: "ابحث عن سورة",
+                label: "البحث",
                 onSubmit: (a) {
-                  if (state.searchType == SearchType.juzu) {
-                    quranJuzuCubit.searchInJuzu(a);
+                  if (state.workType == WorkType.zyara) {
+                    documentCubit.searchZyarat(a);
                   } else {
-                    quranSuraCubit.searchInSura(a);
+                    documentCubit.searchMunajat(a);
                   }
 
                   FocusScope.of(context).unfocus();
                 },
                 onType: (a) {
-                  if (state.searchType == SearchType.juzu) {
-                    quranJuzuCubit.searchInJuzu(a);
+                  if (state.workType == WorkType.zyara) {
+                    documentCubit.searchZyarat(a);
                   } else {
-                    quranSuraCubit.searchInSura(a);
+                    documentCubit.searchMunajat(a);
                   }
                 },
               ),
@@ -212,9 +214,8 @@ class SearchTextView extends StatelessWidget {
             TextButton(
                 onPressed: () {
                   isSearch.value = false;
-                  isSearch.value = false;
-                  quranSuraCubit.fillCache();
-                  quranJuzuCubit.fillCache();
+
+                  documentCubit.clearSearch();
                 },
                 child: const Text("إلغاء"))
           ],

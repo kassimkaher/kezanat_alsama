@@ -62,7 +62,7 @@ class WorkCard extends HookWidget {
                   child: isSelect.value
                       ? const Icon(LucideIcons.check)
                       : SvgPicture.asset(
-                          "assets/svg/${dailyWorkData.type == WorkType.salat ? "munajat" : dailyWorkData.type == WorkType.zyara ? "zyara" : dailyWorkData.type == WorkType.tasbeeh ? "beads" : "dua"}.svg",
+                          "assets/svg/${dailyWorkData.type == WorkType.salat ? "munajat" : dailyWorkData.type == WorkType.zyara ? "zyara" : dailyWorkData.type == WorkType.tasbeeh ? "beads" : dailyWorkData.type == WorkType.munajat ? "munajat" : "dua"}.svg",
                           color: theme.scaffoldBackgroundColor,
                         ),
                 )),

@@ -3,8 +3,8 @@ import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:lottie/lottie.dart';
 import 'package:lucide_icons/lucide_icons.dart';
-import 'package:ramadan/model/alqadr_model.dart';
-import 'package:ramadan/src/alqadr/cubit/alqadr_cubit.dart';
+import 'package:ramadan/src/main_app/alqadr/data/alqadr_model.dart';
+import 'package:ramadan/src/main_app/alqadr/cubit/alqadr_cubit.dart';
 import 'package:ramadan/utils/utils.dart';
 import 'package:ramadan/src/core/widget/jb_button.dart';
 

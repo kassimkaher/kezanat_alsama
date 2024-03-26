@@ -1,7 +1,7 @@
-import 'dart:developer';
-
 import 'package:lucide_icons/lucide_icons.dart';
-import 'package:ramadan/model/sura/sura_model.dart';
+import 'package:ramadan/src/core/entity/works_document_model.dart';
+import 'package:ramadan/src/main_app/other/cubit/document_cubit.dart';
+import 'package:ramadan/src/main_app/quran/data/model/sura/sura_model.dart';
 import 'package:ramadan/sheet/alert_dialog.dart';
 import 'package:ramadan/src/admin/logic/work_cubit/work_crud_cubit.dart';
 import 'package:ramadan/src/core/entity/data_status.dart';
@@ -41,10 +41,11 @@ class _AddWorkPageState extends State<AddWorkPage> {
   WorkTiming? workTiming;
   final formKey = GlobalKey<FormState>();
   final key = GlobalKey();
+  WorksDocumentModel? document;
   @override
   void initState() {
     super.initState();
-
+    document = context.read<DocumentCubit>().state.zyaratData;
     workCrudCubit = context.read<WorkCrudCubit>();
 
     if (widget.dailyWorkData != null) {
@@ -55,7 +56,6 @@ class _AddWorkPageState extends State<AddWorkPage> {
   @override
   Widget build(BuildContext context) {
     final allSura = context.read<QuranSuraCubit>().state.quranModel!;
-    final document = context.read<DuaCubit>().state.info;
 
     final textTheme = Theme.of(context).textTheme;
     return BlocConsumer<WorkCrudCubit, WorkCrudState>(
@@ -237,12 +237,7 @@ class _AddWorkPageState extends State<AddWorkPage> {
                       text: textController.text,
                       path: pathController == null
                           ? ""
-                          : context
-                              .read<DuaCubit>()
-                              .state
-                              .info
-                              .documentEntity!
-                              .dua!
+                          : document!.dua!
                               .where(
                                   (element) => element.title == pathController)
                               .first
@@ -274,7 +269,8 @@ class _AddWorkPageState extends State<AddWorkPage> {
   String? getMonthName(int number) =>
       (number < 0 || number > 11) ? null : hijreeMonthArray[number];
 
-  Column buildWorkDetailsFormView(DuaData document, List<SuraModel> allSura) {
+  Column buildWorkDetailsFormView(
+      WorksDocumentModel? document, List<SuraModel> allSura) {
     return Column(
       children: [
         CustomTextInput(
@@ -324,15 +320,11 @@ class _AddWorkPageState extends State<AddWorkPage> {
         (typeController != WorkType.quran && typeController != WorkType.tasbeeh)
             ? CustomDropDownMenuString(
                 array: typeController == WorkType.dua
-                    ? document.documentEntity!.dua!
-                        .map((e) => e.title!)
-                        .toList()
+                    ? document!.dua!.map((e) => e.title!).toList()
                     : typeController == WorkType.zyara
-                        ? document.zyaratData!.zyaratList!
-                            .map((e) => e.title!)
-                            .toList()
+                        ? document!.zyaratList!.map((e) => e.title!).toList()
                         : typeController == WorkType.munajat
-                            ? document.zyaratData!.munajatList!
+                            ? document!.munajatList!
                                 .map((e) => e.title!)
                                 .toList()
                             : [],
@@ -386,7 +378,6 @@ class _AddWorkPageState extends State<AddWorkPage> {
     hour = dailyWorkData!.hour != null
         ? arabic24HourNames[dailyWorkData.hour!]
         : null;
-    log("dailyWorkData.month!=${dailyWorkData.month!}");
     monthController = dailyWorkData.month != null
         ? getMonthName(dailyWorkData.month! - 1)
         : null;
@@ -395,8 +386,7 @@ class _AddWorkPageState extends State<AddWorkPage> {
 
     switch (dailyWorkData.type) {
       case WorkType.dua:
-        for (var element
-            in context.read<DuaCubit>().state.info.documentEntity!.dua!) {
+        for (var element in document!.dua!) {
           if (element.path == dailyWorkData.path) {
             pathController = element.title;
           }

@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:lucide_icons/lucide_icons.dart';
 import 'package:ramadan/sheet/alert_dialog.dart';
 import 'package:ramadan/src/admin/logic/work_cubit/work_crud_cubit.dart';
@@ -47,13 +45,10 @@ class _AddRelationshipsPageState extends State<AddRelationshipsPage> {
 
   @override
   Widget build(BuildContext context) {
-    final document = context.read<DuaCubit>().state.info;
-
     final textTheme = Theme.of(context).textTheme;
     return BlocConsumer<WorkCrudCubit, WorkCrudState>(
       bloc: workCrudCubit,
       listener: (context, state) {
-        log("3u478937587385748758===========${state.dataStatus}");
         if (state.dataStatus == const StateError()) {
           showTMDialog(
             title: "fail".tr(),
@@ -93,7 +88,7 @@ class _AddRelationshipsPageState extends State<AddRelationshipsPage> {
                 const Divider(
                   height: 24,
                 ),
-                buildWorkDetailsFormView(document),
+                buildWorkDetailsFormView(),
                 const SizedBox(height: 32),
                 Text(
                   "توقيت المناسبة ",
@@ -204,7 +199,7 @@ class _AddRelationshipsPageState extends State<AddRelationshipsPage> {
       : hijreeMonthArray.indexOf(monthController!) + 1;
   String getMonthName(int number) => hijreeMonthArray[number];
 
-  Column buildWorkDetailsFormView(DuaData document) {
+  Column buildWorkDetailsFormView() {
     return Column(
       children: [
         CustomTextInput(

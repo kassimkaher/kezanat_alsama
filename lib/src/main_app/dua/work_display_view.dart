@@ -2,6 +2,7 @@ import 'package:lucide_icons/lucide_icons.dart';
 import 'package:ramadan/model/ramadan_dua.dart';
 import 'package:ramadan/src/core/functions/load_resource.dart';
 import 'package:ramadan/utils/utils.dart';
+import 'package:sizer/sizer.dart';
 
 class WorkDisplayText extends StatefulWidget {
   const WorkDisplayText({
@@ -70,8 +71,10 @@ class _WorkDisplayTextState extends State<WorkDisplayText> {
                   borderRadius: BorderRadius.circular(kDefaultBorderRadius),
                   color: theme.scaffoldBackgroundColor),
               child: SingleChildScrollView(
-                padding: const EdgeInsets.symmetric(horizontal: kDefaultPadding)
-                    .copyWith(bottom: 30, top: kDefaultSpacing),
+                padding: SizerUtil.deviceType == DeviceType.tablet
+                    ? const EdgeInsets.all(34)
+                    : const EdgeInsets.symmetric(horizontal: kDefaultPadding)
+                        .copyWith(bottom: 30, top: kDefaultSpacing),
                 child: Column(
                   children: [
                     widget.data.desc != null
@@ -80,7 +83,10 @@ class _WorkDisplayTextState extends State<WorkDisplayText> {
                               Text(
                                 widget.data.desc ?? "",
                                 style: theme.textTheme.displayLarge!.copyWith(
-                                    fontSize: 16, color: jbUnselectColor),
+                                    fontSize: theme
+                                            .textTheme.displayLarge!.fontSize! -
+                                        4,
+                                    color: theme.textTheme.displaySmall!.color),
                               ),
                               const SizedBox(
                                 height: kDefaultSpacing,

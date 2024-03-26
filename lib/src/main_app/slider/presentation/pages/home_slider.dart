@@ -1,6 +1,7 @@
 import 'package:ramadan/src/core/entity/data_status.dart';
 import 'package:ramadan/src/main_app/slider/presentation/widgets/post_details.dart';
 import 'package:ramadan/utils/utils.dart';
+import 'package:sizer/sizer.dart';
 
 class HomeSliderView extends StatelessWidget {
   const HomeSliderView({super.key});
@@ -26,7 +27,7 @@ class HomeSliderView extends StatelessWidget {
             ),
             child: Container(
               margin: const EdgeInsets.symmetric(horizontal: 8),
-              height: 200,
+              height: SizerUtil.deviceType == DeviceType.tablet ? 300 : 200,
               decoration: BoxDecoration(
                   color: theme.scaffoldBackgroundColor,
                   borderRadius: BorderRadius.circular(16)),

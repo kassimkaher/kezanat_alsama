@@ -1,4 +1,5 @@
 import 'package:ramadan/utils/utils.dart';
+import 'package:sizer/sizer.dart';
 
 getTheme(String fontfamily, bool isDarkMode) {
   SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
@@ -75,14 +76,15 @@ getTheme(String fontfamily, bool isDarkMode) {
                 ?.copyWith(color: jbDisableTextColorD, fontSize: 12),
             displayLarge: theme.textTheme.displayLarge?.copyWith(
                 color: jbFontColorD,
-                fontSize: 28,
-                fontFamily: 'Am',
+                fontSize: SizerUtil.deviceType == DeviceType.tablet ? 38 : 28,
+                fontFamily: 'authman',
                 wordSpacing: 0.6,
-                letterSpacing: 0.4),
+                letterSpacing:
+                    SizerUtil.deviceType == DeviceType.tablet ? 1 : 0.4),
             displayMedium: theme.textTheme.displayLarge?.copyWith(
               color: jbAccesntPrimaryColorD,
               fontSize: 60,
-              fontFamily: 'Kufy',
+              fontFamily: 'muhakik',
             ),
           ),
           splashColor: Colors.transparent,
@@ -143,14 +145,14 @@ getTheme(String fontfamily, bool isDarkMode) {
                 ?.copyWith(color: jbDisableTextColor, fontSize: 12),
             displayLarge: theme.textTheme.displayLarge?.copyWith(
                 color: jbFontColor,
-                fontSize: 26,
-                fontFamily: 'Am',
+                fontSize: SizerUtil.deviceType == DeviceType.tablet ? 38 : 28,
+                fontFamily: 'authman',
                 wordSpacing: 0.6,
                 letterSpacing: 0.2),
             displayMedium: theme.textTheme.displayLarge?.copyWith(
               color: jbFontColor,
               fontSize: 60,
-              fontFamily: 'Kufy',
+              fontFamily: 'muhakik',
             ),
           ),
           splashColor: Colors.transparent,

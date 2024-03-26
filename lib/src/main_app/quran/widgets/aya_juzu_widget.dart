@@ -1,8 +1,6 @@
-import 'package:flutter/cupertino.dart';
-import 'package:flutter/material.dart';
-import 'package:ramadan/model/quran_juzu_model.dart';
+import 'package:ramadan/src/main_app/quran/data/model/quran_juzu_model.dart';
 import 'package:ramadan/src/main_app/quran/juzu/cubit/quran_juzu_cubit.dart';
-import 'package:ramadan/src/main_app/quran/juzu/widgets/aya_player_view.dart';
+import 'package:ramadan/src/main_app/quran/widgets/aya_player_view.dart';
 import 'package:ramadan/src/main_app/quran/quran_sound/quran_sound_cubit.dart';
 import 'package:ramadan/src/main_app/quran/widgets/component.dart';
 import 'package:ramadan/utils/utils.dart';
@@ -91,9 +89,9 @@ class AyaJuzuWidget extends StatelessWidget {
                         VisibilityDetector(
                           key: aya.key,
                           onVisibilityChanged: (a) {
-                            if (a.visibleFraction == 1) {
-                              quranJuzuCubit.setAyaIndex(index);
-                            }
+                            // if (a.visibleFraction == 1) {
+                            //   quranJuzuCubit.setAyaIndex(index);
+                            // }
                           },
                           child: ListTile(
                             shape: RoundedRectangleBorder(
@@ -123,60 +121,75 @@ class AyaJuzuWidget extends StatelessWidget {
                               child: Wrap(
                                 crossAxisAlignment: WrapCrossAlignment.center,
                                 children: [
-                                  // RichText(
-                                  //   text: TextSpan(
-                                  //     children: [
-                                  //       // TextSpan(
-                                  //       //   text: index == 0
-                                  //       //       ? aya.text
-                                  //       //       : aya.text!.replaceFirst(
-                                  //       //           "بسم اللَّه الرحمن الرحيم", ""),
-                                  //       //   style: theme.textTheme.displayLarge!
-                                  //       //       .copyWith(
-                                  //       //           height: 2,
-                                  //       //           backgroundColor:
-                                  //       //               searchedAya == aya.text
-                                  //       //                   ? theme.primaryColor
-                                  //       //                       .withOpacity(0.2)
-                                  //       //                   : null),
-                                  //       // ),
-
-                                  //     ],
-                                  //   ),
-                                  // ),
-                                  ...aya.text!
-                                      .split(" ")
-                                      .asMap()
-                                      .map((i, e) => MapEntry(
-                                            i,
-                                            InkWell(
-                                              onTap: quranSoundState.ayaShow ==
-                                                      aya
-                                                  ? () => quranSoundCubit
-                                                      .readWord(aya.text!, i)
-                                                  : null,
-                                              child: Container(
-                                                decoration: BoxDecoration(
-                                                  color: searchedAya == aya.text
-                                                      ? theme.primaryColor
-                                                          .withOpacity(0.2)
-                                                      : null,
-                                                  borderRadius:
-                                                      BorderRadius.circular(16),
-                                                ),
-                                                child: Text(
-                                                  " $e",
-                                                  style: theme
-                                                      .textTheme.displayLarge!
-                                                      .copyWith(
-                                                    height: 2,
-                                                  ),
-                                                  textAlign: TextAlign.right,
-                                                ),
-                                              ),
-                                            ),
-                                          ))
-                                      .values,
+                                  InkWell(
+                                    // onTap: quranSoundState.ayaShow ==
+                                    //     aya
+                                    //     ? () => quranSoundCubit
+                                    //     .readWord(aya.text!, i)
+                                    //     : null,
+                                    child: Container(
+                                      padding: const EdgeInsets.symmetric(
+                                          horizontal: 2),
+                                      decoration: BoxDecoration(
+                                        color: searchedAya == aya.text
+                                            ? theme.primaryColor
+                                                .withOpacity(0.2)
+                                            : null,
+                                        borderRadius: BorderRadius.circular(16),
+                                      ),
+                                      child: Text(
+                                        aya.text ?? "",
+                                        style: theme.textTheme.displayLarge!
+                                            .copyWith(
+                                          height: 2,
+                                          // color: e.contains(
+                                          //     "\u06da")
+                                          //     ? Colors.red
+                                          //     : null
+                                        ),
+                                        textAlign: TextAlign.right,
+                                      ),
+                                    ),
+                                  ),
+                                  // ...aya.text!
+                                  //     .split(" ")
+                                  //     .asMap()
+                                  //     .map((i, e) => MapEntry(
+                                  //           i,
+                                  //   InkWell(
+                                  //             onTap: quranSoundState.ayaShow ==
+                                  //                     aya
+                                  //                 ? () => quranSoundCubit
+                                  //                     .readWord(aya.text!, i)
+                                  //                 : null,
+                                  //             child: Container(
+                                  //               padding:
+                                  //                   const EdgeInsets.symmetric(
+                                  //                       horizontal: 2),
+                                  //               decoration: BoxDecoration(
+                                  //                 color: searchedAya == aya.text
+                                  //                     ? theme.primaryColor
+                                  //                         .withOpacity(0.2)
+                                  //                     : null,
+                                  //                 borderRadius:
+                                  //                     BorderRadius.circular(16),
+                                  //               ),
+                                  //               child: Text(
+                                  //                 e,
+                                  //                 style: theme
+                                  //                     .textTheme.displayLarge!
+                                  //                     .copyWith(
+                                  //                         height: 2,
+                                  //                         color: e.contains(
+                                  //                                 "\u06da")
+                                  //                             ? Colors.red
+                                  //                             : null),
+                                  //                 textAlign: TextAlign.right,
+                                  //               ),
+                                  //             ),
+                                  //           ),
+                                  //         ))
+                                  //     .values,
                                   NumberWidget(
                                     theme: theme,
                                     size: 30,

@@ -2,7 +2,7 @@ import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:lucide_icons/lucide_icons.dart';
-import 'package:ramadan/model/quran_juzu_model.dart';
+import 'package:ramadan/src/main_app/quran/data/model/quran_juzu_model.dart';
 import 'package:ramadan/src/core/entity/data_status.dart';
 import 'package:ramadan/src/main_app/quran/quran_sound/quran_sound_cubit.dart';
 

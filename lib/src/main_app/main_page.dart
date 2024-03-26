@@ -3,11 +3,11 @@ import 'package:ramadan/bussines_logic/Setting/cubit/setting_cubit.dart';
 import 'package:ramadan/src/admin/logic/calendar_cubit/calendar_cubit.dart';
 import 'package:ramadan/src/core/entity/data_status.dart';
 import 'package:ramadan/src/main_app/dua/dua_page.dart';
-import 'package:ramadan/pages/munajat_page.dart';
 import 'package:ramadan/src/main_app/home/daily_work/logic/daily_work_logic/daily_work_cubit.dart';
 import 'package:ramadan/src/main_app/home/presentation/page/home.dart';
+import 'package:ramadan/src/main_app/other/cubit/document_cubit.dart';
+import 'package:ramadan/src/main_app/other/other_page.dart';
 import 'package:ramadan/src/main_app/quran/juzu/cubit/quran_juzu_cubit.dart';
-import 'package:ramadan/src/main_app/zyarat/zyarat_page.dart';
 import 'package:ramadan/src/main_app/quran/quran_page.dart';
 import 'package:ramadan/src/main_app/widgets/bottom_bar.dart';
 import 'package:ramadan/utils/utils.dart';
@@ -21,6 +21,7 @@ class MainPage extends StatefulWidget {
 
 class _MainPage extends State<MainPage> {
   final _scaffoldKey = GlobalKey<ScaffoldState>();
+
   @override
   void initState() {
     super.initState();
@@ -43,11 +44,11 @@ class _MainPage extends State<MainPage> {
       const HomePage(),
       const QuranPage(),
       const DuaPage(),
-      const ZyaratPage(),
-      const MunajatPage()
+      const OtherWorkPage(),
     ];
 
     if (controllerPrayer.state.datastatus is DataIdeal) {
+      context.read<DocumentCubit>().getWorksDocumentModel();
       controllerPrayer
           .prayerSchedular(context.read<CalendarCubit>().state.today!);
     }

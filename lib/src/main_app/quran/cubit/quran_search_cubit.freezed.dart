@@ -17,27 +17,27 @@ final _privateConstructorUsedError = UnsupportedError(
 /// @nodoc
 mixin _$QuranSearchState {
   DataStatus<dynamic>? get dataStatus => throw _privateConstructorUsedError;
-  QuranModel? get quranModel => throw _privateConstructorUsedError;
-  bool get isSearch => throw _privateConstructorUsedError;
+  QuranModel? get quranModel =>
+      throw _privateConstructorUsedError; // @Default(false) bool isSearch,
   SearchType get searchType => throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function(DataStatus<dynamic>? dataStatus,
-            QuranModel? quranModel, bool isSearch, SearchType searchType)
+            QuranModel? quranModel, SearchType searchType)
         initial,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function(DataStatus<dynamic>? dataStatus, QuranModel? quranModel,
-            bool isSearch, SearchType searchType)?
+            SearchType searchType)?
         initial,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function(DataStatus<dynamic>? dataStatus, QuranModel? quranModel,
-            bool isSearch, SearchType searchType)?
+            SearchType searchType)?
         initial,
     required TResult orElse(),
   }) =>
@@ -73,7 +73,6 @@ abstract class $QuranSearchStateCopyWith<$Res> {
   $Res call(
       {DataStatus<dynamic>? dataStatus,
       QuranModel? quranModel,
-      bool isSearch,
       SearchType searchType});
 }
 
@@ -92,7 +91,6 @@ class _$QuranSearchStateCopyWithImpl<$Res, $Val extends QuranSearchState>
   $Res call({
     Object? dataStatus = freezed,
     Object? quranModel = freezed,
-    Object? isSearch = null,
     Object? searchType = null,
   }) {
     return _then(_value.copyWith(
@@ -104,10 +102,6 @@ class _$QuranSearchStateCopyWithImpl<$Res, $Val extends QuranSearchState>
           ? _value.quranModel
           : quranModel // ignore: cast_nullable_to_non_nullable
               as QuranModel?,
-      isSearch: null == isSearch
-          ? _value.isSearch
-          : isSearch // ignore: cast_nullable_to_non_nullable
-              as bool,
       searchType: null == searchType
           ? _value.searchType
           : searchType // ignore: cast_nullable_to_non_nullable
@@ -127,7 +121,6 @@ abstract class _$$InitialImplCopyWith<$Res>
   $Res call(
       {DataStatus<dynamic>? dataStatus,
       QuranModel? quranModel,
-      bool isSearch,
       SearchType searchType});
 }
 
@@ -144,7 +137,6 @@ class __$$InitialImplCopyWithImpl<$Res>
   $Res call({
     Object? dataStatus = freezed,
     Object? quranModel = freezed,
-    Object? isSearch = null,
     Object? searchType = null,
   }) {
     return _then(_$InitialImpl(
@@ -156,10 +148,6 @@ class __$$InitialImplCopyWithImpl<$Res>
           ? _value.quranModel
           : quranModel // ignore: cast_nullable_to_non_nullable
               as QuranModel?,
-      isSearch: null == isSearch
-          ? _value.isSearch
-          : isSearch // ignore: cast_nullable_to_non_nullable
-              as bool,
       searchType: null == searchType
           ? _value.searchType
           : searchType // ignore: cast_nullable_to_non_nullable
@@ -172,25 +160,20 @@ class __$$InitialImplCopyWithImpl<$Res>
 
 class _$InitialImpl implements _Initial {
   const _$InitialImpl(
-      {this.dataStatus,
-      this.quranModel,
-      this.isSearch = false,
-      this.searchType = SearchType.sura});
+      {this.dataStatus, this.quranModel, this.searchType = SearchType.sura});
 
   @override
   final DataStatus<dynamic>? dataStatus;
   @override
   final QuranModel? quranModel;
-  @override
-  @JsonKey()
-  final bool isSearch;
+// @Default(false) bool isSearch,
   @override
   @JsonKey()
   final SearchType searchType;
 
   @override
   String toString() {
-    return 'QuranSearchState.initial(dataStatus: $dataStatus, quranModel: $quranModel, isSearch: $isSearch, searchType: $searchType)';
+    return 'QuranSearchState.initial(dataStatus: $dataStatus, quranModel: $quranModel, searchType: $searchType)';
   }
 
   @override
@@ -202,15 +185,13 @@ class _$InitialImpl implements _Initial {
                 other.dataStatus == dataStatus) &&
             (identical(other.quranModel, quranModel) ||
                 other.quranModel == quranModel) &&
-            (identical(other.isSearch, isSearch) ||
-                other.isSearch == isSearch) &&
             (identical(other.searchType, searchType) ||
                 other.searchType == searchType));
   }
 
   @override
   int get hashCode =>
-      Object.hash(runtimeType, dataStatus, quranModel, isSearch, searchType);
+      Object.hash(runtimeType, dataStatus, quranModel, searchType);
 
   @JsonKey(ignore: true)
   @override
@@ -222,32 +203,32 @@ class _$InitialImpl implements _Initial {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function(DataStatus<dynamic>? dataStatus,
-            QuranModel? quranModel, bool isSearch, SearchType searchType)
+            QuranModel? quranModel, SearchType searchType)
         initial,
   }) {
-    return initial(dataStatus, quranModel, isSearch, searchType);
+    return initial(dataStatus, quranModel, searchType);
   }
 
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function(DataStatus<dynamic>? dataStatus, QuranModel? quranModel,
-            bool isSearch, SearchType searchType)?
+            SearchType searchType)?
         initial,
   }) {
-    return initial?.call(dataStatus, quranModel, isSearch, searchType);
+    return initial?.call(dataStatus, quranModel, searchType);
   }
 
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function(DataStatus<dynamic>? dataStatus, QuranModel? quranModel,
-            bool isSearch, SearchType searchType)?
+            SearchType searchType)?
         initial,
     required TResult orElse(),
   }) {
     if (initial != null) {
-      return initial(dataStatus, quranModel, isSearch, searchType);
+      return initial(dataStatus, quranModel, searchType);
     }
     return orElse();
   }
@@ -285,16 +266,13 @@ abstract class _Initial implements QuranSearchState {
   const factory _Initial(
       {final DataStatus<dynamic>? dataStatus,
       final QuranModel? quranModel,
-      final bool isSearch,
       final SearchType searchType}) = _$InitialImpl;
 
   @override
   DataStatus<dynamic>? get dataStatus;
   @override
   QuranModel? get quranModel;
-  @override
-  bool get isSearch;
-  @override
+  @override // @Default(false) bool isSearch,
   SearchType get searchType;
   @override
   @JsonKey(ignore: true)

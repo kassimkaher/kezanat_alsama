@@ -1,7 +1,7 @@
 import 'package:bloc/bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:ramadan/model/quran_juzu_model.dart';
-import 'package:ramadan/model/sura/sura_model.dart';
+import 'package:ramadan/src/main_app/quran/data/model/quran_juzu_model.dart';
+import 'package:ramadan/src/main_app/quran/data/model/sura/sura_model.dart';
 import 'package:ramadan/src/core/entity/data_status.dart';
 
 part 'quran_sura_state.dart';

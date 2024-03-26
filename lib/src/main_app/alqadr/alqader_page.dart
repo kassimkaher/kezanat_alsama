@@ -3,11 +3,12 @@ import 'package:lottie/lottie.dart';
 import 'package:lucide_icons/lucide_icons.dart';
 import 'package:ramadan/src/admin/logic/calendar_cubit/calendar_cubit.dart';
 import 'package:ramadan/src/main_app/dua/work_display_view.dart';
+import 'package:ramadan/src/main_app/other/cubit/document_cubit.dart';
 import 'package:ramadan/src/main_app/quran/sura/cubit/quran_sura_cubit.dart';
 import 'package:ramadan/src/main_app/widgets/custom_card.dart';
-import 'package:ramadan/model/alqadr_model.dart';
-import 'package:ramadan/src/alqadr/salat_day.dart';
-import 'package:ramadan/src/alqadr/salat_page.dart';
+import 'package:ramadan/src/main_app/alqadr/data/alqadr_model.dart';
+import 'package:ramadan/src/main_app/alqadr/salat_day.dart';
+import 'package:ramadan/src/main_app/alqadr/salat_page.dart';
 import 'package:ramadan/pages/read_sheet.dart';
 import 'package:ramadan/src/main_app/quran/sura/pages/quran_suar_view.dart';
 import 'package:ramadan/utils/utils.dart';
@@ -87,7 +88,7 @@ class AlqaderPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final zyaratCubit = context.read<DuaCubit>();
+    final zyaratCubit = context.read<DocumentCubit>();
     final quranCubit = context.read<QuranSuraCubit>();
     final alqadrCubit = context.read<AlqadrCubit>();
     final theme = Theme.of(context);
@@ -667,7 +668,7 @@ class AlqaderPage extends StatelessWidget {
                                 to(
                                   WorkDisplayText(
                                     data: zyaratCubit
-                                            .state.info.zyaratData!.zyaratList![
+                                            .state.zyaratData!.zyaratList![
                                         state
                                             .alqadrInfo
                                             .selectDayDetails!
@@ -915,7 +916,7 @@ class DuaCard extends StatelessWidget {
       required this.index});
 
   final MediaQueryData query;
-  final DuaCubit zyaratCubit;
+  final DocumentCubit zyaratCubit;
   final ThemeData theme;
   final int index;
   final DataList data;
@@ -945,8 +946,7 @@ class DuaCard extends StatelessWidget {
               context,
               to(
                 WorkDisplayText(
-                  data:
-                      zyaratCubit.state.info.documentEntity!.dua![data.index!],
+                  data: zyaratCubit.state.zyaratData!.dua![data.index!],
                 ),
               ),
             );

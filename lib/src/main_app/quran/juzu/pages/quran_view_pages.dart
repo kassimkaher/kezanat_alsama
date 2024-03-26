@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:lucide_icons/lucide_icons.dart';
 import 'package:ramadan/src/main_app/quran/juzu/cubit/quran_juzu_cubit.dart';
-import 'package:ramadan/src/main_app/quran/juzu/widgets/aya_juzu_widget.dart';
+import 'package:ramadan/src/main_app/quran/widgets/aya_juzu_widget.dart';
 import 'package:ramadan/src/main_app/quran/juzu/widgets/bottom_controlls.dart';
 import 'package:ramadan/src/main_app/quran/quran_sound/quran_sound_cubit.dart';
 import 'package:ramadan/utils/injector.dart';
 import 'package:ramadan/utils/utils.dart';
+import 'package:sizer/sizer.dart';
 
 class SuraViewForJuzu extends StatefulWidget {
   const SuraViewForJuzu({super.key, required this.quranListJuzua});
@@ -151,7 +152,9 @@ class _SuraViewForJuzuState extends State<SuraViewForJuzu> {
                       .map(
                         (e) => SingleChildScrollView(
                           controller: scrollController,
-                          padding: const EdgeInsets.only(bottom: 50, top: 10),
+                          padding: SizerUtil.deviceType == DeviceType.tablet
+                              ? const EdgeInsets.all(34)
+                              : const EdgeInsets.only(bottom: 50, top: 10),
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.stretch,
                             children: e.ayahs!

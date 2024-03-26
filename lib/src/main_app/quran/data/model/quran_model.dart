@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:ramadan/model/quran_juzu_model.dart';
+import 'package:ramadan/src/main_app/quran/data/model/quran_juzu_model.dart';
 
 class QuranModel {
   int? code;
@@ -249,7 +249,7 @@ class SajdaModel {
 
   SajdaModel({this.id, this.recommended, this.obligatory});
 
-  SajdaModel.fromJson(Map<String, dynamic> json) {
+  SajdaModel.fromJson(Map<dynamic, dynamic> json) {
     id = json['id'];
     recommended = json['recommended'];
     obligatory = json['obligatory'];

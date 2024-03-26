@@ -12,6 +12,7 @@ import 'package:ramadan/src/main_app/quran/sura/pages/quran_suar_view.dart';
 import 'package:ramadan/src/main_app/widgets/relationship_card.dart';
 import 'package:ramadan/src/main_app/widgets/work_card.dart';
 import 'package:ramadan/utils/utils.dart';
+import 'package:sizer/sizer.dart';
 import 'package:visibility_detector/visibility_detector.dart';
 
 class DailyWorkView extends StatelessWidget {
@@ -87,18 +88,34 @@ class DailyWorkView extends StatelessWidget {
                       style: theme.textTheme.bodyLarge!,
                     ),
                   ),
-                  ListView.separated(
-                    padding:
-                        const EdgeInsets.symmetric(horizontal: 16, vertical: 0),
-                    shrinkWrap: true,
-                    physics: const NeverScrollableScrollPhysics(),
-                    separatorBuilder: (c, i) => const SizedBox(height: 0),
-                    itemCount: todayWorkModel.data?.length ?? 0,
-                    itemBuilder: (c, i) => WorkCard(
-                      dailyWorkData: todayWorkModel.data![i],
-                      onTap: () => onTapWork(todayWorkModel.data![i]),
-                    ),
-                  ),
+                  SizerUtil.deviceType == DeviceType.tablet
+                      ? GridView.builder(
+                          padding: EdgeInsets.all(16),
+                          shrinkWrap: true,
+                          physics: const NeverScrollableScrollPhysics(),
+                          itemCount: todayWorkModel.data?.length ?? 0,
+                          gridDelegate:
+                              const SliverGridDelegateWithFixedCrossAxisCount(
+                                  crossAxisCount: 2,
+                                  childAspectRatio: 5 / 1,
+                                  crossAxisSpacing: 10),
+                          itemBuilder: (c, i) => WorkCard(
+                            dailyWorkData: todayWorkModel.data![i],
+                            onTap: () => onTapWork(todayWorkModel.data![i]),
+                          ),
+                        )
+                      : ListView.separated(
+                          padding: const EdgeInsets.symmetric(
+                              horizontal: 16, vertical: 0),
+                          shrinkWrap: true,
+                          physics: const NeverScrollableScrollPhysics(),
+                          separatorBuilder: (c, i) => const SizedBox(height: 0),
+                          itemCount: todayWorkModel.data?.length ?? 0,
+                          itemBuilder: (c, i) => WorkCard(
+                            dailyWorkData: todayWorkModel.data![i],
+                            onTap: () => onTapWork(todayWorkModel.data![i]),
+                          ),
+                        ),
                 ],
               ),
         onVisibilityChanged: (_) {});

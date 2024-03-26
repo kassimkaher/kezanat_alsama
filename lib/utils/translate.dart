@@ -6,7 +6,7 @@ class Translation {
   static Map<String, dynamic> arabicTranslate = {
     "dua": "الادعية",
     "quran": "القرآن",
-    "zyara": "زيارة",
+    "zyara": "الزيارات",
     "salat": "صلاة",
     "daily": "عمل يومي", //not need to select any date time info
     "weekly": "عمل اسبوعي", //need select weekday as sunday , monday ..etc.
@@ -14,7 +14,7 @@ class Translation {
     "dailyInMonth": "عمل يوميا في شهر", //need select month only
     "weeklyInMonth": "عمل اسبوعي في شهر", //need select weekday and month
     "oneWeekDayInMonth": "عمل يوم اسبرعي واحد في شهر ",
-
+    "munajat": "المناجات",
     "monday": "الاثنين",
     "tusday": "الثلاثاء",
     "wedensday": "الأربعاء",

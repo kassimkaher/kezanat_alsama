@@ -51,8 +51,8 @@ class BottomBar extends StatelessWidget {
           onTap: () => controller.changePage(NavPages.values[0], 3),
           theme: theme,
           isSelect: currentpageIndex == 3,
-          svgIcon: "assets/svg/zyara.svg",
-          title: "الزيارات",
+          svgIcon: "assets/svg/munajat.svg",
+          title: "الاعمال",
         ),
 
         // InkWell(

@@ -1,6 +1,8 @@
+import 'package:ramadan/src/core/entity/data_status.dart';
 import 'package:ramadan/src/core/enum/work_type.dart';
 import 'package:ramadan/src/main_app/dua/work_display_view.dart';
 import 'package:ramadan/src/main_app/home/daily_work/model/daily_work_model.dart';
+import 'package:ramadan/src/main_app/other/cubit/document_cubit.dart';
 import 'package:ramadan/src/main_app/widgets/work_card.dart';
 import 'package:ramadan/utils/utils.dart';
 
@@ -9,89 +11,62 @@ class ZyaratPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
-
-    final duaController = context.read<DuaCubit>();
-    if (duaController.state.info.zyaratData == null) {
-      duaController.getZyaratMunajat();
-    }
-    return BlocBuilder<DuaCubit, DuaState>(builder: (context, state) {
-      return Container(
-        child: Scaffold(
-            backgroundColor: Colors.transparent,
-            appBar: AppBar(
-              elevation: 0,
-              backgroundColor: Colors.transparent,
-              title: "الزيارات".toGradiant(
-                colors: [
-                  theme.textTheme.titleLarge!.color!,
-                  theme.textTheme.bodySmall!.color!
-                ],
-                style: theme.textTheme.titleLarge!,
-              ),
-            ),
-            body: state is DuaStateLoading
-                ? const Center(child: CircularProgressIndicator())
-                : state is DuaStateLoaded && state.info.zyaratData != null
-                    ? Column(
-                        children: [
-                          Expanded(
-                            child: ListView.builder(
-                              padding:
-                                  const EdgeInsets.symmetric(horizontal: 16),
-                              itemCount:
-                                  state.info.zyaratData?.zyaratList?.length ??
-                                      0,
-                              itemBuilder: (c, i) => WorkCard(
-                                dailyWorkData: DailyWorkData(
-                                    type: WorkType.zyara,
-                                    title: state.info.zyaratData?.zyaratList?[i]
-                                            .title ??
-                                        "",
-                                    description: ""),
-                                onTap: () => Navigator.push(
-                                  context,
-                                  to(
-                                    WorkDisplayText(
-                                      data:
-                                          state.info.zyaratData!.zyaratList![i],
-                                    ),
-                                  ),
-                                ),
+    return BlocBuilder<DocumentCubit, DocumentState>(builder: (context, state) {
+      return state is StateLoading
+          ? const Center(child: CircularProgressIndicator())
+          : state.dataStatus is SateSucess
+              ? Column(
+                  children: [
+                    Expanded(
+                      child: ListView.builder(
+                        padding: const EdgeInsets.symmetric(horizontal: 16),
+                        itemCount: state.casheZyarat?.length ?? 0,
+                        itemBuilder: (c, i) => WorkCard(
+                          dailyWorkData: DailyWorkData(
+                              type: WorkType.zyara,
+                              title: state.casheZyarat![i].title ?? "",
+                              description: ""),
+                          onTap: () => Navigator.push(
+                            context,
+                            to(
+                              WorkDisplayText(
+                                data: state.casheZyarat![i],
                               ),
                             ),
                           ),
-                        ],
-                      )
-                    : state is DuaStateFiald
-                        ? Column(
-                            crossAxisAlignment: CrossAxisAlignment.stretch,
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            children: [
-                              Text(
-                                "حدث خطأ",
-                                style: Theme.of(context).textTheme.titleMedium,
-                                textAlign: TextAlign.center,
-                              ),
-                            ],
-                          )
-                        : Column(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            crossAxisAlignment: CrossAxisAlignment.stretch,
-                            children: [
-                              Text(
-                                " dataProv.trans.error_ser_title",
-                                style: Theme.of(context).textTheme.titleLarge,
-                                textAlign: TextAlign.center,
-                              ),
-                              Text(
-                                " dataProv.trans.error_ser_subtitle",
-                                style: Theme.of(context).textTheme.titleLarge,
-                                textAlign: TextAlign.center,
-                              )
-                            ],
-                          )),
-      );
+                        ),
+                      ),
+                    ),
+                  ],
+                )
+              : state is StateError
+                  ? Column(
+                      crossAxisAlignment: CrossAxisAlignment.stretch,
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: [
+                        Text(
+                          "حدث خطأ",
+                          style: Theme.of(context).textTheme.titleMedium,
+                          textAlign: TextAlign.center,
+                        ),
+                      ],
+                    )
+                  : Column(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      crossAxisAlignment: CrossAxisAlignment.stretch,
+                      children: [
+                        Text(
+                          " dataProv.trans.error_ser_title",
+                          style: Theme.of(context).textTheme.titleLarge,
+                          textAlign: TextAlign.center,
+                        ),
+                        Text(
+                          " dataProv.trans.error_ser_subtitle",
+                          style: Theme.of(context).textTheme.titleLarge,
+                          textAlign: TextAlign.center,
+                        )
+                      ],
+                    );
     });
   }
 }

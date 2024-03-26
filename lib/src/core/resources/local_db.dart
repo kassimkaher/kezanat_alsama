@@ -1,12 +1,17 @@
+import 'dart:convert';
+import 'dart:io';
+
+import 'package:external_path/external_path.dart';
 import 'package:hive/hive.dart';
-import 'package:ramadan/bussines_logic/Setting/model/setting_model.dart';
-import 'package:ramadan/bussines_logic/prayer/model/arabic_date_model.dart';
-import 'package:ramadan/model/quran_juzu_model.dart';
-import 'package:ramadan/model/quran_model.dart';
+import 'package:path_provider/path_provider.dart';
+import 'package:ramadan/services/notification/model/model.dart';
+import 'package:ramadan/src/main_app/quran/data/model/quran_juzu_model.dart';
+import 'package:ramadan/src/main_app/quran/data/model/quran_model.dart';
 import 'package:ramadan/services/tasbeeh/entity/model/tasbeeh_model.dart';
 import 'package:ramadan/src/main_app/home/daily_work/model/calendar_model.dart';
 import 'package:ramadan/src/main_app/home/daily_work/model/daily_work_model.dart';
 import 'package:ramadan/src/main_app/slider/data/model/slider_model.dart';
+import 'package:ramadan/utils/utils.dart';
 
 class LocalDB {
   static Box? db;
@@ -167,13 +172,13 @@ class LocalDB {
   }
 
   static ArabicDateEntry? getArabicDay() {
-    final data = Hive.box('kezana_alsama_local_data').get("saveArabicDate");
+    final data = db?.get("saveArabicDate");
 
     return data;
   }
 
   static saveArabicDate(ArabicDateEntry value) {
-    Hive.box('kezana_alsama_local_data').put("saveArabicDate", value);
+    db?.put("saveArabicDate", value);
   }
 
   static TasbeehLocalModel? getTasbeehCache() {
@@ -194,8 +199,7 @@ class LocalDB {
   }
 
   static List<QuranJuzuModel>? getQuranJuzu() {
-    final data =
-        Hive.box('kezana_alsama_local_data').get("local_key_quran_juzu");
+    final data = db?.get("local_key_quran_juzu");
     List<QuranJuzuModel> quranjuzu = [];
 
     if (data == null) {
@@ -213,6 +217,86 @@ class LocalDB {
     for (var i = 0; i < value.length; i++) {
       data["juzu_$i"] = value[i].toJson();
     }
-    Hive.box('kezana_alsama_local_data').put("local_key_quran_juzu", data);
+    db?.put("local_key_quran_juzu", data);
+  }
+
+  static saveComeNotefication(String value) {
+    db?.put("local_notification", value);
+  }
+
+  static NotificationModel? getComeNotefication() {
+    final data = db?.get("local_notification");
+    if (data != null) {
+      db?.delete("local_notification");
+      return NotificationModel.fromJson(json.decode(data));
+    }
+
+    return data;
+  }
+
+  // static saveBackuB() async {
+  //   return;
+  //   Directory appDocDir = await getApplicationDocumentsDirectory();
+
+  //   // Define the path to the Hive data directory within the documents directory
+  //   String hiveDataDirectoryPath =
+  //       '${appDocDir.path}/kezana_alsama_local_data.hive';
+  //   final hiveFile = File(hiveDataDirectoryPath);
+  //   if (await hiveFile.exists()) {
+  //     // Define the path to the Android/data directory within the external storage directory
+
+  //     File backubFile = File(await getExternalPathBacubHive());
+  //     if (backubFile.existsSync()) {
+  //       kdp(
+  //           name: "getDataBaseFile",
+  //           msg: " backubFile exsist=${backubFile.path}",
+  //           c: "cy");
+  //       await hiveFile.copy(backubFile.path);
+  //       return;
+  //     }
+  //     await backubFile.create();
+  //     await hiveFile.copy(backubFile.path);
+  //     kdp(
+  //         name: "getDataBaseFile",
+  //         msg: " backubFile exsist=${backubFile.path}",
+  //         c: "m");
+  //   }
+  //   kdp(name: "getDataBaseFile", msg: "not exsist=", c: "r");
+  // }
+
+  static Future<bool> getBackup() async {
+    File backubFile = File(await getExternalPathBacubHive());
+
+    Directory appDocDir = await getApplicationDocumentsDirectory();
+
+    // Define the path to the Hive data directory within the documents directory
+    String hiveDataDirectoryPath =
+        '${appDocDir.path}/kezana_alsama_local_data.hive';
+    final hiveFile = File(hiveDataDirectoryPath);
+
+    if (hiveFile.existsSync()) {
+      kdp(name: "getDataBaseFile", msg: "hiveFile exsist", c: "gr");
+      return true;
+    }
+    if (await backubFile.exists()) {
+      await hiveFile.writeAsBytes(await backubFile.readAsBytes());
+
+      kdp(name: "getDataBaseFile", msg: "backubFile exsist", c: "gr");
+      return true;
+    }
+    kdp(name: "getDataBaseFile", msg: "any file not exsist", c: "r");
+    return false;
+  }
+
+  static Future<String> getExternalPathBacubHive() async {
+    final direc = Directory(
+        "${await ExternalPath.getExternalStoragePublicDirectory(ExternalPath.DIRECTORY_DOCUMENTS)}/kezanat_alsama");
+    // final direc = await Directory.systemTemp.createTemp('kezanat_alsama');
+    // if (direc.existsSync()) {
+    //   return '${direc.path}/_kezanat_alsamabackup.hive';
+    // }
+    // await direc.create(recursive: true);
+
+    return '${direc.path}';
   }
 }

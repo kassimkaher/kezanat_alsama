@@ -1,5 +1,5 @@
-import 'package:ramadan/model/quran_juzu_model.dart';
-import 'package:ramadan/model/quran_model.dart';
+import 'package:ramadan/src/main_app/quran/data/model/quran_juzu_model.dart';
+import 'package:ramadan/src/main_app/quran/data/model/quran_model.dart';
 import 'package:ramadan/src/main_app/quran/juzu/cubit/quran_juzu_cubit.dart';
 import 'package:ramadan/src/main_app/quran/juzu/pages/quran_view_pages.dart';
 import 'package:ramadan/src/main_app/quran/widgets/component.dart';

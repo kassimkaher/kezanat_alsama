@@ -18,12 +18,11 @@ export 'package:permission_handler/permission_handler.dart';
 export 'package:provider/provider.dart';
 export 'package:ramadan/bussines_logic/Setting/model/setting_model.dart';
 export 'package:ramadan/bussines_logic/prayer/model/arabic_date_model.dart';
-export 'package:ramadan/services/notification_service.dart';
+export 'package:ramadan/services/notification/notification_service.dart';
 export 'package:ramadan/bussines_logic/prayer/prayer_cubit.dart';
-export 'package:ramadan/src/main_app/dua/bussines_logic/dua_cubit.dart';
 export 'package:ramadan/firebase_options.dart';
 export 'package:ramadan/pages/splash_page.dart';
-export 'package:ramadan/src/alqadr/cubit/alqadr_cubit.dart';
+export 'package:ramadan/src/main_app/alqadr/cubit/alqadr_cubit.dart';
 export 'package:ramadan/src/main_app/slider/presentation/cubit/slider_cubit.dart';
 export 'package:ramadan/utils/theme.dart';
 

@@ -6,7 +6,7 @@ import 'package:equatable/equatable.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
 import 'package:ramadan/bussines_logic/Setting/model/setting_model.dart';
-import 'package:ramadan/model/alqadr_model.dart';
+import 'package:ramadan/src/main_app/alqadr/data/alqadr_model.dart';
 import 'package:ramadan/src/core/resources/local_db.dart';
 
 part 'alqadr_state.dart';

@@ -1,11 +1,9 @@
-import 'dart:developer';
-
 import 'package:audioplayers/audioplayers.dart';
 import 'package:bloc/bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:injectable/injectable.dart';
 import 'package:path_provider/path_provider.dart';
-import 'package:ramadan/model/quran_juzu_model.dart';
+import 'package:ramadan/src/main_app/quran/data/model/quran_juzu_model.dart';
 import 'package:ramadan/src/core/entity/data_status.dart';
 import 'package:ramadan/utils/utils.dart';
 
@@ -119,6 +117,7 @@ class QuranSoundCubit extends Cubit<QuranSoundState> {
     if (value < 0) {
       return;
     }
+
     emit(state.copyWith(ayahSelected: value));
   }
 

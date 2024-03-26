@@ -1,4 +1,4 @@
-import 'package:ramadan/model/quran_model.dart';
+import 'package:ramadan/src/main_app/quran/data/model/quran_model.dart';
 import 'package:ramadan/src/main_app/quran/widgets/component.dart';
 import 'package:ramadan/utils/utils.dart';
 import 'package:visibility_detector/visibility_detector.dart';

@@ -29,7 +29,6 @@ class SettingCubit extends Cubit<SettingState> {
   Future<void> getLocalSetting() async {
     emit(state.copyWith(dataStatus: const StateLoading()));
 
-    await LocalDB.inite();
     final data = LocalDB.getSetting();
 
     emit(state.copyWith(
@@ -89,7 +88,8 @@ class SettingCubit extends Cubit<SettingState> {
           subtitle: "حان الان موعد اذان الفجر",
           dateTime: tz.TZDateTime(tz.local, date.year, day.month!, day.day!,
               day.fajer!.hour!, day.fajer!.minut!),
-          id: 100 + day.day!);
+          id: 100 + day.day!,
+          type: NotificationType.fajer);
     } catch (e) {
       kdp(
           name: "schedual notification fajer",
@@ -104,7 +104,8 @@ class SettingCubit extends Cubit<SettingState> {
           subtitle: "حان الان موعد اذان الظهر",
           dateTime: tz.TZDateTime(tz.local, date.year, day.month!, day.day!,
               day.duhur!.hour!, day.duhur!.minut!),
-          id: 200 + day.day!);
+          id: 200 + day.day!,
+          type: NotificationType.duhur);
     } catch (e) {
       kdp(
           name: "schedual notification duhur",
@@ -118,7 +119,8 @@ class SettingCubit extends Cubit<SettingState> {
           subtitle: "حان الان موعد اذان المغرب",
           dateTime: tz.TZDateTime(tz.local, date.year, day.month!, day.day!,
               day.magrib!.hour!, day.magrib!.minut!),
-          id: 300 + day.day!);
+          id: 300 + day.day!,
+          type: NotificationType.mugrib);
     } catch (e) {
       kdp(
           name: "schedual notification mugrib",
